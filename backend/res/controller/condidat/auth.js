@@ -7,7 +7,7 @@ exports.signup=(req,res)=>{
    
 
     Condidat.findOne({email :req.body.email})
-  .exec((error,condidat)=>{
+  .exec((condidat)=>{
       if (condidat) return res.status(400).json({
           message :'user already registered '
   });

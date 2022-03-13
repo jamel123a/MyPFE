@@ -3,13 +3,16 @@ const mongoose=require('mongoose');
 const catogorySchema =mongoose.Schema({
     name :{
         type :String,
-        require :true,
+        required :true,
         trim :true
     },
     slug :{
         type :String,
-        require :true,
+        required :true,
         unique :true
+    },
+    parentId :{
+        type :String
     }
 
 },{ timestamps :true});

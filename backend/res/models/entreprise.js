@@ -48,6 +48,10 @@ const userShema =new mongoose.Schema({
    logo :
    {
     type :String
+   },
+   description:{
+       type :String,
+       required :true 
    }
 },
 

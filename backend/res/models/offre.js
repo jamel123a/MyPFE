@@ -4,10 +4,6 @@ const offreSchema =new mongoose.Schema({
         type :String,
         require : true
     },
-    domaine:{
-        type :String,
-        require :true
-    },
     motclé :{
        type :String,
        require :true
@@ -27,7 +23,7 @@ const offreSchema =new mongoose.Schema({
      salaire :{
         type :String,
      },
-     neveauEtude :{
+     niveauEtude :{
         type :String,
         require :true
      },
@@ -41,11 +37,16 @@ const offreSchema =new mongoose.Schema({
         type :Number,
         require :true
      }, 
-     contPostuler :{
-         type :mongoose.Schema.Types.ObjectId,
-         require:true,
-         ref :"Condidat"
-        }
+     contPostuler :[
+         {
+             // extends mn numbre de condidat
+             CondidatId:{type :mongoose.Schema.Types.ObjectId},
+             ref :'Condidat'
+         }
+     ],
+    category :{ Type :mongoose.Schema.Types.ObjectId, ref :"Category" },
+  //  createBy :{ type :mongoose.Schema.Types.ObjectId ,ref :'Entreprise'}
+        
      },  
 {timestamps :true});
 

@@ -7,7 +7,7 @@ exports.signup=(req,res)=>{
    
 
     Entreprise.findOne({email :req.body.email})
-  .exec((error,entreprise)=>{
+  .exec((entreprise)=>{
       if (entreprise) return res.status(400).json({
           message :'user already registered '
   });
@@ -26,7 +26,7 @@ exports.signup=(req,res)=>{
       password,
       username : Math.random().toString()
   });
-  _entreprise.save((error,data)=>{
+  _entreprise.save((data)=>{
       
        if (data){
           return res.status(201).json({
@@ -51,6 +51,7 @@ exports.signin=(req,res)=>{
                      // password
                 if (entreprise.authentificate(req.body.password)){
                     // token with jsonwebtoken
+                    // lze
                     const token =jwt.sign({_id :entreprise._id},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
                     const  { _id,firstName ,lastName ,email , role , fullName} = entreprise;
                     res.status(200).json({

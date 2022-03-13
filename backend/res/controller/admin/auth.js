@@ -24,12 +24,12 @@ exports.signup=(req,res)=>{
       username : Math.random().toString(),
       role :"admin"
   });
-  _condidat.save((error,data)=>{
-     /* if(error){
+  _condidat.save((data)=>{
+     if(error){
          return res.status(400).json({
              message :'Something  wrong'
          });
-      }*/
+      }
        if (data){
           return res.status(201).json({
              message : "admin succsufly create"
@@ -53,12 +53,12 @@ exports.signin=(req,res)=>{
                      // password
                 if (condidat.authentificate(req.body.password )&& condidat.role ==='admin'){
                     // token with jsonwebtoken
-                    const token =jwt.sign({_id :condidat._id},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
+                    const token =jwt.sign({_id :condidat._id,role:condidat.role},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
                     const  { _id,firstName ,lastName ,email , role , fullName} =condidat;
                     res.status(200).json({
                         token,
                         condidat :{
-                            _id, firstName,lastName,fullName,email,role,
+                            _id, firstName,lastName,fullName,email,role
                         }
 
                     });
