@@ -1,6 +1,6 @@
 const mongoose=require('mongoose')
 const bcrypt =require('bcrypt');
-const userShema =new mongoose.Schema({
+const entrepriseShema =new mongoose.Schema({
      firstName:{
          type : String,
          required :true,
@@ -51,28 +51,27 @@ const userShema =new mongoose.Schema({
    },
    description:{
        type :String,
-       required :true 
    }
 },
 
 {timestamps :true});
 
 /// dycrypt le  password
-userShema.virtual('password')
+entrepriseShema.virtual('password')
 .set(function(password){
    this.hash_password =bcrypt.hashSync(password,10);
 });
 // fullname
-userShema.virtual('fullName')
+entrepriseShema.virtual('fullName')
     .get(function(){
            return `${this.firstName} ${this.lastName}`
     });
 
 
 //authtificate 
-userShema.methods ={
+entrepriseShema.methods ={
     authentificate:function(password){
-        return bcrypt.compareSync(password,this.hash_password);
+        return  bcrypt.compareSync(password,this.hash_password);
     }
 }
 
@@ -80,5 +79,5 @@ userShema.methods ={
 
 
 
-module.exports=mongoose.model('Entreprise',userShema);
+module.exports=mongoose.model('entreprise',entrepriseShema);
       

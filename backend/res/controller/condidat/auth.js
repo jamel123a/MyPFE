@@ -7,7 +7,7 @@ exports.signup=(req,res)=>{
    
 
     Condidat.findOne({email :req.body.email})
-  .exec((condidat)=>{
+  .exec((error,condidat)=>{
       if (condidat) return res.status(400).json({
           message :'user already registered '
   });
@@ -26,8 +26,13 @@ exports.signup=(req,res)=>{
       password,
       username : Math.random().toString()
   });
-  _condidat.save((data)=>{
-       if (data){
+  _condidat.save((error,data)=>{
+    if(error){
+        return res.status(400).json({
+            message :'Something  wrong'
+        });
+     }  
+    if (data){
           return res.status(201).json({
              message : "user succsufly create"
           })
@@ -51,11 +56,11 @@ exports.signin=(req,res)=>{
                 if (condidat.authentificate(req.body.password)){
                     // token with jsonwebtoken
                     const token =jwt.sign({_id :condidat._id},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
-                    const  { _id,firstName ,lastName ,email , role , fullName} =condidat;
+                    const  { _id,firstName ,lastName ,email , role , fullName ,username} =condidat;
                     res.status(200).json({
                         token,
                         condidat :{
-                            _id, firstName,lastName,fullName,email,role
+                            _id, firstName,lastName,fullName,email,role,username
                         }
 
                     });

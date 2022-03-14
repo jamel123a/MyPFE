@@ -1,13 +1,13 @@
-const Entreprise =require('../../models/entreprise');
+/*//const Entreprise =require('../../models/entreprise');
 const jwt =require ('jsonwebtoken');
-const { validationResult } = require('express-validator');
+//const { validationResult } = require('express-validator');
 
 
-exports.signup= async(req,res)=>{
+exports.signup=(req,res)=>{
    
 
     Entreprise.findOne({email :req.body.email})
-  .exec((error,entreprise)=>{
+  .exec((entreprise)=>{
       if (entreprise) return res.status(400).json({
           message :'user already registered '
   });
@@ -18,18 +18,19 @@ exports.signup= async(req,res)=>{
       email,
       password
   } =req.body;
-  const _entreprise= new Entreprise ({
+  const _entrprise= new Entreprise ({
       firstName,
       lastName,
       fullName,
       email,
       password,
-      username : Math.random().toString(),
-      role :'entreprise'
+      username : Math.random().toString()
   });
-  _entreprise.save((error,data)=>{
-    if(error){
-        return res.json(error)
+  _entrprise.save((error,data)=>{
+    /*if(error){
+        return res.status(400).json({
+            message :'Something  wrong'
+        });
      }  
     if (data){
           return res.status(201).json({
@@ -52,14 +53,14 @@ exports.signin=(req,res)=>{
         });
         if (entreprise) {
                      // password
-                if (entreprise.authentificate(req.body.password )&& entreprise.role ==='entreprise'){
+                if (entreprise.authentificate(req.body.password)){
                     // token with jsonwebtoken
                     const token =jwt.sign({_id :entreprise._id},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
-                    const  { _id,firstName ,lastName ,email , role , fullName,username} =entreprise;
+                    const  { _id,firstName ,lastName ,email , role , fullName} =entreprise;
                     res.status(200).json({
                         token,
                         entreprise :{
-                            _id, firstName,lastName,fullName,email,role,username
+                            _id, firstName,lastName,fullName,email,role
                         }
 
                     });
@@ -75,7 +76,4 @@ exports.signin=(req,res)=>{
         })
     });
 }
-// verify token exest ou nn 
-
-    
-
+// verify token exest ou nn */

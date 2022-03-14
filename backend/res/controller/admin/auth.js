@@ -24,7 +24,7 @@ exports.signup=(req,res)=>{
       username : Math.random().toString(),
       role :"admin"
   });
-  _condidat.save((data)=>{
+  _condidat.save((error,data)=>{
      if(error){
          return res.status(400).json({
              message :'Something  wrong'

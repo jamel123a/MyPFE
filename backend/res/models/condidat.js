@@ -36,7 +36,7 @@ const userShema =new mongoose.Schema({
     },
     role :{
         type :String,
-        enum :['user','admin'],
+        enum :['user','admin','entreprise'],
         default :'user'
     },
     address:{
@@ -79,5 +79,5 @@ userShema.methods ={
 
 
 
-module.exports=mongoose.model('Condidat',userShema);
+module.exports=mongoose.model('condidat',userShema);
       
