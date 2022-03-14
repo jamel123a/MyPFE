@@ -9,8 +9,6 @@ const router=express.Router();
 
 router.post('/condidat/signup',validateSignupRequest,isRequestValited,signup);
 router.post('/condidat/signin',validateSigninRequest,isRequestValited,signin)
-/*router.post('/profile',requireSignin,(req,res)=>{
-    res.status(200).json({condidat :'profile'})
-});*/
+
 
 module.exports=router;

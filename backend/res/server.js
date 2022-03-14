@@ -4,9 +4,11 @@ const app=express();
 const mongoose=require('mongoose');
 
 //router
-const userRoutes =require('./routes/condidat/auth');
 const adminRoutes =require('./routes/admin/auth');
 const catogoryRoutes =require('./routes/category');
+//condidat
+const userRoutes =require('./routes/condidat/auth');
+const userOffres =require('./routes/condidat/offrepustuler');
 //entreprise
 const entrepriseRoutes =require('./routes/entreprise/auth');
 const offreRoutes =require('./routes/offre');
@@ -30,10 +32,12 @@ mongoose.connect(
 
 
 app.use(express.json());
-//router 
-app.use('/api',userRoutes);
+//admin
 app.use('/api',adminRoutes);
 app.use('/api',catogoryRoutes);
+//condidat
+app.use('/api',userRoutes);
+app.use('/api',userOffres);
 //entreprise router
 app.use('/api',entrepriseRoutes);
 app.use('/api',offreRoutes);

@@ -1,31 +1,29 @@
 const mongoose =require('mongoose')
-const offreSchema =new mongoose.Schema({
+const offreSchema = new mongoose.Schema({
     name :{
         type :String,
-        require : true
+        required : true
     },
     motclé :{
-       type :String,
-       require :true
+       type :[String],
+       required :true
     },
     lieu :{
         type :String,
-        require :true
+        required :true
      },
-     descrition :{
+     description :{
         type :String,
-        require :true
+        required :true
      },
      dateFinOffre :{
          type :String,
-         require :true
      },
      salaire :{
         type :String,
      },
      niveauEtude :{
         type :String,
-        require :true
      },
      avantage :{
          type :String
@@ -35,21 +33,25 @@ const offreSchema =new mongoose.Schema({
      },
      mois :{
         type :Number,
-        require :true
      }, 
-     contPostuler :[
+    contPostuler :[
          {
              // extends mn numbre de condidat
           CondidatId:{type :mongoose.Schema.Types.ObjectId, ref :'Condidat' },
+          numbers :Number
          }
      ],
     
-//    categoryID :{ Type :mongoose.Schema.Types.ObjectId, ref :'Category' },
-    createBy :{ type :mongoose.Schema.Types.ObjectId ,ref :'Entreprise'},
+    /*category :[
+    { Type :mongoose.Schema.Types.ObjectId, ref :'Category',required :true }
+     ],*/
+
+    createBy :{ type :mongoose.Schema.Types.ObjectId , ref :'Entreprise',required :true},
     updateAt :Date,   
      },  
 {timestamps :true});
 
 module.exports=mongoose.model('Offre',offreSchema);
+
 
 

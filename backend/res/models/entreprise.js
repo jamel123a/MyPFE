@@ -23,6 +23,7 @@ const entrepriseShema =new mongoose.Schema({
         index :true,
         lowercase :true
     },
+    
     email:{
        type :String,
        require :true,
