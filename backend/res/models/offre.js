@@ -17,7 +17,7 @@ const offreSchema =new mongoose.Schema({
         require :true
      },
      dateFinOffre :{
-         type :date,
+         type :String,
          require :true
      },
      salaire :{
@@ -40,13 +40,13 @@ const offreSchema =new mongoose.Schema({
      contPostuler :[
          {
              // extends mn numbre de condidat
-             CondidatId:{type :mongoose.Schema.Types.ObjectId},
-             ref :'Condidat'
+          CondidatId:{type :mongoose.Schema.Types.ObjectId, ref :'Condidat' },
          }
      ],
-    category :{ Type :mongoose.Schema.Types.ObjectId, ref :"Category" },
-  //  createBy :{ type :mongoose.Schema.Types.ObjectId ,ref :'Entreprise'}
-        
+    
+//    categoryID :{ Type :mongoose.Schema.Types.ObjectId, ref :'Category' },
+    createBy :{ type :mongoose.Schema.Types.ObjectId ,ref :'Entreprise'},
+    updateAt :Date,   
      },  
 {timestamps :true});
 

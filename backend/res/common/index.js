@@ -21,6 +21,7 @@ exports.requireSignin = (req,res,next)=>{
     next();
 
 }
+
 // user 
 exports.userMiddleware=(req,res,next)=>{
       
@@ -33,15 +34,6 @@ exports.userMiddleware=(req,res,next)=>{
 // lzem w9et t3ml signup thot attr role admin 
 exports.adminMiddleware=(req,res,next)=>{
     if(req.condidat.role !== 'admin'){
-        return res.status(400).json({message :'Acces denied'})
-    }
-    next();
-}
-
-//entreprise
-
-exports.EntrepriseMiddleware=(req,res,next)=>{
-    if(req.entreprise.role !== 'entreprise'){
         return res.status(400).json({message :'Acces denied'})
     }
     next();

@@ -79,5 +79,5 @@ entrepriseShema.methods ={
 
 
 
-module.exports=mongoose.model('entreprise',entrepriseShema);
+module.exports=mongoose.model('Entreprise',entrepriseShema);
       

@@ -79,5 +79,5 @@ userShema.methods ={
 
 
 
-module.exports=mongoose.model('condidat',userShema);
+module.exports=mongoose.model('Condidat',userShema);
       

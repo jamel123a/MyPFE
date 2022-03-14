@@ -25,7 +25,7 @@ exports.signup= async(req,res)=>{
       email,
       password,
       username : Math.random().toString(),
-      role :'entreprise'
+      role :"entreprise"
   });
   _entreprise.save((error,data)=>{
     if(error){
@@ -54,7 +54,7 @@ exports.signin=(req,res)=>{
                      // password
                 if (entreprise.authentificate(req.body.password )&& entreprise.role ==='entreprise'){
                     // token with jsonwebtoken
-                    const token =jwt.sign({_id :entreprise._id},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
+                    const token =jwt.sign({_id :entreprise._id ,role :entreprise.role},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
                     const  { _id,firstName ,lastName ,email , role , fullName,username} =entreprise;
                     res.status(200).json({
                         token,
