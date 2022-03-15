@@ -42,9 +42,9 @@ const offreSchema = new mongoose.Schema({
          }
      ],
     
-    /*category :[
-    { Type :mongoose.Schema.Types.ObjectId, ref :'Category',required :true }
-     ],*/
+   // category :
+   //{  Type :mongoose.Schema.Types.ObjectId, ref :'Category',required :true },
+     
 
     createBy :{ type :mongoose.Schema.Types.ObjectId , ref :'Entreprise',required :true},
     updateAt :Date,   

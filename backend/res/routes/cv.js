@@ -16,11 +16,12 @@ const storage =multer.diskStorage({
        
     },
     filename :function(req,file,cb){
-        cb(null,shordId.generate()+' '+file.originalname)
+        cb(null,/*shordId.generate()+' '+*/file.originalname)
     } 
 })
 const upload = multer( {storage ,fileFilter: (req, file, cb) => {
-    if (file.mimetype == "application/pdf/") {
+       
+    if (file.mimetype == "application/pdf") {
       cb(null, true);
     } else {
       cb(null, false);

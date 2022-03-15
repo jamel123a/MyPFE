@@ -2,7 +2,7 @@ const express=require('express');
 const env=require('dotenv');
 const app=express();
 const mongoose=require('mongoose');
-
+const path =require('path')
 //router
 const adminRoutes =require('./routes/admin/auth');
 const catogoryRoutes =require('./routes/category');
@@ -33,6 +33,8 @@ mongoose.connect(
 
 
 app.use(express.json());
+app.use(express.static('/public',path.join(__dirname,'upload')));
+
 //admin
 app.use('/api',adminRoutes);
 app.use('/api',catogoryRoutes);
