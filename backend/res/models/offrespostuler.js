@@ -1,12 +1,12 @@
 const mongoose=require ('mongoose');
 const offrePostulerSchema =new mongoose.Schema({
-    user: {type : mongoose.Schema.Types.ObjectId,ref :'condidat',required :true},
-    offresPostuler :[
+    condidat: {type : mongoose.Schema.Types.ObjectId,ref :'Condidat',required :true},
+    offreItemps :[
         {
-            offre :{ type :mongoose.Schema.Types.ObjectId,ref :'offre',require :true},
-            nomoffre :{type:String },
-            date :{type: Date},
-            nomEntreprise:{type :mongoose.Schema.Types.ObjectId,ref :'entreprise'}
+            offre :{ type :mongoose.Schema.Types.ObjectId,ref :'Offre',required :true},
+            nomoffre :{type:String ,required :true },
+            //date :{type: Date},
+          //  nomEntreprise:{type :mongoose.Schema.Types.ObjectId,ref :'entreprise'}
         }
     ]
 

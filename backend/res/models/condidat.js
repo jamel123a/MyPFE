@@ -36,14 +36,11 @@ const userShema =new mongoose.Schema({
     },
     role :{
         type :String,
-        enum :['user','admin','entreprise'],
-        default :'user'
+        enum :['condidat','admin','entreprise'],
+        default :'condidat'
     },
     address:{
         type :String
-    },
-    CV : {
-        type :Buffer
     },
     numberPhone :{
        type : Number

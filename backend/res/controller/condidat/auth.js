@@ -25,13 +25,11 @@ exports.signup=(req,res)=>{
       email,
       password,
       username : Math.random().toString(),
-      role :'condidat'
+      role :"condidat"
   });
   _condidat.save((error,data)=>{
     if(error){
-        return res.status(400).json({
-            message :'Something  wrong'
-        });
+        return res.json(error);
      }  
     if (data){
           return res.status(201).json({
@@ -56,7 +54,7 @@ exports.signin=(req,res)=>{
                      // password
                 if (condidat.authentificate(req.body.password)&& condidat.role==='condidat'){
                     // token with jsonwebtoken
-                    const token =jwt.sign({_id :condidat._id},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
+                    const token =jwt.sign({_id :condidat._id,role:condidat.role},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
                     const  { _id,firstName ,lastName ,email , role , fullName ,username} =condidat;
                     res.status(200).json({
                         token,

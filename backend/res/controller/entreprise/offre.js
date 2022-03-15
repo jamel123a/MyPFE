@@ -1,4 +1,4 @@
-const Offre =require('../models/offre');
+const Offre =require('../../models/offre');
 
 
 exports.createOffre =(req,res)=>{

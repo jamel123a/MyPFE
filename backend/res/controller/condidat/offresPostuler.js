@@ -1,15 +1,34 @@
 const OffresPostuler =require('../../models/offrespostuler');
 exports.getOffresPostuler =(req,res)=>{
-    const offresPostuler =new OffresPostuler({
-        user:req.user._id,
-        offresPostuler :req.body.OffresPostuler
-                 
+
+    OffresPostuler.findOne({condidat:req.condidat._id})
+    .exec((error,postuler)=>{
+       
+        if (error) return res.status(400).json({error})
+
+       if (postuler){
+           const offre = req.body.offreItemps.offre;
+            const isitem = postuler.offreItemps.find(offre);
+           if(isitem){
+            return res.status(400).json({ message : 'you ready postuler  offre'})    
+           }else{
+            const postuler =new OffresPostuler({
+                condidat:req.condidat._id,
+                offreItemps :req.body.offreItemps
+                         
+            });
+            postuler.save((error,postuler)=>{
+                if (error)return res.status(400).json({error});
+                if (postuler){
+                    return res.status(201).json({postuler});
+                }
+            });
+            
+            
+           }
+
+       }
     });
-    offresPostuler.save((error,offresPostuler)=>{
-        if (error)return res.status(400).json({error});
-        if (offresPostuler){
-            return res.status(201).json({cart});
-        }
-    });
+    
 
 }
