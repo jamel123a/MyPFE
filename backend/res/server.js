@@ -9,7 +9,7 @@ const catogoryRoutes =require('./routes/category');
 //condidat
 const userRoutes =require('./routes/condidat/auth');
 const userOffres =require('./routes/condidat/offrepustuler');
-const usercv=require('./routes/condidat/cv')
+const usercv=require('./routes/cv')
 //entreprise
 const entrepriseRoutes =require('./routes/entreprise/auth');
 const offreRoutes =require('./routes/offre');
