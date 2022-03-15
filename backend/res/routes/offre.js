@@ -1,6 +1,6 @@
 const express = require('express');
 const { requireSigninEntreprise, EntrepriseMiddleware } = require('../controller/entreprise/middleware');
-const { createOffre } = require('../controller/offre');
+const { createOffre } = require('../controller/entreprise/offre');
 
 const router =express.Router();
 

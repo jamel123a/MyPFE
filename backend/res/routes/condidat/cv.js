@@ -2,7 +2,6 @@ const express=require('express');
 
 const router=express.Router();
 const multer=require('multer');
-const upload =multer({dest : 'upload/'});
 const path = require('path') 
 const shordId =require('shortid');
 const { requireSignin, userMiddleware } = require('../../common');
