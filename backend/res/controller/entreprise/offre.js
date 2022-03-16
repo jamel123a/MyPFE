@@ -4,7 +4,7 @@ const Offre =require('../../models/offre');
 exports.createOffre =(req,res)=>{
     
   const {
-       name,motclé,lieu,description,createBy
+       name,motclé,lieu,description,createBy,category
    }=req.body;
   
    
@@ -13,6 +13,7 @@ exports.createOffre =(req,res)=>{
        motclé,
        lieu,
        description,
+       category,
        createBy :req.entreprise._id
    })
    offre.save((error,offre)=>{

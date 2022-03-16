@@ -9,7 +9,7 @@ const catogoryRoutes =require('./routes/category');
 //condidat
 const userRoutes =require('./routes/condidat/auth');
 const userOffres =require('./routes/condidat/offrepustuler');
-const usercv=require('./routes/condidat/cv')
+const usercv=require('./routes/cv')
 //entreprise
 const entrepriseRoutes =require('./routes/entreprise/auth');
 const offreRoutes =require('./routes/offre');
@@ -33,7 +33,7 @@ mongoose.connect(
 
 
 app.use(express.json());
-app.use(express.static('/public',path.join(__dirname,'upload')));
+app.use('/public',express.static(path.join(__dirname,'upload')));
 
 //admin
 app.use('/api',adminRoutes);
