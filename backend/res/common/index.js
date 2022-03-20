@@ -1,10 +1,11 @@
 const jwt=require('jsonwebtoken');
-const { merge } = require('lodash');
+const { merge, result } = require('lodash');
 const User =require('../models/condidat');
-
+const _ =require('lodash')
+//to send email
 const mailgun= require('mailgun-js');
-const DOMAIN ='sandboxc9a3a3f6e51841e19d76ad1c35ed3130.mailgun.org';
-const mg = mailgun({apiKey:'261b955ab906d2f095bfa8bab82317a4-dbc22c93-07c9d475', domain: DOMAIN});
+const DOMAIN ='sandboxa15c37c7e4fd4c538c83e8a90a4c7733.mailgun.org';
+const mg = mailgun({apiKey:'462d423f63953ddc5e6757dd591e40d3-dbc22c93-381073ec', domain: DOMAIN});
 
  // verify token exest ou nn 
 exports.requireSignin = (req,res,next)=>{
@@ -46,11 +47,11 @@ exports.adminMiddleware=(req,res,next)=>{
 exports.forgetpassword=(req,res)=>{
     const {email}=req.body;
     // virify email
-      User.findOne(email)
-    .exec((error,user)=>{
-        if (error) return res.status(400).json({
-            message :'user with this email not exict'
-    });
+      User.findOne({email},(error,user)=>{
+         if(error || !user) {
+             return res.status(400).json({error :'user with this email not exist'})
+         }
+        
     const token =jwt.sign(
         {
         _id :user._id
@@ -85,5 +86,38 @@ exports.forgetpassword=(req,res)=>{
          }
      })
   })
+
+}
+
+//resetpassword
+exports.resetPassword=(req,res)=>{
+    //resetpassword bch ttaked li howa lien ou nn
+   const {resetLink,newPass} =req.body;
+   if (resetLink){
+       jwt.verify(resetLink,process.env.JWT_RESET_PASSWORD,function(error,decodeDate){
+           if(error){
+               return res.status(400).json({error :'incorret token or it is expired'})
+           }
+           User.findOne({resetLink},(error,user)=>{
+            if(error || !user) {
+                return res.status(400).json({error :'user with this email not exist'})
+            }
+            const obj ={
+                password :newPass
+            }
+            user =_.extend(user,obj);
+            user.save((error,result)=>{
+               if(error){
+                   return res.status(400).json({error :'reset password error'})
+               }
+               else{
+                   return res.status(200).json({message :'your passwoed has been change '});
+               }
+            })
+           })
+       })
+   }else{
+       return res.status(400).json({message :'something wrong'})
+   }
 
 }

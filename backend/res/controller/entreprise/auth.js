@@ -5,8 +5,8 @@ const { validationResult } = require('express-validator');
 const _ =require('lodash')
 //to send email
 const mailgun= require('mailgun-js');
-const DOMAIN ='sandboxc9a3a3f6e51841e19d76ad1c35ed3130.mailgun.org';
-const mg = mailgun({apiKey:'261b955ab906d2f095bfa8bab82317a4-dbc22c93-07c9d475', domain: DOMAIN});
+const DOMAIN ='sandboxa15c37c7e4fd4c538c83e8a90a4c7733.mailgun.org';
+const mg = mailgun({apiKey:'462d423f63953ddc5e6757dd591e40d3-dbc22c93-381073ec', domain: DOMAIN});
 
 /*const mail =require('@sendgrid/mail')
 mail.setApiKey(process.env.MAIL.KEY)*/
