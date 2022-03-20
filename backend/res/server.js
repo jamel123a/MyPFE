@@ -13,11 +13,12 @@ const catogoryRoutes =require('./routes/category');
 //condidat
 const userRoutes =require('./routes/condidat/auth');
 const userOffres =require('./routes/condidat/offrepustuler');
-const usercv=require('./routes/cv')
+const usercv=require('./routes/condidat/cv')
 //entreprise
 const entrepriseRoutes =require('./routes/entreprise/auth');
 const offreRoutes =require('./routes/offre');
-
+//commun 
+const forgetpassword =require('./routes/forgetpassword')
 
 
 
@@ -49,7 +50,8 @@ app.use('/api',usercv)
 //entreprise router
 app.use('/api',entrepriseRoutes);
 app.use('/api',offreRoutes);
-
+//commun
+app.use('/api',forgetpassword);
 
 
 

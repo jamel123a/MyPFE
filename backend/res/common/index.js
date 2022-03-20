@@ -1,7 +1,10 @@
-const jwt=require('jsonwebtoken')
+const jwt=require('jsonwebtoken');
+const { merge } = require('lodash');
 const User =require('../models/condidat');
 
-
+const mailgun= require('mailgun-js');
+const DOMAIN ='sandboxc9a3a3f6e51841e19d76ad1c35ed3130.mailgun.org';
+const mg = mailgun({apiKey:'261b955ab906d2f095bfa8bab82317a4-dbc22c93-07c9d475', domain: DOMAIN});
 
  // verify token exest ou nn 
 exports.requireSignin = (req,res,next)=>{
@@ -69,7 +72,18 @@ exports.forgetpassword=(req,res)=>{
          <p>${process.env.API}</p>
          `
      };
-     
+     return user.updateOne({resetLink :token},function(error,succes){
+         if(error){
+             return res.status(400).json({ message :'reset password link error'})
+         }else{
+            mg.messages().send(emailData,function(error,body){
+                if(error){
+                    return res.json({error :error.message})
+                }
+                return res.json({message :`email has benn sent to ${email}`})
+            })
+         }
+     })
   })
 
 }
