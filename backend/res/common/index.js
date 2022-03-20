@@ -103,15 +103,17 @@ exports.resetPassword=(req,res)=>{
                 return res.status(400).json({error :'user with this email not exist'})
             }
             const obj ={
-                password :newPass
+                password :newPass,
+                resetLink :''
             }
+
             user =_.extend(user,obj);
             user.save((error,result)=>{
                if(error){
                    return res.status(400).json({error :'reset password error'})
                }
                else{
-                   return res.status(200).json({message :'your passwoed has been change '});
+                   return res.status(200).json({message :'your password has been change '});
                }
             })
            })
