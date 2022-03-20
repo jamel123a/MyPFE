@@ -49,6 +49,12 @@ exports.signup= (req,res)=>{
       <p>${process.env.API}</p>
       `
   }
+  mail.send(emailData).then(sent=>{
+      return res.status(200).json({
+          message : `email has benn sent to ${email}`
+      })
+      
+  })
  
   const _entreprise= new Entreprise ({
       firstName,
