@@ -1,4 +1,5 @@
 const jwt=require('jsonwebtoken')
+const User =require('../models/condidat');
 
 
 
@@ -37,4 +38,38 @@ exports.adminMiddleware=(req,res,next)=>{
         return res.status(400).json({message :'Acces denied'})
     }
     next();
+}
+
+exports.forgetpassword=(req,res)=>{
+    const {email}=req.body;
+    // virify email
+      User.findOne(email)
+    .exec((error,user)=>{
+        if (error) return res.status(400).json({
+            message :'user with this email not exict'
+    });
+    const token =jwt.sign(
+        {
+        _id :user._id
+        },
+        process.env.JWT_RESET_PASSWORD,
+        {
+            expiresIn :'15m'
+        }
+     )
+     const emailData ={
+         from: process.env.Email_FROM,
+         to :email,
+         subject :'Account reset password link ',
+         html :`
+         <h1> click here for reset your password</h1>
+         <p>${process.env.API}/resetpassword/${token}</p>
+         </hr>
+         <p>this email contain sensetive info</p>
+         <p>${process.env.API}</p>
+         `
+     };
+     
+  })
+
 }

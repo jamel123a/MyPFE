@@ -3,6 +3,10 @@ const env=require('dotenv');
 const app=express();
 const mongoose=require('mongoose');
 const path =require('path')
+const cors =require('cors')
+
+
+
 //router
 const adminRoutes =require('./routes/admin/auth');
 const catogoryRoutes =require('./routes/category');
@@ -13,7 +17,6 @@ const usercv=require('./routes/cv')
 //entreprise
 const entrepriseRoutes =require('./routes/entreprise/auth');
 const offreRoutes =require('./routes/offre');
-
 
 
 
@@ -33,6 +36,7 @@ mongoose.connect(
 
 
 app.use(express.json());
+app.use(cors())
 app.use('/public',express.static(path.join(__dirname,'upload')));
 
 //admin

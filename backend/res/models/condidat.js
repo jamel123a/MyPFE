@@ -48,6 +48,10 @@ const userShema =new mongoose.Schema({
    profilePicture :
    {
     type :String
+   },
+   resetLink :{
+    data :String,
+    default :''
    }
 },
 

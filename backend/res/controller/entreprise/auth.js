@@ -4,9 +4,12 @@ const jwt =require ('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const _ =require('lodash')
 //to send email
+const mailgun= require('mailgun-js');
+const DOMAIN ='sandboxc9a3a3f6e51841e19d76ad1c35ed3130.mailgun.org';
+const mg = mailgun({apiKey:'261b955ab906d2f095bfa8bab82317a4-dbc22c93-07c9d475', domain: DOMAIN});
 
-const mail =require('@sendgrid/mail')
-mail.setApiKey(process.env.MAIL.KEY)
+/*const mail =require('@sendgrid/mail')
+mail.setApiKey(process.env.MAIL.KEY)*/
 
 exports.signup= (req,res)=>{
    
@@ -24,11 +27,13 @@ exports.signup= (req,res)=>{
       if (entreprise) return res.status(400).json({
           message :'user already registered '
   });
+
   /// generate token 
  const token =jwt.sign(
      {
      firstName,
      lastName,
+     fullName,
      email,
      password
      },
@@ -39,7 +44,7 @@ exports.signup= (req,res)=>{
   )
   const emailData ={
       from: process.env.Email_FROM,
-      to :to,
+      to :email,
       subject :'Account activation link ',
       html :`
       <h1> click here for activate</h1>
@@ -49,14 +54,15 @@ exports.signup= (req,res)=>{
       <p>${process.env.API}</p>
       `
   }
-  mail.send(emailData).then(sent=>{
-      return res.status(200).json({
-          message : `email has benn sent to ${email}`
-      })
-      
+  mg.messages().send(emailData,function(error,body){
+      if(error){
+          return res.json({error :error.message})
+      }
+      return res.json({message :`email has benn sent to ${email}`})
   })
- 
-  const _entreprise= new Entreprise ({
+})
+
+/*  const _entreprise= new Entreprise ({
       firstName,
       lastName,
       fullName,
@@ -78,7 +84,48 @@ exports.signup= (req,res)=>{
   
 
     
- });
+ });*/
+}
+
+
+// activation 
+exports.activation=(req,res)=>{
+    const {token}=req.body;
+    if (token){
+        jwt.verify(token,process.env.JWT_ACCOUNT_ACTIVATION,function(error,decodedToken){
+            if(error){
+                return res.status(400).json({message :'Incorrect or expried token .SIGNUP'})
+            }else{
+                const {firstName,lastName,email,password,fullName}=jwt.decode(token)
+                const _entreprise= new Entreprise ({
+                    firstName,
+                    lastName,
+                    fullName,
+                    email,
+                    password,
+                    username : Math.random().toString(),
+                    role :"entreprise"
+                });
+                _entreprise.save((error,data)=>{
+                  if(error){
+                      return res.json(error)
+                   }  
+                  if (data){
+                        return res.status(201).json({
+                           message : "user succsufly acctivate signup "
+                        })
+                    }
+                }); 
+            }
+            
+            
+        })
+    }else{
+        return res.json({
+            message:'something wrong'
+        })
+    }
+    
 }
 // signin 
 exports.signin=(req,res)=>{
@@ -92,6 +139,7 @@ exports.signin=(req,res)=>{
                      // password
                 if (entreprise.authentificate(req.body.password )&& entreprise.role ==='entreprise'){
                     // token with jsonwebtoken
+                    //GENERATE TOKEN
                     const token =jwt.sign({_id :entreprise._id ,role :entreprise.role},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
                     const  { _id,firstName ,lastName ,email , role , fullName,username} =entreprise;
                     res.status(200).json({
@@ -109,7 +157,7 @@ exports.signin=(req,res)=>{
 
         }else 
         return res.status(400).json({
-            message :"user is not  exciste"
+            message :"user is not  exciste or check your email for validation "
         })
     });
 }
