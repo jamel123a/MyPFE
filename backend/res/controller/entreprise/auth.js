@@ -1,23 +1,55 @@
 const Entreprise =require('../../models/condidat');
+const exprssjwt =require('express-jwt')
 const jwt =require ('jsonwebtoken');
 const { validationResult } = require('express-validator');
+const _ =require('lodash')
+//to send email
 
+const mail =require('@sendgrid/mail')
+mail.setApiKey(process.env.MAIL.KEY)
 
-exports.signup= async(req,res)=>{
+exports.signup= (req,res)=>{
    
+    const {
+        firstName,
+        lastName,
+        fullName,
+        email,
+        password
+    } =req.body;
 
+    
     Entreprise.findOne({email :req.body.email})
   .exec((error,entreprise)=>{
       if (entreprise) return res.status(400).json({
           message :'user already registered '
   });
-  const {
-      firstName,
-      lastName,
-      fullName,
-      email,
-      password
-  } =req.body;
+  /// generate token 
+ const token =jwt.sign(
+     {
+     firstName,
+     lastName,
+     email,
+     password
+     },
+     process.env.JWT_ACCOUNT_ACTIVATION,
+     {
+         expiresIn :'15m'
+     }
+  )
+  const emailData ={
+      from: process.env.Email_FROM,
+      to :to,
+      subject :'Account activation link ',
+      html :`
+      <h1> click here for activate</h1>
+      <p>${process.env.API}/user/activate/${token}</p>
+      </hr>
+      <p>this email contain sensetive info</p>
+      <p>${process.env.API}</p>
+      `
+  }
+ 
   const _entreprise= new Entreprise ({
       firstName,
       lastName,
