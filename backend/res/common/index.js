@@ -98,6 +98,7 @@ exports.resetPassword=(req,res)=>{
            if(error){
                return res.status(400).json({error :'incorret token or it is expired'})
            }
+           //user moch mawjoud
            User.findOne({resetLink},(error,user)=>{
             if(error || !user) {
                 return res.status(400).json({error :'user with this email not exist'})

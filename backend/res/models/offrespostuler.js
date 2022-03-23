@@ -4,7 +4,7 @@ const offrePostulerSchema =new mongoose.Schema({
     offreItemps :[
         {
             offre :{ type :mongoose.Schema.Types.ObjectId,ref :'Offre',required :true},
-            nomoffre :{type:String ,required :true },
+            cv : {type :mongoose.Schema.Types.ObjectId ,ref : 'cv',required :true}
             //date :{type: Date},
           //  nomEntreprise:{type :mongoose.Schema.Types.ObjectId,ref :'entreprise'}
         }

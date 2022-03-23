@@ -26,3 +26,12 @@ exports.createOffre =(req,res)=>{
       }
   })
 }
+exports.getOffres=(req,res)=>{
+    Offre.find({})
+    .exec((error,offre)=>{
+         if(error)return res.status(400).json({error});
+         if (offre){
+             res.status(200).json({offre})
+         }
+    })
+  }
