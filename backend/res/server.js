@@ -4,7 +4,7 @@ const app=express();
 const mongoose=require('mongoose');
 const path =require('path')
 const cors =require('cors')
-
+const cookieParser =require('cookie-parser')
 
 
 //router
@@ -18,7 +18,8 @@ const usercv=require('./routes/condidat/cv')
 const entrepriseRoutes =require('./routes/entreprise/auth');
 const offreRoutes =require('./routes/offre');
 //commun 
-const forgetpassword =require('./routes/forgetpassword')
+const forgetpassword =require('./routes/forgetpassword');
+const { cookie } = require('express-validator');
 
 
 
@@ -37,7 +38,8 @@ mongoose.connect(
 
 
 app.use(express.json());
-app.use(cors())
+app.use(cors()),
+app.use(cookieParser())
 app.use('/public',express.static(path.join(__dirname,'upload')));
 
 //admin

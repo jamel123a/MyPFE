@@ -1,7 +1,6 @@
 const express=require('express');
-const { signup, signin, activation } = require('../../controller/entreprise/auth');
+const {  signin, activation, signup } = require('../../controller/entreprise/auth');
 const {validateSignupRequest,validateSigninRequest, isRequestValited} =require('../../validation/auth')
-
 const router=express.Router();
 
 

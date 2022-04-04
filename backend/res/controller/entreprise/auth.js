@@ -15,7 +15,7 @@ exports.signup= (req,res)=>{
    
     const {
         firstName,
-        lastName,
+         lastName,
         fullName,
         email,
         password
@@ -42,6 +42,12 @@ exports.signup= (req,res)=>{
          expiresIn :'15m'
      }
   )
+
+  //const url =`${process.env.API}/user/activate/${token}`
+
+  /*sendEmail(email,url)
+   res.json({msg :`email aaa  has benn sent to ${email}`})*/
+    
   const emailData ={
       from: process.env.Email_FROM,
       to :email,
@@ -54,7 +60,7 @@ exports.signup= (req,res)=>{
       <p>${process.env.API}</p>
       `
   }
-  mg.messages().send(emailData,function(error,body){
+ mg.messages().send(emailData,function(error,body){
       if(error){
           return res.json({error :error.message})
       }
@@ -62,29 +68,12 @@ exports.signup= (req,res)=>{
   })
 })
 
-/*  const _entreprise= new Entreprise ({
-      firstName,
-      lastName,
-      fullName,
-      email,
-      password,
-      username : Math.random().toString(),
-      role :"entreprise"
-  });
-  _entreprise.save((error,data)=>{
-    if(error){
-        return res.json(error)
-     }  
-    if (data){
-          return res.status(201).json({
-             message : "user succsufly create"
-          })
-      }
-  });
+
   
 
     
- });*/
+ 
+  
 }
 
 
