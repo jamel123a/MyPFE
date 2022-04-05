@@ -4,7 +4,7 @@ const router=express.Router();
 const multer=require('multer');
 const path = require('path') 
 const shordId =require('shortid');
-const { requireSignin, userMiddleware } = require('../../common');
+const { requireSignin, userMiddleware, auth,  } = require('../../common');
 const { updatecv } = require('../../controller/condidat/cv');
 
 const storage =multer.diskStorage({

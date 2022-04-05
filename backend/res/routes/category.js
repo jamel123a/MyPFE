@@ -1,5 +1,5 @@
 const express =require('express');
-const { requireSignin, adminMiddleware } = require('../common/index');
+const { requireSignin, adminMiddleware, auth } = require('../common/index');
 const { addCatogory, getCategories } = require('../controller/category/category');
 const router =express.Router();
 

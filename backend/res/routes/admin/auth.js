@@ -1,5 +1,7 @@
 const express=require('express');
-const { signup, signin,requireSignin } = require('../../controller/admin/auth');
+const { requireSignin, auth, adminMiddleware, getUserInfo } = require('../../common');
+const { signup, signin} = require('../../controller/admin/auth');
+const { getAllCondidatInfo, getAllEntrepreiseInfo } = require('../../controller/admin/constroller');
 const { validateSignupRequest, isRequestValited, validateSigninRequest } = require('../../validation/auth');
 const router=express.Router();
 
@@ -7,7 +9,12 @@ const router=express.Router();
 // admin
 router.post('/admin/signup',validateSignupRequest,isRequestValited, signup)
 router.post('/admin/signin',validateSigninRequest,isRequestValited,signin)
-
+//get user
+router.post('/info',requireSignin,getUserInfo)
+//get all user
+router.get('/dashbord/allcondidat',requireSignin,adminMiddleware,getAllCondidatInfo)
+//get all entreprise 
+router.get('/dashbord/allentreprise',requireSignin,adminMiddleware,getAllEntrepreiseInfo)
 
 
 module.exports=router;

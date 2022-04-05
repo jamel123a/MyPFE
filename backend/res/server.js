@@ -23,7 +23,6 @@ const { cookie } = require('express-validator');
 const AccessToken =require('./routes/acccestoken')
 
 
-
 //enviroment vairiable
 env.config()
 
@@ -54,7 +53,7 @@ app.use('/api',entrepriseRoutes);
 app.use('/api',offreRoutes);
 //commun
 app.use('/api',forgetpassword);
-app.use('api/',AccessToken)
+app.use('/api',AccessToken)
 
 
 

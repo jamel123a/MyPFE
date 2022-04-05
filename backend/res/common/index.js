@@ -10,21 +10,35 @@ const mg = mailgun({apiKey:'462d423f63953ddc5e6757dd591e40d3-dbc22c93-381073ec',
  // verify token exest ou nn 
 exports.requireSignin = (req,res,next)=>{
  
- 
+      
     if (req.headers.authorization){
     
     
         const token =req.headers.authorization.split(" ")[1];
-    const condidat =jwt.verify(token,process.env.JWT_SRCRET);
-     
-    req.condidat=condidat ;
-   
+      
+       
+        const condidat =jwt.verify(token,process.env.JWT_SRCRET);
+
+        req.condidat=condidat ;
     }else {
     return res.status(400).json({
         message :'authorization require' })
     }
     next();
 
+}
+exports.auth=(req,res,next)=>{
+    try{
+        const token =req.header("Authorization")
+        if(!token)return res.status(400).json({msg:"invalidation "})
+        jwt.verify(token,process.env.JWT_SRCRET,(err,user)=>{
+            if(err)return res.status(400).json({msg:"invaled"})
+             req.user=user
+             next()
+        })
+    }catch (err){
+        return res.status(500).json({msg :err.message})
+    }
 }
 
 // user 
@@ -124,5 +138,14 @@ exports.resetPassword=(req,res)=>{
    }
 
 }
-
+//get user
+exports.getUserInfo=async(req,res)=>{
+    try{
+        const condidat= await User.findById(req.condidat._id).select('-hash_password')
+        res.json(condidat)
+        console.log(condidat);
+    }catch(err){
+       return res.status(500).json({err :"jamelfjjf"})
+    }
+}  
 

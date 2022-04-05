@@ -129,10 +129,17 @@ exports.signin=(req,res)=>{
                 if (entreprise.authentificate(req.body.password )&& entreprise.role ==='entreprise'){
                     // token with jsonwebtoken
                     //GENERATE TOKEN
-                    const token =jwt.sign({_id :entreprise._id ,role :entreprise.role},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
+                    const referch_token =jwt.sign({_id :entreprise._id ,role :entreprise.role},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
+                   /* res.cookie('refreshtoken',referch_token,{
+                        httpOnly :true,
+                        path :'/api/entreprise/refersh_token',
+                        maxAge :7*27*60*60*1000
+                    }) */
                     const  { _id,firstName ,lastName ,email , role , fullName,username} =entreprise;
+                    
+
                     res.status(200).json({
-                        token,
+                        referch_token,
                         entreprise :{
                             _id, firstName,lastName,fullName,email,role,username
                         }
@@ -151,6 +158,24 @@ exports.signin=(req,res)=>{
     });
 }
 // verify token exest ou nn 
+exports.getAccessToken=async(req,res)=>{
+    try{
+        const rf_token=req.cookies.refreshtoken
+        if(!rf_token)return res.status(400).json({msg :' please please login new'})
+      
+        jwt.verify(rf_token,process.env.JWT_REFRESH,(err,condidat)=>{
+      
+            if (err) return res.status(400).json({msg :" please login new"})
+      
+            const token =jwt.sign({_id :condidat._id,role:condidat.role},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
+             res.json({token})
+        })
 
+
+    }catch(err){
+        return res.status(500).json({msg :err.message})
+    }
+
+}
     
 
