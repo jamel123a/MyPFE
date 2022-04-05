@@ -56,7 +56,13 @@ exports.signin=(req,res)=>{
                     // token with jsonwebtoken
                     const token =jwt.sign({_id :condidat._id,role:condidat.role},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
                     const  { _id,firstName ,lastName ,email , role , fullName ,username} =condidat;
-                    res.status(200).json({
+                           
+                    res.cookie('refreeshtoken',token,{
+                             httpOnly:true,
+                             path :'/api/user/refeersh_token',
+                             maxAge :7*24*60*60*100//7d
+                         })
+                        res.status(200).json({
                         token,
                         condidat :{
                             _id, firstName,lastName,fullName,email,role,username
@@ -76,6 +82,19 @@ exports.signin=(req,res)=>{
     });
 }
 // verify token exest ou nn 
+exports.getAccessToken=async(req,res)=>{
+    try{
+        const rf_token= req.cookies.refreeshtoken
 
+    if(!rf_token)return res.status(400).json({msg :' please please login new'})
+    jwt.verify(rf_token,process.env.JWT_REFRESH,(err,condidat)=>{
+        if (err) return res.status(400).json({msg :" please login new"})
+        const token =jwt.sign({_id :condidat._id,role:condidat.role},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
+         res.json({token})
+    })
+    }catch(err){
+        return res.status(400).json({msg :err.message})
+    }
+}
     
 
