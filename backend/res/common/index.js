@@ -145,7 +145,37 @@ exports.getUserInfo=async(req,res)=>{
         res.json(condidat)
         console.log(condidat);
     }catch(err){
-       return res.status(500).json({err :"jamelfjjf"})
+       return res.status(500).json({err :"erorr"})
     }
-}  
-
+}
+//update user  
+exports.UpdateUser=async(req,res)=>{
+    try{
+        const {
+            firstName,
+            lastName,
+        } =req.body;
+         await User.findByIdAndUpdate({_id:req.condidat._id},{
+            firstName,lastName
+        })
+        
+        res.json({msg :"update"})
+    }catch(err){
+       return res.status(500).json({err :"erorr"})
+    }
+}
+exports.UpdateUser=async(req,res)=>{
+    try{
+        const {
+            firstName,
+            lastName,
+        } =req.body;
+         await User.findByIdAndUpdate({_id:req.entreprise._id},{
+            firstName,lastName
+        })
+        
+        res.json({msg :"update"})
+    }catch(err){
+       return res.status(500).json({err :"erorr"})
+    }
+}
