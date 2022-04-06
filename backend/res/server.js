@@ -1,11 +1,11 @@
 const express=require('express');
-const env=require('dotenv');
+const env=require('dotenv').config();
 const app=express();
 const mongoose=require('mongoose');
 const path =require('path')
 const cors =require('cors')
 const cookieParser =require('cookie-parser')
-
+const fileUploed =require('express-fileupload')
 
 //router
 const adminRoutes =require('./routes/admin/auth');
@@ -14,6 +14,7 @@ const catogoryRoutes =require('./routes/category');
 const userRoutes =require('./routes/condidat/auth');
 const userOffres =require('./routes/condidat/offrepustuler');
 const usercv=require('./routes/condidat/cv')
+const userImage =require('./routes/upload')
 //entreprise
 const entrepriseRoutes =require('./routes/entreprise/auth');
 const offreRoutes =require('./routes/offre');
@@ -23,8 +24,6 @@ const { cookie } = require('express-validator');
 const AccessToken =require('./routes/acccestoken')
 
 
-//enviroment vairiable
-env.config()
 
 ///mongodb connection 
 
@@ -39,6 +38,9 @@ mongoose.connect(
 app.use(express.json());
 app.use(cors()),
 app.use(cookieParser())
+app.use(fileUploed({
+    useTempFiles:true
+}))
 app.use('/public',express.static(path.join(__dirname,'upload')));
 
 //admin
@@ -54,7 +56,7 @@ app.use('/api',offreRoutes);
 //commun
 app.use('/api',forgetpassword);
 app.use('/api',AccessToken)
-
+app.use('/api',userImage)
 
 
 

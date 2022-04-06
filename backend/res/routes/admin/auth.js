@@ -1,7 +1,7 @@
 const express=require('express');
 const { requireSignin, auth, adminMiddleware, getUserInfo } = require('../../common');
 const { signup, signin} = require('../../controller/admin/auth');
-const { getAllCondidatInfo, getAllEntrepreiseInfo, updateUserRole } = require('../../controller/admin/constroller');
+const { getAllCondidatInfo, getAllEntrepreiseInfo, updateUserRole, DeleteUser } = require('../../controller/admin/constroller');
 const { validateSignupRequest, isRequestValited, validateSigninRequest } = require('../../validation/auth');
 const router=express.Router();
 
@@ -16,6 +16,8 @@ router.get('/dashbord/allcondidat',requireSignin,adminMiddleware,getAllCondidatI
 //get all entreprise 
 router.get('/dashbord/allentreprise',requireSignin,adminMiddleware,getAllEntrepreiseInfo)
 //update user role
-router.get('update_role/:id',requireSignin,adminMiddleware,updateUserRole)
+router.patch('/update_role/:id',requireSignin,adminMiddleware,updateUserRole)
+//delete user
+router.patch('/delete/:id',requireSignin,adminMiddleware,DeleteUser)
 
 module.exports=router;
