@@ -5,7 +5,7 @@ const router =express.Router();
 
 
 router.post('/forgetpassword',forgetpassword);
-router.post('/resetpassword',resetPassword);
+//router.post('/resetpassword',resetPassword);
 
 
 

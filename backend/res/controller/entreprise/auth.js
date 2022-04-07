@@ -3,15 +3,41 @@ const exprssjwt =require('express-jwt')
 const jwt =require ('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const _ =require('lodash')
+
+const sendEmail =require('../../common/sendemail')
+
+
+exports.signup = async(req,res)=>{
+    try{
+     const { firstName,  lastName, fullName, email,  password} =req.body;
+      const user =await Entreprise.findOne({email})
+      if (user) return res.status(400).json( {msg :'this email already exict .'})
+      const newuser ={
+          firstName,lastName,email,password,fullName
+      }
+       const activation_token =creacteActivationToken(newuser)
+       const url = `${process.env.API}/user/activate/${activation_token}`
+       sendEmail(email,url,"verify your email")
+       res.json({msg :`email has benn sent to ${email}`})
+    }catch (err){
+        return res.status(500).json({msg :err.message})
+    }
+}
+
+const creacteActivationToken =(payload)=>{
+     return jwt.sign(payload,process.env.JWT_ACCOUNT_ACTIVATION,{expiresIn:'15m'})
+}
+
+
 //to send email
-const mailgun= require('mailgun-js');
-const DOMAIN ='sandboxa15c37c7e4fd4c538c83e8a90a4c7733.mailgun.org';
-const mg = mailgun({apiKey:'462d423f63953ddc5e6757dd591e40d3-dbc22c93-381073ec', domain: DOMAIN});
+//const mailgun= require('mailgun-js');
+//const DOMAIN ='sandboxa15c37c7e4fd4c538c83e8a90a4c7733.mailgun.org';
+//const mg = mailgun({apiKey:'462d423f63953ddc5e6757dd591e40d3-dbc22c93-381073ec', domain: DOMAIN});
 
 /*const mail =require('@sendgrid/mail')
 mail.setApiKey(process.env.MAIL.KEY)*/
 
-exports.signup= (req,res)=>{
+/*exports.signup= (req,res)=>{
    
     const {
         firstName,
@@ -46,7 +72,7 @@ exports.signup= (req,res)=>{
   //const url =`${process.env.API}/user/activate/${token}`
 
   /*sendEmail(email,url)
-   res.json({msg :`email aaa  has benn sent to ${email}`})*/
+   res.json({msg :`email aaa  has benn sent to ${email}`})
     
   const emailData ={
       from: process.env.Email_FROM,
@@ -66,15 +92,10 @@ exports.signup= (req,res)=>{
       }
       return res.json({message :`email has benn sent to ${email}`})
   })
-})
-
-
-  
-
-    
+})  
  
   
-}
+}*/
 
 
 // activation 
@@ -129,12 +150,12 @@ exports.signin=(req,res)=>{
                 if (entreprise.authentificate(req.body.password )&& entreprise.role ==='entreprise'){
                     // token with jsonwebtoken
                     //GENERATE TOKEN
-                    const referch_token =jwt.sign({_id :entreprise._id ,role :entreprise.role},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
-                   /* res.cookie('refreshtoken',referch_token,{
+                    const referch_token =jwt.sign({_id :entreprise._id ,role :entreprise.role},process.env.JWT_REFRESH,{expiresIn :'12h'})// tetneha b3ed se3a
+                    res.cookie('refreshtoken',referch_token,{
                         httpOnly :true,
                         path :'/api/entreprise/refersh_token',
                         maxAge :7*27*60*60*1000
-                    }) */
+                    }) 
                     const  { _id,firstName ,lastName ,email , role , fullName,username} =entreprise;
                     
 
@@ -161,7 +182,7 @@ exports.signin=(req,res)=>{
 exports.getAccessToken=async(req,res)=>{
     try{
         const rf_token=req.cookies.refreshtoken
-        if(!rf_token)return res.status(400).json({msg :' please please login new'})
+        if(!rf_token)return res.status(400).json({msg :'  please login new'})
       
         jwt.verify(rf_token,process.env.JWT_REFRESH,(err,condidat)=>{
       
@@ -177,5 +198,14 @@ exports.getAccessToken=async(req,res)=>{
     }
 
 }
-    
+exports.logout=async(req,res)=>{
+    try{
+        res.clearCookie('refreshtoken',{path :'/api/entreprise/refersh_token'})
+        return res.json({msg :"logget out ."})        
+
+    }catch(err){
+        return res.status(400).json({msg :err.message})
+    }
+} 
+   
 

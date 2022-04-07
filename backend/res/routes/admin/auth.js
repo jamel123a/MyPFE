@@ -10,14 +10,14 @@ const router=express.Router();
 router.post('/admin/signup',validateSignupRequest,isRequestValited, signup)
 router.post('/admin/signin',validateSigninRequest,isRequestValited,signin)
 //get user
-router.post('/info',requireSignin,getUserInfo)
+router.post('/info',auth,getUserInfo)
 //get all user
-router.get('/dashbord/allcondidat',requireSignin,adminMiddleware,getAllCondidatInfo)
+router.get('/dashbord/allcondidat',auth,adminMiddleware,getAllCondidatInfo)
 //get all entreprise 
-router.get('/dashbord/allentreprise',requireSignin,adminMiddleware,getAllEntrepreiseInfo)
+router.get('/dashbord/allentreprise',auth,adminMiddleware,getAllEntrepreiseInfo)
 //update user role
-router.patch('/update_role/:id',requireSignin,adminMiddleware,updateUserRole)
+router.patch('/update_role/:id',auth,adminMiddleware,updateUserRole)
 //delete user
-router.patch('/delete/:id',requireSignin,adminMiddleware,DeleteUser)
+router.patch('/delete/:id',auth,adminMiddleware,DeleteUser)
 
 module.exports=router;

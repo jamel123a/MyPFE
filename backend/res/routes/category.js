@@ -4,7 +4,7 @@ const { addCatogory, getCategories } = require('../controller/category/category'
 const router =express.Router();
 
 
-router.post('/category/create',requireSignin,adminMiddleware,addCatogory)
+router.post('/category/create',auth,adminMiddleware,addCatogory)
 router.get('/category/getcategory',getCategories)
 
 

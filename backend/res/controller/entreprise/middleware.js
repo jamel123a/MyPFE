@@ -1,5 +1,5 @@
 const jwt=require('jsonwebtoken')
-
+const Entreprise =require('../../models/condidat')
 exports.requireSigninEntreprise = (req,res,next)=>{
  
  
@@ -18,6 +18,20 @@ exports.requireSigninEntreprise = (req,res,next)=>{
     next();
 
 }
+exports.authEntreprise=(req,res,next)=>{
+    try{
+        const token =req.header("Authorization")
+        if(!token)return res.status(400).json({msg:"authorization require "})
+        jwt.verify(token,process.env.JWT_SRCRET,(err,entreprise)=>{
+            if(err)return res.status(400).json({msg:"invaled token"})
+             req.entreprise=entreprise
+             console.log(entreprise)
+             next()
+        })
+    }catch (err){
+        return res.status(500).json({msg :err.message})
+    }
+}
 //moddleware
 
 exports.EntrepriseMiddleware=(req,res,next)=>{
@@ -25,4 +39,20 @@ exports.EntrepriseMiddleware=(req,res,next)=>{
         return res.status(400).json({message :'Acces denied'})
     }
     next();
+}
+exports.UpdateEntreprise=async(req,res)=>{
+    try{
+        const {
+            firstName,
+            lastName,
+            avatar
+        } =req.body;
+         await Entreprise.findByIdAndUpdate({_id:req.entreprise._id},{
+            firstName,lastName,avatar
+        })
+        
+        res.json({msg :"update"})
+    }catch(err){
+       return res.status(500).json({err :"erorr"})
+    }
 }

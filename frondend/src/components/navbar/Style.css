@@ -81,10 +81,8 @@ nav .menu-btn,
 /* home*/
 .intro{
     display: flex;
-    height: 700px;
-    margin-top:3rem ;
+    height: 100%;
     align-items: center;
-    padding: 0 60px;
 
 }
 .i-left{

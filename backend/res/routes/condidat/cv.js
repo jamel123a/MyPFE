@@ -5,7 +5,9 @@ const multer=require('multer');
 const path = require('path') 
 const shordId =require('shortid');
 const { requireSignin, userMiddleware, auth,  } = require('../../common');
+const uploadCrl = require('../../common/uploadCtrl');
 const { updatecv } = require('../../controller/condidat/cv');
+const cv1 = require('../../controller/condidat/cv1');
 
 const storage =multer.diskStorage({
      
@@ -31,7 +33,8 @@ const upload = multer( {storage ,fileFilter: (req, file, cb) => {
 
 
 
-router.post('/uploadcv',requireSignin,userMiddleware,upload.single('cv'),updatecv);  
+router.post('/uploadcv',auth,userMiddleware,upload.single('cv'),updatecv);  
 
+router.post('/uploadcvv',auth,userMiddleware,cv1,uploadCrl.uploadcv);  
 
 module.exports=router;

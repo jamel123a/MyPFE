@@ -11,7 +11,7 @@ cloudinary.config({
 
 
 const uploadCrl={
-uploadAvatar :(req,res)=>{
+uploadAvatar :async(req,res)=>{
         try{
         
             const file =req.files.file;
@@ -30,7 +30,29 @@ uploadAvatar :(req,res)=>{
         }catch(err){
             return res.json(err)
         }
+    },
+    
+    uploadcv :async(req,res)=>{
+        try{
+             
+            const file =req.files.file;
+          console.log(file)
+        
+          cloudinary.v2.uploader.upload(file.tempFilePath,{
+             folder:'cv',crop :"fill"
+         },async (err,result)=>{
+             if (err) throw err
+         
+             removeTmp(file.tempFilePath)
+             console.log({result})
+             res.json({url:result.secure_url})
+         })
+
+        }catch(err){
+            return res.json(err)
+        }
     }
+ 
  
 }
 const removeTmp=(path)=>{

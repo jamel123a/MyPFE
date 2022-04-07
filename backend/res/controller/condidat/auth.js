@@ -54,13 +54,13 @@ exports.signin=(req,res)=>{
                      // password
                 if (condidat.authentificate(req.body.password)&& condidat.role==='condidat'){
                     // token with jsonwebtoken
-                    const token =jwt.sign({_id :condidat._id,role:condidat.role},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
+                    const token =jwt.sign({_id :condidat._id,role:condidat.role},process.env.JWT_REFRESH,{expiresIn :'12h'})// tetneha b3ed se3a
                     const  { _id,firstName ,lastName ,email , role , fullName ,username,password} =condidat;
-                   /*  res.cookie('refreshtoken',token,{
+                   res.cookie('refreshtoken',token,{
                              httpOnly:true,
-                             path :'/api/condidat/refersh_token',
+                             path :'/api/refersh_token',
                              maxAge :7*24*60*60*100//7d
-                         })*/
+                         })
                         res.status(200).json({
                         token,
                         condidat :{
@@ -85,7 +85,7 @@ exports.getAccessTokenUser=async(req,res)=>{
     try{
         const rf_token= req.cookies.refreshtoken
         console.log(rf_token)
-    if(!rf_token)return res.status(400).json({msg :' please please login new'})
+    if(!rf_token)return res.status(400).json({msg :'  please login new'})
     jwt.verify(rf_token,process.env.JWT_REFRESH,(err,condidat)=>{
         if (err) return res.status(400).json({msg :" please login new"})
         const token =jwt.sign({_id :condidat._id,role:condidat.role},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
@@ -95,5 +95,13 @@ exports.getAccessTokenUser=async(req,res)=>{
         return res.status(400).json({msg :err.message})
     }
 }
- 
+exports.logout=async(req,res)=>{
+    try{
+        res.clearCookie('refreshtoken',{path :'/api/refersh_token'})
+        return res.json({msg :"logget out ."})        
+
+    }catch(err){
+        return res.status(400).json({msg :err.message})
+    }
+}  
 

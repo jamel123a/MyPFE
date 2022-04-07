@@ -52,7 +52,15 @@ const userShema =new mongoose.Schema({
    resetLink :{
     data :String,
     default :''
-   }
+   },
+   avatar :{
+       type :String,
+    
+       default :"https://res.cloudinary.com/dggj0tbj8/image/upload/v1649260316/avatar/logo_gnri0o.png"
+   },
+   description:{
+    type :String,
+}
 },
 
 {timestamps :true});

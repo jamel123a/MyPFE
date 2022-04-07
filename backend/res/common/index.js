@@ -4,6 +4,7 @@ const User =require('../models/condidat');
 const _ =require('lodash')
 //to send email
 const mailgun= require('mailgun-js');
+const sendEmail = require('./sendemail');
 const DOMAIN ='sandboxa15c37c7e4fd4c538c83e8a90a4c7733.mailgun.org';
 const mg = mailgun({apiKey:'462d423f63953ddc5e6757dd591e40d3-dbc22c93-381073ec', domain: DOMAIN});
 
@@ -27,13 +28,15 @@ exports.requireSignin = (req,res,next)=>{
     next();
 
 }
+//auth mt3 vedio login
 exports.auth=(req,res,next)=>{
     try{
         const token =req.header("Authorization")
-        if(!token)return res.status(400).json({msg:"invalidation "})
-        jwt.verify(token,process.env.JWT_SRCRET,(err,user)=>{
-            if(err)return res.status(400).json({msg:"invaled"})
-             req.user=user
+        if(!token)return res.status(400).json({msg:"authorization require "})
+        jwt.verify(token,process.env.JWT_SRCRET,(err,condidat)=>{
+            if(err)return res.status(400).json({msg:"invaled token"})
+             req.condidat=condidat
+             console.log(condidat)
              next()
         })
     }catch (err){
@@ -57,8 +60,35 @@ exports.adminMiddleware=(req,res,next)=>{
     }
     next();
 }
+exports.forgetpassword=async(req,res)=>{
+   try{
+    const {email}=req.body;
+    User.findOne({email},(error,user)=>{
+        if(error || !user) {
+            return res.status(400).json({error :'user with this email not exist'})
+        }
+        const token =jwt.sign(
+            {
+            _id :user._id
+            },
+            process.env.JWT_RESET_PASSWORD,
+            {
+                expiresIn :'15m'
+            }
+         )
+       const url =`${process.env.API}/resetpassword/${token}`
+       sendEmail(email,url,"reset your password") 
+       res.json({msg :`resent password send to ${email}`})
+    })
+     
 
-exports.forgetpassword=(req,res)=>{
+   }catch (err){
+        return res.status(500).json({msg :err.message})
+    }
+
+}
+
+/*exports.forgetpassword=(req,res)=>{
     const {email}=req.body;
     // virify email
       User.findOne({email},(error,user)=>{
@@ -101,10 +131,10 @@ exports.forgetpassword=(req,res)=>{
      })
   })
 
-}
+}*/
 
 //resetpassword
-exports.resetPassword=(req,res)=>{
+/*exports.resetPassword=(req,res)=>{
     //resetpassword bch ttaked li howa lien ou nn
    const {resetLink,newPass} =req.body;
    if (resetLink){
@@ -137,7 +167,7 @@ exports.resetPassword=(req,res)=>{
        return res.status(400).json({message :'something wrong'})
    }
 
-}
+}*/
 //get user
 exports.getUserInfo=async(req,res)=>{
     try{
@@ -154,9 +184,10 @@ exports.UpdateUser=async(req,res)=>{
         const {
             firstName,
             lastName,
+            avatar
         } =req.body;
          await User.findByIdAndUpdate({_id:req.condidat._id},{
-            firstName,lastName
+            firstName,lastName,avatar
         })
         
         res.json({msg :"update"})
@@ -164,18 +195,19 @@ exports.UpdateUser=async(req,res)=>{
        return res.status(500).json({err :"erorr"})
     }
 }
-exports.UpdateUser=async(req,res)=>{
+/*exports.UpdateEntrepeise=async(req,res)=>{
     try{
         const {
             firstName,
             lastName,
+            avatar
         } =req.body;
          await User.findByIdAndUpdate({_id:req.entreprise._id},{
-            firstName,lastName
+            firstName,lastName,avatar
         })
         
         res.json({msg :"update"})
     }catch(err){
        return res.status(500).json({err :"erorr"})
     }
-}
+}*/

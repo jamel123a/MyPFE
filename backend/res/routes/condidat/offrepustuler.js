@@ -1,10 +1,10 @@
 const express =require('express');
-const { requireSignin, userMiddleware } = require('../../common');
+const { requireSignin, userMiddleware, auth } = require('../../common');
 const { getOffresPostuler } = require('../../controller/condidat/offresPostuler');
 const router =express.Router();
 
 
-router.get('/condidat/profile',requireSignin,userMiddleware,getOffresPostuler);  
+router.get('/condidat/profile',auth,userMiddleware,getOffresPostuler);  
 
 
 module.exports=router;

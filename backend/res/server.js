@@ -22,7 +22,7 @@ const offreRoutes =require('./routes/offre');
 const forgetpassword =require('./routes/forgetpassword');
 const { cookie } = require('express-validator');
 const AccessToken =require('./routes/acccestoken')
-
+const loginOut =require('./routes/loginOut')
 
 
 ///mongodb connection 
@@ -57,7 +57,7 @@ app.use('/api',offreRoutes);
 app.use('/api',forgetpassword);
 app.use('/api',AccessToken)
 app.use('/api',userImage)
-
+app.use('api',loginOut)
 
 
 
