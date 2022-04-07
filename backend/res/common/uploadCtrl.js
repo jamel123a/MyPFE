@@ -1,5 +1,6 @@
 const cloudinary =require('cloudinary')
 const fs =require('fs')
+const CV=require('../models/cv');
 
 
 cloudinary.config({
@@ -15,7 +16,7 @@ uploadAvatar :async(req,res)=>{
         try{
         
             const file =req.files.file;
-          console.log(file)
+           console.log(file)
         
           cloudinary.v2.uploader.upload(file.tempFilePath,{
              folder:'avatar',width: 150,height : 150,crop :"fill"
@@ -34,9 +35,8 @@ uploadAvatar :async(req,res)=>{
     
     uploadcv :async(req,res)=>{
         try{
-             
+          
             const file =req.files.file;
-          console.log(file)
         
           cloudinary.v2.uploader.upload(file.tempFilePath,{
              folder:'cv',crop :"fill"

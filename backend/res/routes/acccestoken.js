@@ -5,5 +5,5 @@ const router =express.Router();
 
 
 router.post('/entreprise/refersh_token',getAccessToken)
-router.post('/condidat/refersh_token',getAccessTokenUser)
+router.post('/refersh_token',getAccessTokenUser)
 module.exports=router;
