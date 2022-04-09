@@ -1,6 +1,6 @@
 const jwt=require('jsonwebtoken');
 const { merge, result } = require('lodash');
-const User =require('../models/condidat');
+const User =require('../models/user');
 const _ =require('lodash')
 //to send email
 const mailgun= require('mailgun-js');

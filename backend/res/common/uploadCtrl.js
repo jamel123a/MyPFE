@@ -37,6 +37,8 @@ uploadAvatar :async(req,res)=>{
         try{
           
             const file =req.files.file;
+            const   updateBy =req.condidat_id
+           console.log(updateBy)
         
           cloudinary.v2.uploader.upload(file.tempFilePath,{
              folder:'cv',crop :"fill"
@@ -44,10 +46,21 @@ uploadAvatar :async(req,res)=>{
              if (err) throw err
          
              removeTmp(file.tempFilePath)
-             console.log({result})
-             res.json({url:result.secure_url})
-         })
-
+          const   url=result.secure_url
+         
+             const cv = new CV({
+                url,
+               // updateBy
+            
+              });
+              cv.save((error,cv)=>{
+                if (error) return res.status(400).json({error});
+                if (cv){
+                    res.status(201).json({cv})
+                }
+             });
+            })
+           
         }catch(err){
             return res.json(err)
         }

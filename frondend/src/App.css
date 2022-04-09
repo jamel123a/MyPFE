@@ -1,14 +1,33 @@
 .App{
-    padding:  2rem 5rem;
     overflow: hidden;
     color:#242D49;
     display: flex;
-    flex-direction: column;
+  flex-direction: column;
 }
+
 
 :root {
     --main-color :#ffffff;
     --main-color-alt :#00b7ff
+}
+*{
+    box-sizing: border-box;
+    text-decoration: none;
+}
+ul{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+
+button{
+    outline: none;
+    border: none;
+}
+input{
+  /*  outline: none;*/
+    border: none;
 }
 .cv-btn{
 	width:110px;
@@ -26,9 +45,10 @@
     transition: all ease 0.5s;
     color: black;
 }
-@media screen and(max-width:480px) {
+/*@media screen and(max-width:480px) {
     .App{
         padding: 0.5rem;
     }
 }
-
+   navbar 
+@import url("./components/navbar/Style.css");*/

@@ -2,11 +2,14 @@
 body {
   margin:0px;
   padding: 0px;
-  
+  text-decoration: none;  
   background-color: var(--main-color);
   font-family: 'Montserrat', sans-serif;
  
 }
+
+
+
 
 
 

@@ -1,12 +1,15 @@
-const Condidat =require('../../models/condidat');
+const Condidat =require('../../models/user');
 const jwt =require ('jsonwebtoken')
+const bcrypt =require('bcrypt');
 
 
 exports.signup=(req,res)=>{
     Condidat.findOne({email :req.body.email})
-  .exec((error,condidat)=>{
+  .exec (async(error,condidat)=>{
       if (condidat) return res.status(400).json({
-          message :'admin already registered '
+          message :'admin already registered ',
+
+          
   });
   const {
       firstName,
@@ -15,12 +18,13 @@ exports.signup=(req,res)=>{
       email,
       password
   } =req.body;
+  const hash_password =await bcrypt.hash(password,10)
   const _condidat= new Condidat ({
       firstName,
       lastName,
       fullName,
       email,
-      password,
+      hash_password,
       username : Math.random().toString(),
       role :"admin"
   });
@@ -54,7 +58,7 @@ exports.signin=(req,res)=>{
                 if (condidat.authentificate(req.body.password )&& condidat.role ==='admin'){
                     // token with jsonwebtoken
                     const token =jwt.sign({_id :condidat._id,role:condidat.role},process.env.JWT_REFRESH,{expiresIn :'12h'})// tetneha b3ed se3a
-                    const  { _id,firstName ,lastName ,email , role ,username, fullName} =condidat;
+                    const  { _id,firstName ,lastName ,email , role ,username, fullName,password} =condidat;
                     res.cookie('refreshtoken',token,{
                         httpOnly:true,
                         path :'/api/refersh_token',
@@ -64,7 +68,7 @@ exports.signin=(req,res)=>{
                     res.status(200).json({
                         token,
                         condidat :{
-                            _id, firstName,lastName,fullName,email,role,username
+                            _id, firstName,lastName,fullName,email,role,username,password
                         }
 
                     });

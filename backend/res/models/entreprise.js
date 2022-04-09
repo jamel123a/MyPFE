@@ -71,8 +71,8 @@ entrepriseShema.virtual('fullName')
 
 //authtificate 
 entrepriseShema.methods ={
-    authentificate:function(password){
-        return  bcrypt.compareSync(password,this.hash_password);
+    authentificate: async function(password){
+        return await bcrypt.compareSync(password,this.hash_password);
     }
 }
 

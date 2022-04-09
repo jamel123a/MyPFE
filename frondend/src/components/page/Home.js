@@ -5,11 +5,12 @@ import Footer from '../footer/Footer'
 function Home() { 
     return (
        <div className='App'>
+         
        <Navbar/>
         <Header/>
         <Footer/>
   
-  
+        
        </div>
      
   

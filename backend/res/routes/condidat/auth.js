@@ -10,8 +10,8 @@ const router=express.Router();
 
 // condidat 
 
-router.post('/condidat/signup',validateSignupRequest,isRequestValited,signup);
-router.post('/condidat/signin',validateSigninRequest,isRequestValited,signin);
+router.post('/condidat/signup',signup);
+router.post('/condidat/signin',signin);
 //update self
 //update user him self
 router.patch('/condidat/update',auth,userMiddleware,UpdateUser)

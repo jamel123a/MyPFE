@@ -1,6 +1,8 @@
 import React from 'react'
 import '../navbar/Style.css'
 import img from '../../assest/Finance.png'
+import {Link} from 'react-router-dom'
+
 function Header (){
     return(
          <>
@@ -14,7 +16,7 @@ function Header (){
                           Iure fugiat laborum magni molestias cupiditate suscipit dolor dolorem porro itaque commodi doloremque, modi, consectetur molestiae, 
                           quia praesentium aperiam? Vitae, molestias odit.</span>
                   </div>
-                   <a href="" className='cv-btn i-button'>more </a>
+                   <Link to='/' className='cv-btn i-button'>more </Link>
               </div>
               <div className='i-right'>
                   <img src={img} alt="" />

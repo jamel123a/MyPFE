@@ -1,5 +1,5 @@
 const express =require('express')
-const Condidat =require('../../models/condidat');
+const Condidat =require('../../models/user');
 const jwt =require ('jsonwebtoken');
 exports.getAllCondidatInfo=async(req,res)=>{
     try{

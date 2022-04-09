@@ -1,5 +1,5 @@
 const jwt=require('jsonwebtoken')
-const Entreprise =require('../../models/condidat')
+const Entreprise =require('../../models/user')
 exports.requireSigninEntreprise = (req,res,next)=>{
  
  

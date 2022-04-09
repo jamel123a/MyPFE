@@ -1,61 +1,83 @@
-const Condidat =require('../../models/condidat');
+const Condidat =require('../../models/user');
 const jwt =require ('jsonwebtoken');
 const { validationResult } = require('express-validator');
+//const bcrypt =require('bcrypt');
 
 
-exports.signup=(req,res)=>{
-   
+exports.signup=async(req,res)=>{
+  try{
+             
+      const { firstName, lastName, fullName, email, password } = req.body;
+       if (!firstName || !lastName || !email || !password ) 
+       return res.status(400).json({message :"please full in all fields"})
+       
+       if (!validateEmail(email)) 
+       return res.status(400).json({message :"valid email"})
+       if (!password.length >6) 
+       return res.status(400).json({message :"password must be at least 6 characters"})
 
-    Condidat.findOne({email :req.body.email})
-  .exec((error,condidat)=>{
-      if (condidat) return res.status(400).json({
-          message :'user already registered '
-  });
-  const {
-      firstName,
-      lastName,
-      fullName,
-      email,
-      password
-  } =req.body;
-  const _condidat= new Condidat ({
-      firstName,
-      lastName,
-      fullName,
-      email,
-      password,
-      username : Math.random().toString(),
-      role :"condidat"
-  });
-  _condidat.save((error,data)=>{
-    if(error){
-        return res.json(error);
-     }  
-    if (data){
-          return res.status(201).json({
-             message : "user succsufly create"
-          })
-      }
-  });
-  
-
-    
- });
+      const user = await Condidat.findOne({ email })
+      if (user) return res.status(400).json({ error: 'this email already exict .' })
+      const _condidat = new Condidat({
+          firstName,
+          lastName,
+          fullName,
+          email,
+          password,
+          username: Math.random().toString(),
+          role: "condidat"
+      });
+      _condidat.save((error, data) => {
+          if (error) {
+              return res.json(error);
+          }
+          if (data) {
+              return res.status(201).json({
+                  message: "user succsufly create"
+              })
+          }
+      });
+  } catch (error) {
+      return res.status(500).json({ message: error.message })
+  }
+ 
 }
+function validateEmail(email) {
+   
+    const re=  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return re.test(email)
+  };
 // signin 
-exports.signin=(req,res)=>{
+exports.signin=async(req,res)=>{
     // email moujoud ou nn
-    Condidat.findOne({email :req.body.email})
+    
+   try{
+       
+    const {email, password } = req.body;
+    if (!email || !password ) 
+    return res.status(400).json({message :"please full in all fields"})
+    
+    if (!validateEmail(email)) 
+    return res.status(400).json({message :"valid email"})
+    if (password.length >6) 
+    return res.status(400).json({message :"password must be at least 6 characters"})
+
+   
+     Condidat.findOne({email :req.body.email})
     .exec((error,condidat)=>{
         if (error) return res.status(400).json({
             message : 'invalid email'
         });
         if (condidat) {
                      // password
+                       
+                    
                 if (condidat.authentificate(req.body.password)&& condidat.role==='condidat'){
                     // token with jsonwebtoken
                     const token =jwt.sign({_id :condidat._id,role:condidat.role},process.env.JWT_REFRESH,{expiresIn :'12h'})// tetneha b3ed se3a
                     const  { _id,firstName ,lastName ,email , role , fullName ,username,password} =condidat;
+
+
                    res.cookie('refreshtoken',token,{
                              httpOnly:true,
                              path :'/api/refersh_token',
@@ -79,6 +101,10 @@ exports.signin=(req,res)=>{
             message :"user is not  exciste"
         })
     });
+   }catch (err){
+    return res.status(500).json({msg :err.message})
+}
+    
 }
 // verify token exest ou nn 
 exports.getAccessTokenUser=async(req,res)=>{

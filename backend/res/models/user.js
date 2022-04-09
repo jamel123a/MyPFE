@@ -25,7 +25,7 @@ const userShema =new mongoose.Schema({
     },
     email:{
        type :String,
-       require :true,
+       required :true,
        trim: true,
        unique :true,
        lowercase :true    
@@ -66,6 +66,7 @@ const userShema =new mongoose.Schema({
 {timestamps :true});
 
 /// dycrypt le  password
+
 userShema.virtual('password')
 .set(function(password){
   this.hash_password =bcrypt.hashSync(password,10);
@@ -78,9 +79,10 @@ userShema.virtual('fullName')
 
 
 //authtificate 
+
 userShema.methods ={
-    authentificate:function(password){
-        return bcrypt.compareSync(password,this.hash_password);
+    authentificate:  function(password){
+        return   bcrypt.compareSync(password,this.hash_password);
     }
 }
 
@@ -88,5 +90,5 @@ userShema.methods ={
 
 
 
-module.exports=mongoose.model('Condidat',userShema);
+module.exports=mongoose.model('User',userShema);
       

@@ -5,24 +5,29 @@ exports.updatecv=(req,res)=>{
     
   
   const  updateBy =req.condidat._id
-   const cvfile=req.files.file.name
-
+   const file=process.env.API+'/public/'+req.files.file.name;
+console.log(file)
   //  console.log(cvfile)
   
  /*  if (req.files.file){
-       cvfile=process.env.API+'/public/'+req.files.file.filename;
+       
    } */
    const cv = new CV({
-    cvfile,
+    file,
     updateBy
 
   });
    
-
-   cv.save((error,cv)=>{
-      if (error) return res.status(400).json({error});
-      if (cv){
-          res.status(201).json({cv})
-      }
-   });
+if (req.files.file.mimetype=="application/pdf"){
+  
+  cv.save((error,cv)=>{
+    if (error) return res.status(400).json({error});
+    if (cv){
+        res.status(201).json({cv})
+    }
+ });
+}else{
+  return res.status(400).json({msg :"file must be a pdf"})
+}
+  
 }

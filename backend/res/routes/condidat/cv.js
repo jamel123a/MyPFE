@@ -21,15 +21,9 @@ const storage =multer.diskStorage({
         cb(null,/*shordId.generate()+' '+*/file.originalname)
     } 
 })
-const upload = multer( {storage ,fileFilter: (req, file, cb) => {
+const upload = multer( {storage })
        
-    if (file.mimetype == "application/pdf") {
-      cb(null, true);
-    } else {
-      cb(null, false);
-      return cb(new Error('Only pdf format allowed!'));
-    }
-  }});
+   
 
 
 

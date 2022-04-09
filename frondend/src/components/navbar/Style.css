@@ -1,21 +1,7 @@
-
-*{
-    box-sizing: border-box;
-}
-ul{
-    list-style: none;
-}
 a{
     text-decoration: none;
 }
-button{
-    outline: none;
-    border: none;
-}
-input{
-    outline: none;
-    border: none;
-}
+
 .logo img{
     width: 90px;
 }
@@ -83,6 +69,7 @@ nav .menu-btn,
     display: flex;
     height: 100%;
     align-items: center;
+    padding:2rem 5rem ;
 
 }
 .i-left{

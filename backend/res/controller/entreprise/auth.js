@@ -1,4 +1,4 @@
-const Entreprise =require('../../models/condidat');
+const Entreprise =require('../../models/user');
 const exprssjwt =require('express-jwt')
 const jwt =require ('jsonwebtoken');
 const { validationResult } = require('express-validator');
