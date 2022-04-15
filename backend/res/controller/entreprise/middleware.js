@@ -1,5 +1,6 @@
 const jwt=require('jsonwebtoken')
 const Entreprise =require('../../models/user')
+const Offre =require('../../models/offre')
 exports.requireSigninEntreprise = (req,res,next)=>{
  
  
@@ -18,6 +19,7 @@ exports.requireSigninEntreprise = (req,res,next)=>{
     next();
 
 }
+///authentification
 exports.authEntreprise=(req,res,next)=>{
     try{
         const token =req.header("Authorization")
@@ -40,15 +42,23 @@ exports.EntrepriseMiddleware=(req,res,next)=>{
     }
     next();
 }
+//update user
 exports.UpdateEntreprise=async(req,res)=>{
     try{
         const {
             firstName,
             lastName,
-            avatar
+            email,
+            password,
+            adress,
+            numberphone,
+            wibsite,
+            avatar,
+            description
+            
         } =req.body;
          await Entreprise.findByIdAndUpdate({_id:req.entreprise._id},{
-            firstName,lastName,avatar
+            firstName,lastName,avatar,email,password,adress,numberphone,wibsite,avatar,description
         })
         
         res.json({msg :"update"})
@@ -56,3 +66,38 @@ exports.UpdateEntreprise=async(req,res)=>{
        return res.status(500).json({err :"erorr"})
     }
 }
+exports.UpdateOffre=async(req,res)=>{
+    try{
+        const {
+           name,motclé,description,salaire,dateFinOffre,lieu,niveauEtude,require, mois
+        } =req.body;
+         await Offre.findByIdAndUpdate(req.params.id,{
+            name,motclé,description,salaire,dateFinOffre,lieu,niveauEtude,require, mois
+        })
+        
+        res.json({msg :"update"})
+    }catch(err){
+       return res.status(500).json({err :"erorr"})
+    }
+}
+
+
+exports.DeleteOffre=async(req,res)=>{
+    try{
+       await Offre.findByIdAndDelete(req.params.id,{ 
+     })
+     res.json({msg :"Delete  Succes"})
+    }catch(err){
+     return res.status(500).json({err :"error"})
+  }
+ }
+ exports.getAllOffreEntreprise=async(req,res)=>{
+    try{
+        const offre = await Offre.find({createBy:req.entreprise._id})
+        console.log(offre)
+       
+        res.json(offre)
+    }catch(err){
+       return res.status(500).json({err :"error"})
+    }
+}   

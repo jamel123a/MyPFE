@@ -1,10 +1,11 @@
 const express =require('express')
-const Condidat =require('../../models/user');
+const User =require('../../models/user');
+const Entreprise =require ('../../models/entreprise')
 const jwt =require ('jsonwebtoken');
 exports.getAllCondidatInfo=async(req,res)=>{
     try{
-        const condidat= await Condidat.find({role:"condidat"}).select('-hash_password')
-        res.json(condidat)
+        const user= await User.find({role:"condidat"}).select('-hash_password')
+        res.json(user)
     }catch(err){
        return res.status(500).json({err :"error"})
     }
@@ -12,8 +13,8 @@ exports.getAllCondidatInfo=async(req,res)=>{
 //get all entreprise user
 exports.getAllEntrepreiseInfo=async(req,res)=>{
     try{
-        const condidat= await Condidat.find({role:"entreprise"}).select('-hash_password')
-        res.json(condidat)
+        const user= await Entreprise.find({role:"entreprise"}).select('-hash_password')
+        res.json(user)
     }catch(err){
        return res.status(500).json({err :"error"})
     }
@@ -23,7 +24,7 @@ exports.getAllEntrepreiseInfo=async(req,res)=>{
 exports.updateUserRole=async(req,res)=>{
    try{
      const {role}=req.body
-      await Condidat.findByIdAndUpdate(req.params.id,{
+      await User.findByIdAndUpdate(req.params.id,{
          role
     })
     
@@ -35,7 +36,7 @@ exports.updateUserRole=async(req,res)=>{
 //delete user
 exports.DeleteUser=async(req,res)=>{
     try{
-       await Condidat.findByIdAndDelete(req.params.id,{
+       await User.findByIdAndDelete(req.params.id,{
           
      })
      
@@ -44,4 +45,15 @@ exports.DeleteUser=async(req,res)=>{
      return res.status(500).json({err :"error"})
   }
  }
+ exports.DeleteEntreprise=async(req,res)=>{
+    try{
+       await Entreprise.findByIdAndDelete(req.params.id,{
+          
+     })
+     
+     res.json({msg :"Delete  Succes"})
+    }catch(err){
+     return res.status(500).json({err :"error"})
+  }
+ } 
  

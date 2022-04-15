@@ -18,6 +18,17 @@
  background-repeat: no-repeat;
  background-size: cover;
  
+ 
+  <ul className='menu'>
+                <li><Link to='/' className='active aaa' >page d'accueil</Link></li>
+                <li><Link to='/offre' className='aaa'>offres</Link></li>
+                <li><Link to='/condidat/signin' className='aaa'>espace condidat</Link></li>
+                <li><Link  to='/entreprise/signup' className='aaa' >espace entreprise</Link></li>
+                
+                
+
+             </ul>
+
 }
 .landing::before{
     content: "";

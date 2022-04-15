@@ -45,7 +45,11 @@ const userShema =new mongoose.Schema({
     numberPhone :{
        type : Number
     },
-   profilePicture :
+    website :{
+        type :String,
+        
+     },
+   nomEntreprise :
    {
     type :String
    },

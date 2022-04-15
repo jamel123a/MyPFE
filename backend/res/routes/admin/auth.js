@@ -16,8 +16,8 @@ router.get('/dashbord/allcondidat',auth,adminMiddleware,getAllCondidatInfo)
 //get all entreprise 
 router.get('/dashbord/allentreprise',auth,adminMiddleware,getAllEntrepreiseInfo)
 //update user role
-router.patch('/update_role/:id',auth,adminMiddleware,updateUserRole)
+router.patch('/dashbord/allcondidat/update_role/:id',auth,adminMiddleware,updateUserRole)
 //delete user
-router.patch('/delete/:id',auth,adminMiddleware,DeleteUser)
+router.patch('dashord/user/delete/:id',auth,adminMiddleware,DeleteUser)
 
 module.exports=router;

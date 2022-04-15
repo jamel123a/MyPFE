@@ -46,7 +46,7 @@ const offreSchema = new mongoose.Schema({
         {type :mongoose.Schema.Types.ObjectId, ref :'Category',required :true },
      
 
-    createBy :{ type :mongoose.Schema.Types.ObjectId , ref :'Entreprise',required :true},
+    createBy :{ type :mongoose.Schema.Types.ObjectId , ref :'User',required :true},
     updateAt :Date,   
      },  
 {timestamps :true});

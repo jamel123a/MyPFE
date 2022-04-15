@@ -1,5 +1,5 @@
-const fs=require('fs')
-module.exports=async function(req,res,next){
+  const fs=require('fs')
+  module.exports=async function(req,res,next){
     try{
         if(!req.files || Object.keys(req.files).lenght===0){
             return res.status(400).json({msg :"no files were uploed"})

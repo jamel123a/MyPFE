@@ -18,9 +18,9 @@ exports.requireSignin = (req,res,next)=>{
         const token =req.headers.authorization.split(" ")[1];
       
        
-        const condidat =jwt.verify(token,process.env.JWT_SRCRET);
+        const user =jwt.verify(token,process.env.JWT_SRCRET);
 
-        req.condidat=condidat ;
+        req.user=user ;
     }else {
     return res.status(400).json({
         message :'authorization require' })
@@ -33,10 +33,10 @@ exports.auth=(req,res,next)=>{
     try{
         const token =req.header("Authorization")
         if(!token)return res.status(400).json({msg:"authorization require "})
-        jwt.verify(token,process.env.JWT_SRCRET,(err,condidat)=>{
+        jwt.verify(token,process.env.JWT_SRCRET,(err,user)=>{
             if(err)return res.status(400).json({msg:"invaled token"})
-             req.condidat=condidat
-             console.log(condidat)
+             req.user=user
+             console.log(user)
              next()
         })
     }catch (err){
@@ -47,7 +47,7 @@ exports.auth=(req,res,next)=>{
 // user 
 exports.userMiddleware=(req,res,next)=>{
       
-    if(req.condidat.role !== 'condidat'){
+    if(req.user.role !== 'condidat'){
         return res.status(400).json({message :'Acces denied'})
     }
     next();
@@ -55,7 +55,7 @@ exports.userMiddleware=(req,res,next)=>{
 // admin
 // lzem w9et t3ml signup thot attr role admin 
 exports.adminMiddleware=(req,res,next)=>{
-    if(req.condidat.role !== 'admin'){
+    if(req.user.role !== 'admin'){
         return res.status(400).json({message :'Acces denied'})
     }
     next();
@@ -71,7 +71,7 @@ exports.forgetpassword=async(req,res)=>{
             {
             _id :user._id
             },
-            process.env.JWT_RESET_PASSWORD,
+            process.env.JWT_SRCRET,
             {
                 expiresIn :'15m'
             }
@@ -87,6 +87,7 @@ exports.forgetpassword=async(req,res)=>{
     }
 
 }
+
 
 /*exports.forgetpassword=(req,res)=>{
     const {email}=req.body;
@@ -132,6 +133,19 @@ exports.forgetpassword=async(req,res)=>{
   })
 
 }*/
+exports.resetPassword=async(req,res)=>{
+    try {
+   const {newPassword} =req.body
+     console.log(req.user.id)
+      await User.findByIdAndUpdate({_id :req.user._id},{
+      password :newPassword } )
+     res.json({message :"passworsd change"})
+
+    }catch (err){
+        return res.status(500).json({message:err.message})
+    }
+    
+}
 
 //resetpassword
 /*exports.resetPassword=(req,res)=>{
@@ -171,9 +185,18 @@ exports.forgetpassword=async(req,res)=>{
 //get user
 exports.getUserInfo=async(req,res)=>{
     try{
-        const condidat= await User.findById(req.condidat._id).select('-hash_password')
-        res.json(condidat)
-        console.log(condidat);
+        const user= await User.findById(req.condidat._id).select('-hash_password')
+        res.json(user)
+        console.log(user);
+    }catch(err){
+       return res.status(500).json({err :"erorr"})
+    }
+}
+exports.getEntrepriseInfo=async(req,res)=>{
+    try{
+        const user= await User.findById(req.condidat._id).select('-hash_password')
+        res.json(user)
+        console.log(user);
     }catch(err){
        return res.status(500).json({err :"erorr"})
     }
@@ -184,10 +207,13 @@ exports.UpdateUser=async(req,res)=>{
         const {
             firstName,
             lastName,
-            avatar
+            avatar,
+            email,
+            password
+
         } =req.body;
          await User.findByIdAndUpdate({_id:req.condidat._id},{
-            firstName,lastName,avatar
+            firstName,lastName,avatar,email,password,
         })
         
         res.json({msg :"update"})

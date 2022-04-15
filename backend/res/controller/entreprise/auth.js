@@ -7,23 +7,41 @@ const _ =require('lodash')
 const sendEmail =require('../../common/sendemail')
 
 
+
+
+  // signin    */
 exports.signup = async(req,res)=>{
     try{
-     const { firstName,  lastName, fullName, email,  password} =req.body;
+     const { firstName,  lastName, fullName, email,  password,website,numberPhone,nomEntreprise,description,address} =req.body;
+     if (!firstName || !lastName || !email || !password || !website || !numberPhone  || !nomEntreprise || !address || !description) 
+     return res.status(400).json({message :"merci de remplir tous les champs"})
+     
+     if (!validateEmail(email)) 
+     return res.status(400).json({message :"email valide"})
+     if (!password.length >6) 
+     return res.status(400).json({message :"Le mot de passe doit être au moins de 6 caractères"})
+
+   
+      
       const user =await Entreprise.findOne({email})
-      if (user) return res.status(400).json( {msg :'this email already exict .'})
+      if (user) return res.status(400).json( {message :'cette adresse e-mail existe déjà.'})
       const newuser ={
-          firstName,lastName,email,password,fullName
+          firstName,lastName,email,password,fullName,website,numberPhone,nomEntreprise,description,address
       }
        const activation_token =creacteActivationToken(newuser)
        const url = `${process.env.API}/user/activate/${activation_token}`
-       sendEmail(email,url,"verify your email")
-       res.json({msg :`email has benn sent to ${email}`})
+       sendEmail(email,url,"Vérifiez votre e-mail")
+       res.json({message :`e-mail a été envoyé à ${email}`})
     }catch (err){
-        return res.status(500).json({msg :err.message})
+        return res.status(500).json({message:err.message})
     }
 }
 
+function validateEmail(email) {
+   
+    const re=  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return re.test(email)
+  };
 const creacteActivationToken =(payload)=>{
      return jwt.sign(payload,process.env.JWT_ACCOUNT_ACTIVATION,{expiresIn:'15m'})
 }
@@ -98,21 +116,26 @@ mail.setApiKey(process.env.MAIL.KEY)*/
 }*/
 
 
-// activation 
+//activation 
 exports.activation=(req,res)=>{
     const {token}=req.body;
     if (token){
         jwt.verify(token,process.env.JWT_ACCOUNT_ACTIVATION,function(error,decodedToken){
             if(error){
-                return res.status(400).json({message :'Incorrect or expried token .SIGNUP'})
+                return res.status(400).json({message :'Jeton incorrect ou expiré. SINSCRIRE'})
             }else{
-                const {firstName,lastName,email,password,fullName}=jwt.decode(token)
+                const {firstName,lastName,email,password,fullName,address,website,numberPhone,nomEntreprise,description}=jwt.decode(token)
                 const _entreprise= new Entreprise ({
                     firstName,
                     lastName,
                     fullName,
                     email,
                     password,
+                    address,
+                    website,
+                    numberPhone,
+                    nomEntreprise,
+                    description,
                     username : Math.random().toString(),
                     role :"entreprise"
                 });
@@ -122,7 +145,7 @@ exports.activation=(req,res)=>{
                    }  
                   if (data){
                         return res.status(201).json({
-                           message : "user succsufly acctivate signup "
+                           message : "l'utilisateur a réussi à activer l'inscription "
                         })
                     }
                 }); 
@@ -132,7 +155,7 @@ exports.activation=(req,res)=>{
         })
     }else{
         return res.json({
-            message:'something wrong'
+            message:'Quelque chose ca va pas'
         })
     }
     
@@ -140,6 +163,15 @@ exports.activation=(req,res)=>{
 // signin 
 exports.signin=(req,res)=>{
     // email moujoud ou nn
+    const {email, password } = req.body;
+    if (!email || !password ) 
+    return res.status(400).json({message :"merci de remplir tous les champs"})
+    
+    if (!validateEmail(email)) 
+    return res.status(400).json({message :"email valide"})
+    if (password.length <6) 
+    return res.status(400).json({message :"Le mot de passe doit être au moins de 6 caractères"})
+
     Entreprise.findOne({email :req.body.email})
     .exec((error,entreprise)=>{
         if (error) return res.status(400).json({
@@ -150,31 +182,32 @@ exports.signin=(req,res)=>{
                 if (entreprise.authentificate(req.body.password )&& entreprise.role ==='entreprise'){
                     // token with jsonwebtoken
                     //GENERATE TOKEN
-                    const referch_token =jwt.sign({_id :entreprise._id ,role :entreprise.role},process.env.JWT_REFRESH,{expiresIn :'12h'})// tetneha b3ed se3a
-                    res.cookie('refreshtoken',referch_token,{
+                    const referch_token =jwt.sign({_id :entreprise._id ,role :entreprise.role},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
+                  res.cookie('refreshtoken',referch_token,{
                         httpOnly :true,
                         path :'/api/entreprise/refersh_token',
                         maxAge :7*27*60*60*1000
                     }) 
-                    const  { _id,firstName ,lastName ,email , role , fullName,username} =entreprise;
+                    const  { _id,firstName ,lastName ,email , role , fullName,username,adress,website,nomEntreprise,description,numberPhone} =entreprise;
                     
 
                     res.status(200).json({
                         referch_token,
                         entreprise :{
-                            _id, firstName,lastName,fullName,email,role,username
+                            _id, firstName,lastName,fullName,email,role,username,adress,website,nomEntreprise,description,numberPhone
                         }
 
                     });
                 }else{
                     return res.status(400).json({
-                        message :' invalid password '
+                        message :' Mot de passe incorrect'
                     })
                 }
 
         }else 
+        /* ou vérifiez votre e-mail pour validation */
         return res.status(400).json({
-            message :"user is not  exciste or check your email for validation "
+            message :"l'utilisateur n'est pas exciste"
         })
     });
 }
