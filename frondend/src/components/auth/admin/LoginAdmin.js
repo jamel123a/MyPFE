@@ -3,7 +3,6 @@ import {Link ,useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import '../../style.css'
 import { showErrMsg, showSuccesMsg } from '../../../util/notification/Notification'
-import {dispatchLoginEntreprise} from '../../../redux/action/AuthEntreprise'
  import { useDispatch } from 'react-redux'
 
 const intialState ={
@@ -31,9 +30,7 @@ function Login() {
     
   setUser({...user,error:'',success:res.data.message})
   console.log(setUser)
-    localStorage.setItem('firstllLogin',true)
-    dispatch(dispatchLoginEntreprise())  
-    history('/entreprise/dashbord')
+    history('/admin/dashbord')
    
     }catch(error){
      // console.log(error.response && error.response.data.message

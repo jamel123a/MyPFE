@@ -32,7 +32,7 @@ function Login() {
     console.log(setUser)
       localStorage.setItem('firstllLogin',true)
       dispatch(dispatchLoginCondidat())  
-    history('/condidat/profile')
+    history('/condidat/dashbord')
         
 
       }catch(error){

@@ -11,11 +11,17 @@ import RegisterEntreprise from './components/auth/entreprise/register/RegisterEn
 import {Routes,Route}from 'react-router-dom'
 import NotFound from './components/page/NotFound';
 import Noaccess from './components/page/Noaccess';
-import Dashbord from './components/auth/entreprise/dashbord/Dashbord';
+import Dashbord from './components/auth/entreprise/dashbord/DashbordEntre';
 import ForgetPassword from './components/auth/forgetPassword/ForgetPassword';
+import DashbordUser from './components/auth/user/DashbordUser';
+import PrivateRouter from './components/router/PrivateRouter';
+import DashbordAdmin from './components/auth/admin/DashbordAdmin';
+import AdminRouter from './components/router/adminRouter';
 function App() { 
   const user ={
-    isConnected :true
+    isConnected :false,
+    role :'admin'
+
   }
   return (
      <div className='App'>
@@ -29,10 +35,21 @@ function App() {
     
        <Route path='/condidat/signin' element={<Login/>}></Route>
        <Route path='/condidat/signup' element={<Register/>}></Route>
-       <Route path='/entreprise/signin' element={<LoginEntreprise/>}></Route>
-     
-       <Route path='/entreprise/signup' element={<RegisterEntreprise/>}></Route>
       
+       <Route path='/condidat/dashbord' element={
+         <PrivateRouter user={user}>
+           <DashbordUser/>
+         </PrivateRouter>
+       }>
+
+       </Route>
+       <Route path='/admin/dashbord' element={
+         <AdminRouter>
+           <DashbordAdmin/>
+         </AdminRouter>
+       }> </Route>
+       <Route path='/entreprise/signin' element={<LoginEntreprise/>}></Route>
+       <Route path='/entreprise/signup' element={<RegisterEntreprise/>}></Route>
        <Route path='/entreprise/dashbord' element={<Dashbord/>}></Route>
        
        <Route   path="/offre/:pageNumber"  component={Offre}></Route>

@@ -1,6 +1,6 @@
 import ACTION from "../action/Index";
 const initialState={
-    user :{},
+    user :null,
     isLogged :false,
     Role :''
 }
@@ -18,9 +18,9 @@ const authReducer =(state =initialState,action)=>{
                 ...state,
                 isLogged :true,
                 Role :'condidat',
+                user:action.payload
                
             }
-            
             default :
             return state
 

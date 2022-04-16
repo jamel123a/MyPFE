@@ -86,7 +86,7 @@ exports.signin=async(req,res)=>{
                      res.status(200).json({
                          message :" connexion réussie faire login",
                          token,
-                        condidat :{
+                         user :{
                             _id, firstName,lastName,fullName,email,role,username,password
                         }
 
@@ -108,7 +108,7 @@ exports.signin=async(req,res)=>{
     
 }
 // verify token exest ou nn 
-exports.getAccessTokenUser=async(req,res)=>{
+/*exports.getAccessTokenUser=async(req,res)=>{
     try{
         const rf_token= req.cookies.refreshtoken
         console.log(rf_token)
@@ -132,3 +132,4 @@ exports.logout=async(req,res)=>{
     }
 }  
 
+*/
