@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../style.css'
 import {Link} from 'react-router-dom'
-function Register() {
+function RegisterEntreprise() {
   return (
    <>
    
@@ -124,4 +124,4 @@ function Register() {
   )
 }
 
-export default Register
+export default RegisterEntreprise

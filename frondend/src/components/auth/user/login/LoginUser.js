@@ -13,7 +13,7 @@ const intialState ={
     success:''
 }
 
-function Login() {
+function LoginUser() {
   
     const [user,setUser]=useState(intialState)
     const {email,password,error,success}=user
@@ -129,4 +129,4 @@ const [password,setPassword]=useState("")
   )
 }
 
-export default Login;
+export default LoginUser;

@@ -13,7 +13,7 @@ const intialState ={
   success:''
 }
 
-function Login() {
+function LoginEntreprise() {
 
   const [user,setUser]=useState(intialState)
   const dispatch =useDispatch()
@@ -105,4 +105,4 @@ function Login() {
   )
 }
 
-export default Login
+export default LoginEntreprise

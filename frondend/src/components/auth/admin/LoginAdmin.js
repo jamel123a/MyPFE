@@ -1,8 +1,8 @@
 import React,{useState} from 'react'
 import {Link ,useNavigate} from 'react-router-dom'
 import axios from 'axios'
-import '../../style.css'
-import { showErrMsg, showSuccesMsg } from '../../../util/notification/Notification'
+import '../style.css'
+import { showErrMsg, showSuccesMsg } from '../../util/notification/Notification'
  import { useDispatch } from 'react-redux'
 
 const intialState ={
@@ -12,7 +12,7 @@ const intialState ={
   success:''
 }
 
-function Login() {
+function LoginAdmin() {
 
   const [user,setUser]=useState(intialState)
   const dispatch =useDispatch()
@@ -26,7 +26,7 @@ function Login() {
    const handleSubmit=async(e)=>{
     e.preventDefault()
     try{
-        const res =await axios.post('http://localhost:6600/api/entreprise/signin',{email,password})
+        const res =await axios.post('http://localhost:6600/api/admin/signin',{email,password})
     
   setUser({...user,error:'',success:res.data.message})
   console.log(setUser)
@@ -102,4 +102,4 @@ function Login() {
   )
 }
 
-export default Login
+export default LoginAdmin

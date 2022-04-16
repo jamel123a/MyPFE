@@ -1,9 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
 import '../../style.css'
-function Register() { 
-
-
+function RegisterUser() { 
  
   return (
       
@@ -85,4 +83,4 @@ function Register() {
      
     );
   };
-  export default Register;
+  export default RegisterUser;
