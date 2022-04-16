@@ -30,7 +30,7 @@ router.post('/offre/update/:id',authEntreprise,EntrepriseMiddleware,UpdateOffre)
 router.post('/offre/delete/:id',authEntreprise,EntrepriseMiddleware,DeleteOffre);
 
 //login out 
-router.post('/entreprise/loginout',logout)
+//router.post('/entreprise/loginout',logout)
 
 
 /*router.post('/profile',requireSignin,(req,res)=>{

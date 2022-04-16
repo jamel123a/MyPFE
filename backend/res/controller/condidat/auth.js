@@ -63,11 +63,8 @@ exports.signin=async(req,res)=>{
     return res.status(400).json({message :"Le mot de passe doit être au moins de 6 caractères"})
 
    
-     Condidat.findOne({email :req.body.email})
-    .exec((error,condidat)=>{
-        if (error) return res.status(400).json({
-            message : 'invalid email'
-        });
+  const condidat=  await   Condidat.findOne({email :req.body.email})
+      if (!condidat ) return res.status(400).json({message :"email ne exicte pas"})
         if (condidat) {
                      // password
                        
@@ -97,11 +94,11 @@ exports.signin=async(req,res)=>{
                     })
                 }
 
-        }else 
+        }/*else 
         return res.status(400).json({
             message :" l'utilisateur n'existe pas"
-        })
-    });
+        })*/
+
    }catch (err){
     return res.status(500).json({message :err.message})
 }

@@ -5,7 +5,7 @@ const { getAccessToken } = require('../controller/entreprise/auth');
 const router =express.Router();
 
 
-router.post('/entreprise/refersh_token',getAccessToken)
-router.post('/refersh_token',getAccessTokenUser);
+//router.post('/entreprise/refersh_token',getAccessToken)
+//router.post('/refersh_token',getAccessTokenUser);
 //router.post('/admin/refersh_token',getAccessTokenAdmin)
 module.exports=router;

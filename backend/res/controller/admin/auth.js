@@ -48,7 +48,7 @@ exports.signup=async(req,res)=>{
     }
 }
 // signin 
-exports.signin=(req,res)=>{
+exports.signin=async(req,res)=>{
     // email moujoud ou nn
 
      try{
@@ -64,11 +64,8 @@ exports.signin=(req,res)=>{
        
        
        
-        User.findOne({email :req.body.email})
-        .exec((error,user)=>{
-            if (error) return res.status(400).json({
-                message : 'invalid email'
-            });
+        const user =    await   User.findOne({email :req.body.email})
+        if (!user ) return res.status(400).json({message :"email ne exicte pas"})
             if (user) {
                          // password
                     if (user.authentificate(req.body.password )&& user.role ==='admin'){
@@ -90,15 +87,15 @@ exports.signin=(req,res)=>{
                         });
                     }else{
                         return res.status(400).json({
-                            message :' invalid password '
+                            message :'mot de passe incorrect '
                         })
                     }
     
-            }else  
+            }/*else  
             return res.status(400).json({
-                message :"admin is not  exciste"
-            })
-        });
+                message :"admin n'existe pas"
+            })*/
+        
      }catch (err){
         return res.status(500).json({message :err.message})
     }

@@ -81,11 +81,9 @@ const sendEmail =require('../../common/sendemail')
     return res.status(400).json({message :"Le mot de passe doit être au moins de 6 caractères"})
 
 
-    Entreprise.findOne({email :req.body.email})
-    .exec((error,entreprise)=>{
-        if (error) return res.status(400).json({
-            message : 'invalid email'
-        });
+    const entreprise =await  Entreprise.findOne({email :req.body.email})
+    if (!entreprise ) return res.status(400).json({message :"email ne exicte pas"})
+
         if (entreprise) {
                      // password
                 if (entreprise.authentificate(req.body.password )&& entreprise.role ==='entreprise'){
@@ -102,7 +100,7 @@ const sendEmail =require('../../common/sendemail')
 
                     res.status(200).json({
                         token,
-                        user :{
+                         user :{
                             _id, firstName,lastName,fullName,email,role,username,adress,website,nomEntreprise,description,numberPhone
                         }
 
@@ -113,12 +111,12 @@ const sendEmail =require('../../common/sendemail')
                     })
                 }
 
-        }else 
-        /* ou vérifiez votre e-mail pour validation */
+        }/*else 
+         ou vérifiez votre e-mail pour validation 
         return res.status(400).json({
             message :"l'utilisateur n'est pas exciste"
-        })
-    });
+        })*/
+    
    }  
    catch (err){
     return res.status(500).json({message :err.message})  
