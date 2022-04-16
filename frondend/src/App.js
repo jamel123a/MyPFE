@@ -36,6 +36,7 @@ function App() {
     
        <Route path='/condidat/signin' element={<LoginUser/>}></Route>
        <Route path='/condidat/signup' element={<RegisterUser/>}></Route>
+       <Route path='/condidat/dashbord' element={ <DashbordUser/>}> </Route>
       
        <Route path='/admin/signin' element={<LoginAdmin/>}></Route> 
        <Route path='/entreprise/signin' element={<LoginEntreprise/>}></Route>
@@ -46,7 +47,7 @@ function App() {
        <Route path="/offre" component={Offre}></Route>
 
 
-       <Route path='/condidat/dashbord' element={ <DashbordUser/>}> </Route>
+      
       
      </Routes>
      </div>
