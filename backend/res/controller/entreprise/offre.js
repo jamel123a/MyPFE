@@ -71,7 +71,8 @@ exports.getOffres=async(req,res)=>{
 } 
 exports.getOffre=async(req,res)=>{
     try{
-        const offre= await Offre.findById(req.params.id).populate('createBy',["nomEntreprise","adresss","description","website"] )
+        const offre= await Offre.findById(req.params.id).populate(/*nom attrubue mt3 objectbyID */'createBy',
+           /* attrubue  li hjtek behom mn model l5er  */  ["nomEntreprise","adresss","description","website"] )
         
         res.json(offre)
     }catch(err){

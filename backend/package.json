@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node server",
     "dev": "nodemon ./res/server.js"
-    
   },
   "author": "jamel",
   "license": "ISC",
@@ -34,7 +33,8 @@
     "node-fetch": "^3.2.3",
     "nodemailer": "^6.7.3",
     "shortid": "^2.2.16",
-    "slugify": "^1.6.5"
+    "slugify": "^1.6.5",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

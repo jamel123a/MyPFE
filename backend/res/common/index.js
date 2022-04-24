@@ -11,13 +11,12 @@ const mg = mailgun({apiKey:'462d423f63953ddc5e6757dd591e40d3-dbc22c93-381073ec',
  // verify token exest ou nn 
 exports.requireSignin = (req,res,next)=>{
  
-      
+  try{
+          
     if (req.headers.authorization){
     
-    
         const token =req.headers.authorization.split(" ")[1];
-      
-       
+        console.log(token)
         const user =jwt.verify(token,process.env.JWT_SRCRET);
 
         req.user=user ;
@@ -26,8 +25,12 @@ exports.requireSignin = (req,res,next)=>{
         message :'authorization require' })
     }
     next();
+  }catch (err){
+    return res.status(500).json({msg :err.message})
+}
 
 }
+
 //auth mt3 vedio login
 exports.auth=(req,res,next)=>{
     try{
@@ -46,7 +49,7 @@ exports.auth=(req,res,next)=>{
 
 // user 
 exports.userMiddleware=(req,res,next)=>{
-      
+   
     if(req.user.role !== 'condidat'){
         return res.status(400).json({message :'Acces denied'})
     }
@@ -87,68 +90,9 @@ exports.forgetpassword=async(req,res)=>{
     }
 
 }
-
-
-/*exports.forgetpassword=(req,res)=>{
-    const {email}=req.body;
-    // virify email
-      User.findOne({email},(error,user)=>{
-         if(error || !user) {
-             return res.status(400).json({error :'user with this email not exist'})
-         }
-        
-    const token =jwt.sign(
-        {
-        _id :user._id
-        },
-        process.env.JWT_RESET_PASSWORD,
-        {
-            expiresIn :'15m'
-        }
-     )
-     const emailData ={
-         from: process.env.Email_FROM,
-         to :email,
-         subject :'Account reset password link ',
-         html :`
-         <h1> click here for reset your password</h1>
-         <p>${process.env.API}/resetpassword/${token}</p>
-         </hr>
-         <p>this email contain sensetive info</p>
-         <p>${process.env.API}</p>
-         `
-     };
-     return user.updateOne({resetLink :token},function(error,succes){
-         if(error){
-             return res.status(400).json({ message :'reset password link error'})
-         }else{
-            mg.messages().send(emailData,function(error,body){
-                if(error){
-                    return res.json({error :error.message})
-                }
-                return res.json({message :`email has benn sent to ${email}`})
-            })
-         }
-     })
-  })
-
-}*/
-exports.resetPassword=async(req,res)=>{
-    try {
-   const {newPassword} =req.body
-     console.log(req.user.id)
-      await User.findByIdAndUpdate({_id :req.user._id},{
-      password :newPassword } )
-     res.json({message :"passworsd change"})
-
-    }catch (err){
-        return res.status(500).json({message:err.message})
-    }
-    
-}
-
+   
 //resetpassword
-/*exports.resetPassword=(req,res)=>{
+exports.resetPassword=(req,res)=>{
     //resetpassword bch ttaked li howa lien ou nn
    const {resetLink,newPass} =req.body;
    if (resetLink){
@@ -181,7 +125,7 @@ exports.resetPassword=async(req,res)=>{
        return res.status(400).json({message :'something wrong'})
    }
 
-}*/
+}
 //get user
 exports.getUserInfo=async(req,res)=>{
     try{
@@ -192,15 +136,7 @@ exports.getUserInfo=async(req,res)=>{
        return res.status(500).json({err :"erorr"})
     }
 }
-exports.getEntrepriseInfo=async(req,res)=>{
-    try{
-        const user= await User.findById(req.condidat._id).select('-hash_password')
-        res.json(user)
-        console.log(user);
-    }catch(err){
-       return res.status(500).json({err :"erorr"})
-    }
-}
+
 //update user  
 exports.UpdateUser=async(req,res)=>{
     try{

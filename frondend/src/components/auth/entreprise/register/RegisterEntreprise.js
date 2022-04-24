@@ -1,7 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../../style.css'
-import {Link} from 'react-router-dom'
+import {Link,useNavigate} from 'react-router-dom'
+import Input from '../../Input'
+import { useDispatch, useSelector } from 'react-redux'
+import { RegistrationEntreprise } from '../../../redux/action/AuthEntreprise'
+import { showSuccesMsg } from '../../../util/notification/Notification'
+
+/*const intialState ={
+  success :''
+}*/
 function RegisterEntreprise() {
+  const [success,setSuccess] =useState();
+  const [form,setForm]=useState({})
+//   const success =useState(intialState)
+  const dispatch =useDispatch()
+  const navigate =useNavigate()
+  const errors =useSelector(state=>state.errors)
+  const onChangeHanlder  =(e)=>{
+    setForm({
+      ...form,
+      [e.target.name]:e.target.value
+    })
+  }
+  const onSubmit=(e)=>{
+    e.preventDefault()
+    dispatch(RegistrationEntreprise(form,success))
+   
+  }
+
   return (
    <>
    
@@ -27,91 +53,28 @@ function RegisterEntreprise() {
             
           </div>
           <div className="col-md-6 p-5">
-            <form  method="POST">
-              <div className="mb-3">
-                <label htmlFor="name" className="form-label">
-                Prénom *
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="name"
-                  name="username"  
-                />
+          {success && showSuccesMsg(success)}
+          
+            <form  onSubmit={onSubmit}>
+           
+              <Input name="firstName" label="prénom *" type="text" onChangeHanlder={onChangeHanlder} errors={errors.firstName} />
+              <Input name="lastName" label=" Nom de famille *" type="text" onChangeHanlder={onChangeHanlder} errors={errors.lastName} />
+              <Input name="email" label=" Adresse e-mail *" type="email" onChangeHanlder={onChangeHanlder} errors={errors.email} />  
+                        
+              <div id="emailHelp" className="form-text">   Nous ne partagerons jamais votre e-mail avec quelqu'un d'autre. </div>
+              <Input name="password" label=" Mot de passe *" type="password" onChangeHanlder={onChangeHanlder} errors={errors.password} /> 
+            
+              <Input name="nomEntreprise" label=" Nom de Entreprise" type="text" onChangeHanlder={onChangeHanlder} errors={errors.nomEntreprise} /> 
+             
+              <Input name="address" label="address *" type="text" onChangeHanlder={onChangeHanlder}  errors={errors.address} /> 
+             
+              <Input name="numberPhone" label="Telephone " type="text" onChangeHanlder={onChangeHanlder}  /> 
+             
+              <Input name="website" label="site web " type="text" onChangeHanlder={onChangeHanlder}  /> 
+              
+             
                 
-              </div>
-              <div className="mb-3">
-                <label htmlFor="name" className="form-label">
-                Nom de famille *
-                </label>
-                <input type="text" className="form-control"  id="name"   name="username"  />
-                
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleInputEmail1" className="form-label">
-                Adresse e-mail *
-                </label>
-                <input
-                  type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  name="email" 
-                />
-                <div id="emailHelp" className="form-text">   Nous ne partagerons jamais votre e-mail avec quelqu'un d'autre. </div>
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                Mot de passe *
-                </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  name="password"
-                />    
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                Nom de Entreprise *
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  name="nomEntreprise"
-                /> 
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                Telephone *
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  name="numberPhone"
-                />     
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                site web *
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  name="website"
-                />     
-                
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                adresss *
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  name="address"
-                />     
-              </div>
+      
 
               <button type="submit" className="btn btn-outline-primary w-100 mt-4 rounded-pill">
               S'inscrire

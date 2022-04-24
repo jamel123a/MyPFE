@@ -4,18 +4,37 @@ import axios from 'axios'
 import '../../style.css'
 import { showErrMsg, showSuccesMsg } from '../../../util/notification/Notification'
 import {dispatchLoginEntreprise} from '../../../redux/action/AuthEntreprise'
- import { useDispatch } from 'react-redux'
+ import { useDispatch, useSelector } from 'react-redux'
+import Input from '../../Input'
+import { LoginEntreprise1 } from '../../../redux/action/AuthEntreprise'
 
-const intialState ={
+/*const intialState ={
   email :'',
   password :'',
   error :'',
   success:''
-}
+}*/
 
 function LoginEntreprise() {
 
-  const [user,setUser]=useState(intialState)
+
+  const [form,setForm]=useState({})
+  const dispatch =useDispatch()
+  const navigate =useNavigate()
+  const errors =useSelector(state=>state.errors)
+  const onChangeHanlder  =(e)=>{
+    setForm({
+      ...form,
+      [e.target.name]:e.target.value
+    })
+  }
+  const onSubmit=(e)=>{
+    e.preventDefault()
+  
+   dispatch(LoginEntreprise1(form,navigate))
+    
+  }
+ /* const [user,setUser]=useState(intialState)
   const dispatch =useDispatch()
   const history = useNavigate()
   const {email,password,error,success}=user
@@ -30,7 +49,8 @@ function LoginEntreprise() {
         const res =await axios.post('http://localhost:6600/api/entreprise/signin',{email,password})
     
   setUser({...user,error:'',success:res.data.message})
-  console.log(setUser)
+ 
+     
     localStorage.setItem('firstllLogin',true)
     dispatch(dispatchLoginEntreprise())  
     history('/entreprise/dashbord')
@@ -43,7 +63,7 @@ function LoginEntreprise() {
      setUser({...user,error:error.response.data.message,success :''})
       }
 
-   }
+   }*/
 
 
   return (
@@ -71,23 +91,13 @@ function LoginEntreprise() {
         </div>
         <div className="col-md-6 p-5">
           <h1 className="display-6 fw-bolder mb-5">connexion</h1>
-          {error && showErrMsg(error)}
-          {success && showSuccesMsg(success)}
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-              Adresse e-mail
-              </label>
-              <input  type="email"  className="form-control"  id="exampleInputEmail1"  aria-describedby="emailHelp" name="email"  value={email} onChange={handleChangeInput}   />
-             
-              <div id="emailHelp" className="form-text"> Nous ne partagerons jamais votre e-mail avec quelqu'un d'autre.
+         
+          <form onSubmit={onSubmit}>
+          <Input name="email" label="Adresse e-mail *" type="email" onChangeHanlder={onChangeHanlder} errors={errors.email} />
+          <div id="emailHelp" className="form-text"> Nous ne partagerons jamais votre e-mail avec quelqu'un d'autre.
              </div>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="exampleInputPassword1" className="form-label">  Mot de passe * </label>
-              <input
-                type="password" className="form-control" id="exampleInputPassword1"   name="password"  value={password} onChange={handleChangeInput}  />
-            </div>
+          
+             <Input name="password" label="mot de passe*" type="password" onChangeHanlder={onChangeHanlder} errors={errors.password} />
             <div className="mb-3 ">
                
                <Link style={{ textDecoration: 'none' }} to="/forgetpassword" className="form-check-label" htmlFor="exampleCheck1">

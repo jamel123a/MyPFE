@@ -40,7 +40,8 @@ const userShema =new mongoose.Schema({
         default :'condidat'
     },
     address:{
-        type :String
+        type :String,
+        
     },
     numberPhone :{
        type : Number
@@ -51,7 +52,9 @@ const userShema =new mongoose.Schema({
      },
    nomEntreprise :
    {
-    type :String
+    type :String,
+   
+    
    },
    resetLink :{
     data :String,

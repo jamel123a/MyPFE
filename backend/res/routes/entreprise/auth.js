@@ -12,7 +12,7 @@ const router=express.Router();
 
 router.post('/entreprise/signup',signup);
 router.post('/entreprise/signin',signin)
-//router.post('/entreprise/activate',activation);
+router.post('/entreprise/activate',activation);
 
 
 
@@ -20,7 +20,6 @@ router.post('/entreprise/signin',signin)
 router.patch('/entreprise/update',authEntreprise,EntrepriseMiddleware,UpdateEntreprise)
 //update avatar
 router.post('/entreprise/upload_avatar',authEntreprise,uploadImage,uploadCrl.uploadAvatar)
-
 
 // get all offree
 router.get('/entreprise/getalloffre',authEntreprise,getAllOffreEntreprise)
@@ -33,8 +32,5 @@ router.post('/offre/delete/:id',authEntreprise,EntrepriseMiddleware,DeleteOffre)
 //router.post('/entreprise/loginout',logout)
 
 
-/*router.post('/profile',requireSignin,(req,res)=>{
-    res.status(200).json({condidat :'profile'})
-});*/
 
 module.exports=router;

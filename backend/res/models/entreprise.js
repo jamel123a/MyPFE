@@ -50,7 +50,6 @@ const entrepriseShema =new mongoose.Schema({
     },
     website :{
        type :String,
-       required :true
     },
     avatar :{
         type :String,

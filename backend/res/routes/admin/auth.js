@@ -10,7 +10,7 @@ const router=express.Router();
 router.post('/admin/signup',validateSignupRequest,isRequestValited, signup)
 router.post('/admin/signin',validateSigninRequest,isRequestValited,signin)
 //get user
-router.post('/info',auth,getUserInfo)
+router.post('/userinfo',auth,getUserInfo)
 //get all user
 router.get('/dashbord/allcondidat',auth,adminMiddleware,getAllCondidatInfo)
 //get all entreprise 

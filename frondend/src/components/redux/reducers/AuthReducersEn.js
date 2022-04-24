@@ -1,23 +1,17 @@
-import ACTION from "../action/Index";
+import {USER_LOGIN }from "../action/Index";
+import isEmpty from './isEmpty'
 const initialState={
-    user :null,
-    isLogged :false,
-    Role :''
+    user :{},
+    isConnected :false,
+    
 }
-const authReducer =(state =initialState,action)=>{
+const authReducer = (state =initialState,action)=>{
     switch(action.type){
-        case ACTION.ENTREPRISE_LOGIN:
+       
+        case USER_LOGIN:  
             return{
                 ...state,
-                isLogged :true,
-                Role :'entreprise',
-                user :action.payload
-            }
-        case ACTION.USER_LOGIN:  
-            return{
-                ...state,
-                isLogged :true,
-                Role :'condidat',
+                isConnected :true,   
                 user:action.payload
                
             }

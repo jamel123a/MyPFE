@@ -13,42 +13,71 @@ import Noaccess from './components/page/Noaccess';
 import ForgetPassword from './components/auth/forgetPassword/ForgetPassword';
 import DashbordUser from './components/auth/user/DashbordUser';
 import CondidatRouter from './components/router/condidatRouter';
-import LoginAdmin from './components/auth/admin/LoginAdmin';
-import Navbar1 from './components/navbar/navbar2/Navbar1';
+import Navbar1 from './components/navbar/Navbar1';
 import LoginUser from './components/auth/user/login/LoginUser';
 import RegisterUser from './components/auth/user/register/RegisterUser';
 import Footer from './components/footer/Footer';
 import DashbordEntreprise from './components/auth/entreprise/dashbord/DashbordEntre';
-function App() { 
-  /*const user ={
-    isConnected :true
-  }*/
+import store from './components/redux/store';
+import { setUser } from './components/redux/action/AuthEntreprise';
+import jwt_decode from 'jwt-decode'
+import { useSelector } from 'react-redux';
+import Activation from './components/auth/entreprise/Activation';
+import EntrepriseRouter from './components/router/entrepriseRouter';
+import AdminRouter from './components/router/adminRouter';
+import DashbordAdmin from './components/auth/admin/DashbordAdmin';
+if (localStorage.jwt){
+  const decode =jwt_decode(localStorage.jwt)
+  store.dispatch(setUser(decode))
+}
+
+function App() {
+   const auth =useSelector(state=>state.auth)
+   
+const user ={
+    isConnected :auth.isConnected,
+    role : auth.user.role
+    
+  }
   return (
      <div className='App'>
-       <Navbar1/>
+       <Navbar1 user={user}/>
      <Routes>
      
-     <Route  path='*' exact element={<NotFound/>}></Route>
-     <Route  path='/noaccsss' exact element={<Noaccess/>}></Route>
+      <Route  path='*' exact element={<NotFound/>}></Route>
+      <Route  path='/noaccsss' exact element={<Noaccess/>}></Route>
 
        <Route  path='/' exact element={<Home/>}></Route>
        <Route  path='/forgetpassword' exact element={<ForgetPassword/>}></Route>
     
-       <Route path='/condidat/signin' element={<LoginUser/>}></Route>
-       <Route path='/condidat/signup' element={<RegisterUser/>}></Route>
-       <Route path='/condidat/dashbord' element={ <DashbordUser/>}> </Route>
+       <Route path='/condidat/signin'exact element={<LoginUser/>}></Route>
+       <Route path='/condidat/signup'exact element={<RegisterUser/>}></Route>
+       <Route path='/condidat/dashbord' exact element={
+         <CondidatRouter user={user}>
+           <DashbordUser/>
+         </CondidatRouter>
+       }/>
       
-       <Route path='/admin/signin' element={<LoginAdmin/>}></Route> 
-       <Route path='/entreprise/signin' element={<LoginEntreprise/>}></Route>
-       <Route path='/entreprise/signup' element={<RegisterEntreprise/>}></Route>
-       <Route path='/entreprise/dashbord' element={<DashbordEntreprise/>}></Route>
+       <Route path='/admin/dashbord' exact element={
+         <AdminRouter user={user}>
+         <DashbordAdmin/>
 
-       <Route path="/offre/:pageNumber"  component={Offre}></Route>
-       <Route path="/offre" component={Offre}></Route>
+        
+         </AdminRouter>
+       }></Route>
 
-
-      
-      
+       <Route path='/entreprise/signin'exact element={<LoginEntreprise/>}></Route>
+       <Route path='/entreprise/signup' exact element={<RegisterEntreprise/>}></Route>
+       <Route path='/entreprise/dashbord'exact element={
+         <EntrepriseRouter user={user}>
+           <DashbordEntreprise/>
+         </EntrepriseRouter>
+       }></Route>
+       <Route path= '/user/activate/:token' exact element={<Activation/>}> </Route>
+  
+       <Route path="/offre/:pageNumber" exact  component={Offre}></Route>
+       <Route path="/offre" exact component={Offre}></Route>
+   
      </Routes>
      </div>
    
