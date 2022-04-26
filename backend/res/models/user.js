@@ -53,8 +53,6 @@ const userShema =new mongoose.Schema({
    nomEntreprise :
    {
     type :String,
-   
-    
    },
    resetLink :{
     data :String,
@@ -67,6 +65,9 @@ const userShema =new mongoose.Schema({
    },
    description:{
     type :String,
+   fullName :{
+    type :String,
+   } 
 }
 },
 

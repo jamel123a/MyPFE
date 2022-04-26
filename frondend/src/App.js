@@ -1,15 +1,15 @@
  import React from 'react'; 
  import './App.css'
  // component
-import Home from './components/page/Home';
+import Home from './page/Home';
 
 import Offre from './components/offre/Offre'
 import LoginEntreprise from './components/auth/entreprise/login/LoginEntreprise'
 import RegisterEntreprise from './components/auth/entreprise/register/RegisterEntreprise'
 
 import {Routes,Route}from 'react-router-dom'
-import NotFound from './components/page/NotFound';
-import Noaccess from './components/page/Noaccess';
+import NotFound from './page/NotFound';
+import Noaccess from './page/Noaccess';
 import ForgetPassword from './components/auth/forgetPassword/ForgetPassword';
 import DashbordUser from './components/auth/user/DashbordUser';
 import CondidatRouter from './components/router/condidatRouter';
@@ -25,7 +25,13 @@ import { useSelector } from 'react-redux';
 import Activation from './components/auth/entreprise/Activation';
 import EntrepriseRouter from './components/router/entrepriseRouter';
 import AdminRouter from './components/router/adminRouter';
-import DashbordAdmin from './components/auth/admin/DashbordAdmin';
+import List from './page/list/List';
+import Users from './components/users/Users';
+import UppdateCondidat from './components/users/UpdateCondidat';
+import AddCondidat from './components/users/AddCondidat';
+
+
+
 if (localStorage.jwt){
   const decode =jwt_decode(localStorage.jwt)
   store.dispatch(setUser(decode))
@@ -40,8 +46,8 @@ const user ={
     
   }
   return (
-     <div className='App'>
-       <Navbar1 user={user}/>
+     <div className='App'>  
+      <Navbar1 user={user}></Navbar1>
      <Routes>
      
       <Route  path='*' exact element={<NotFound/>}></Route>
@@ -58,13 +64,18 @@ const user ={
          </CondidatRouter>
        }/>
       
-       <Route path='/admin/dashbord' exact element={
+    
+      <Route path='/admin/Condidats' element={<Users/>}></Route> 
+      <Route path='/admin/DetailsCondidat/:id' element={<UppdateCondidat/>}></Route> 
+      <Route path='/admin/addCondidat' element={<AddCondidat/>}></Route> 
+      
+    <Route path='/admin/dashbord' exact element={
          <AdminRouter user={user}>
-         <DashbordAdmin/>
-
+        
+           
         
          </AdminRouter>
-       }></Route>
+       }></Route>   
 
        <Route path='/entreprise/signin'exact element={<LoginEntreprise/>}></Route>
        <Route path='/entreprise/signup' exact element={<RegisterEntreprise/>}></Route>
@@ -75,8 +86,8 @@ const user ={
        }></Route>
        <Route path= '/user/activate/:token' exact element={<Activation/>}> </Route>
   
-       <Route path="/offre/:pageNumber" exact  component={Offre}></Route>
-       <Route path="/offre" exact component={Offre}></Route>
+       <Route  path="/offre/page/:pageNumber" element={<Offre/>}></Route>
+       <Route  path="/offre"   element={<Offre/>}></Route>
    
      </Routes>
      </div>

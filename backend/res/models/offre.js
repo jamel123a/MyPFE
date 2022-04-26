@@ -46,7 +46,7 @@ const offreSchema = new mongoose.Schema({
         {type :mongoose.Schema.Types.ObjectId, ref :'Category',required :true },
      
 
-    createBy :{ type :mongoose.Schema.Types.ObjectId , ref :/*nom de module  mt3k li bch trbet m3ah */'User',required :true},
+    createBy :{ type :mongoose.Schema.Types.ObjectId , ref :'User',required :true},
     
     
     

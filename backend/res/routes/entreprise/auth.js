@@ -17,12 +17,12 @@ router.post('/entreprise/activate',activation);
 
 
 // update information
-router.patch('/entreprise/update',authEntreprise,EntrepriseMiddleware,UpdateEntreprise)
+router.patch('/entreprise/update',requireSigninEntreprise,EntrepriseMiddleware,UpdateEntreprise)
 //update avatar
 router.post('/entreprise/upload_avatar',authEntreprise,uploadImage,uploadCrl.uploadAvatar)
 
 // get all offree
-router.get('/entreprise/getalloffre',authEntreprise,getAllOffreEntreprise)
+router.get('/entreprise/getalloffre',requireSigninEntreprise,EntrepriseMiddleware,getAllOffreEntreprise)
 //update offre
 router.post('/offre/update/:id',authEntreprise,EntrepriseMiddleware,UpdateOffre);
 // delete offre

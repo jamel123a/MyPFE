@@ -28,7 +28,7 @@ exports.signup=async(req,res)=>{
          const _condidat = new Condidat({
              firstName,
              lastName,
-             fullName,
+             fullName :firstName+lastName,
              email,
              password,
              username: Math.random().toString(),
@@ -75,7 +75,7 @@ exports.signin=async(req,res)=>{
 
     const {email, password } = req.body;
     const condidat=  await   Condidat.findOne({email :req.body.email})
-    errors.email = 'cette adresse e-mail existe déjà.'
+    errors.email = 'cette adresse e-mail ne existe  pas.'
     if (!condidat) return  res.status(404).json(errors)
         if (condidat) {
                      // password

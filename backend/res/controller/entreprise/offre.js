@@ -43,8 +43,9 @@ exports.createOffre =(req,res)=>{
 */
 exports.getOffres=async(req,res)=>{
     const page =req.query.page || 1; 
-        const pageSize =req.query.limit || 7;
+    const pageSize =req.query.limit || 7;
     try{
+      
         const total =await Offre.countDocuments();
         const pages =Math.ceil(total /pageSize);
          if (page> pages){
@@ -53,7 +54,7 @@ exports.getOffres=async(req,res)=>{
                  message :"no page found"
              })
          }
-        const offre= await Offre.find().populate('createBy',["nomEntreprise","adresss","description","website"])
+        const offre= await Offre.find().populate('createBy',["avatar","nomEntreprise","address","description","website"])
         .skip((page -1) * parseInt (pageSize))
         .limit(parseInt(pageSize))
         
@@ -64,7 +65,7 @@ exports.getOffres=async(req,res)=>{
             pages,
             data :offre
 
-        })
+        });
     }catch(err){
        return res.status(500).json({err :"error"})
     }

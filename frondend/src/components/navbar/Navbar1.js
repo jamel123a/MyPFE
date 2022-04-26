@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React,{useState} from 'react';
 import { useDispatch } from 'react-redux';
 import {Link} from 'react-router-dom'
@@ -14,6 +13,7 @@ function Navbar1(user) {
   const [isOpen,setIsOpen]=useState(false)
    return (
      <>
+
      <nav className='Navbar'>
       <span className='nav-logo'><img src={logo} alt='logo'></img></span>
       <div className={`nav-items ${isOpen && "open"}` }>
