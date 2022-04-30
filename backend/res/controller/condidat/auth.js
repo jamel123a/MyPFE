@@ -3,17 +3,9 @@ const jwt =require ('jsonwebtoken');
 const ValidateRegister =require('../../validation/register');
 const ValidateLogin =require ('../../validation/login')
 const { validationResult } = require('express-validator');
+const bcrypt =require('bcrypt')
 //const bcrypt =require('bcrypt');
 
-
-exports.signup=async(req,res)=>{
-    const {errors,isValid} =ValidateRegister(req.body);
-  try{
-      if (!isValid){
-          res.status(404).json(errors)
-      }       
-     else{
-        const { firstName, lastName, fullName, email, password } = req.body;
         /*  if (!firstName || !lastName || !email || !password ) 
           return res.status(400).json({message :"merci de remplir tous les champs"})
           
@@ -21,7 +13,16 @@ exports.signup=async(req,res)=>{
           return res.status(400).json({message :"email valide"})
           if (!password.length >6) 
           return res.status(400).json({message :"Le mot de passe doit être au moins de 6 caractères"})*/
-   
+exports.signup=async(req,res)=>{
+    const {errors,isValid} =ValidateRegister(req.body);
+  try{
+      if (!isValid){
+          res.status(404).json(errors)
+      }       
+     else{
+        const { firstName, lastName, fullName, email, password,avatar } = req.body;
+       
+          const passwordHash =await  bcrypt.hash(password,12)  
          const user = await Condidat.findOne({ email })
          errors.email = 'cette adresse e-mail existe déjà.'
            if (user) return  res.status(404).json(errors)
@@ -30,9 +31,10 @@ exports.signup=async(req,res)=>{
              lastName,
              fullName :firstName+lastName,
              email,
-             password,
+             password :passwordHash,
              username: Math.random().toString(),
-             role: "condidat"
+             role: "condidat",
+             avatar
          });
          _condidat.save((error, data) => {
              if (error) {
@@ -55,14 +57,6 @@ exports.signup=async(req,res)=>{
     const re=  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(email)
   };*/
-// signin 
-exports.signin=async(req,res)=>{
-    // email moujoud ou nn
-    const {errors,isValid} =ValidateLogin(req.body);
-   try{
-    if (!isValid){
-        res.status(404).json(errors)
-    } 
   /*  const {email, password } = req.body;
     if (!email || !password ) 
     return res.status(400).json({message :"merci de remplir tous les champs"})
@@ -71,7 +65,16 @@ exports.signin=async(req,res)=>{
     return res.status(400).json({message :"email valide"})
     if (password.length <6) 
     return res.status(400).json({message :"Le mot de passe doit être au moins de 6 caractères"})
-*/   else{
+*/
+// signin 
+exports.signin=async(req,res)=>{
+    // email moujoud ou nn
+    const {errors,isValid} =ValidateLogin(req.body);
+   try{
+    if (!isValid){
+        res.status(404).json(errors)
+    } 
+   else{
 
     const {email, password } = req.body;
     const condidat=  await   Condidat.findOne({email :req.body.email})
@@ -80,11 +83,11 @@ exports.signin=async(req,res)=>{
         if (condidat) {
                      // password
                        
-                    
-                if (condidat.authentificate(req.body.password)/*&& condidat.role==='condidat'*/){
+                 const isMatch =await bcrypt.compare(password,condidat.password)   
+                if (isMatch/*&& condidat.role==='condidat'*/){
                     // token with jsonwebtoken
                     const token =jwt.sign({_id :condidat._id,role:condidat.role,fullName:condidat.fullName},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
-                    const  { _id,firstName ,lastName ,email , role , fullName ,username,password} =condidat;
+                    const  { _id,firstName ,lastName ,email , role , fullName ,username,password,avatar} =condidat;
 
                  ///for lougout 
                /*    res.cookie('refreshtoken',token,{
@@ -94,9 +97,9 @@ exports.signin=async(req,res)=>{
                          })*/
                      res.status(200).json({
                          message :" connexion réussie  ",
-                         token,
+                         token :"Bearer "+token,
                          user :{
-                            _id, firstName,lastName,fullName,email,role,username,password
+                            _id, firstName,lastName,fullName,email,role,username,password,avatar
                         }
 
                     });

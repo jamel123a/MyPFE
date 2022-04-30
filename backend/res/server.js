@@ -13,8 +13,8 @@ const catogoryRoutes =require('./routes/category');
 //condidat
 const userRoutes =require('./routes/condidat/auth');
 const userOffres =require('./routes/condidat/offrepustuler');
-const usercv=require('./routes/condidat/cv')
 const userImage =require('./routes/upload')
+const cv =require('./routes/condidat/cv')
 //entreprise
 const entrepriseRoutes =require('./routes/entreprise/auth');
 const offreRoutes =require('./routes/offre');
@@ -40,7 +40,7 @@ app.use(cookieParser())
 app.use(fileUploed({
     useTempFiles:true
 }))
-app.use('/public',express.static(path.join(__dirname,'tmp')));
+app.use('/public',express.static(path.join(__dirname,'temp')));
 
 //admin
 app.use('/api',adminRoutes);
@@ -48,8 +48,7 @@ app.use('/api',catogoryRoutes);
 //condidat
 app.use('/api',userRoutes);
 app.use('/api',userOffres);
-app.use('/api',usercv)
-//entreprise router
+app.use('/api',cv)
 app.use('/api',entrepriseRoutes);
 app.use('/api',offreRoutes);
 //commun

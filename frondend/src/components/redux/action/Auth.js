@@ -1,7 +1,8 @@
-import {USER_LOGIN,ERRORS ,ACTIONS}from "./Index";
+import {USER_LOGIN,ERRORS ,ACTIONS,GET_TOKEN, GET_PIC}from "./Index";
 
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
+import { setAuth } from "../../util/setAuth";
 export const dispatchLoginEntreprise =()=>{
     return{
       type :ACTIONS.ENTREPRISE_LOGIN
@@ -15,7 +16,9 @@ export const Login =(form,navigate)=>dispatch=>{
     localStorage.setItem('jwt',token)
     const decode =jwt_decode(token)
     dispatch(setUser(decode))
-    navigate('/condidat/dashbord')
+    setAuth(token)
+   
+  navigate('/condidat/Profile')
   })
   .catch(err=>{
     
@@ -66,10 +69,11 @@ export const LoginEntreprise1 =(form,navigate)=>dispatch=>{
   axios.post('http://localhost:6600/api/entreprise/signin',form)
   .then(res=>{
     const {token} =res.data
+    
     localStorage.setItem('jwt',token)
     const decode =jwt_decode(token)
     dispatch(setUser(decode))
-   navigate('/entreprise/dashbord')
+ navigate('/entreprise/dashbord')
   })
   .catch(err=>{
     
@@ -91,3 +95,4 @@ export const setUser =(decode)=>({
   type :USER_LOGIN,
   payload :decode
 })
+

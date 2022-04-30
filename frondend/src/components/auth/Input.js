@@ -1,6 +1,6 @@
 import React from 'react'
 import ClassName from 'classnames'
-export default function Input({name,type,label,onChangeHanlder,errors}) {
+export default function Input({name,value,type,label,onChangeHanlder,errors}) {
   return (
   
 
@@ -14,6 +14,7 @@ export default function Input({name,type,label,onChangeHanlder,errors}) {
       id="exampleInputPassword1"
       name={name}
       onChange={onChangeHanlder}
+      value={value}
     />
     {
         errors && (<div class="invalid-feedback">

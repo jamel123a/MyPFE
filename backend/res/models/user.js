@@ -30,7 +30,7 @@ const userShema =new mongoose.Schema({
        unique :true,
        lowercase :true    
     },
-    hash_password :{
+    password :{
         type :String,
         required :true
     },
@@ -73,12 +73,7 @@ const userShema =new mongoose.Schema({
 
 {timestamps :true});
 
-/// dycrypt le  password
 
-userShema.virtual('password')
-.set(function(password){
-  this.hash_password =bcrypt.hashSync(password,10);
-});
 // fullname
 userShema.virtual('fullName')
     .get(function(){
@@ -86,13 +81,7 @@ userShema.virtual('fullName')
     });
 
 
-//authtificate 
 
-userShema.methods ={
-    authentificate:  function(password){
-        return   bcrypt.compareSync(password,this.hash_password);
-    }
-}
 
 
 

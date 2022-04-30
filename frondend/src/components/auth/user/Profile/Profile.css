@@ -1,0 +1,58 @@
+.profile{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.container .col-left{
+    padding: 0 10px;
+    margin: auto;
+}
+.nom_profile{
+    font-size: 1.7rem;
+    text-align: center;
+    align-items: center;
+    text-transform: capitalize;
+    margin: 10px 0;
+    color: #333;
+
+}
+.container .col-left .avatar1{
+   width: 150px;
+   height: 150px;
+   overflow: hidden;
+   position: relative;
+   margin: 15px auto;
+   border: 1px solid #ddd;
+   border-radius: 50%;
+   cursor: pointer;
+}
+.container .col-left img{
+    width: 100%;
+    height:100% ;
+    display: block;
+    object-fit: cover;
+}
+.container .col-left .avatar1 span{
+    position :absolute;
+    bottom: -100%;
+    left:0;
+    width: 100%;
+    background-color: #fff8;
+    text-align: center;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: rgb(70, 70, 84);
+    transition: 0.3s ease-in-out;
+}
+.container .col-left .avatar1:hover span{
+    bottom: -8%;
+}
+.container .col-left #file_up{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    opacity: 0;
+} 

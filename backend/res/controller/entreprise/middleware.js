@@ -1,43 +1,12 @@
 const jwt=require('jsonwebtoken')
 const Entreprise =require('../../models/user')
 const Offre =require('../../models/offre')
-exports.requireSigninEntreprise = (req,res,next)=>{
- 
- 
-    if (req.headers.authorization){
-    
-    
-    const token =req.headers.authorization.split(" ")[1];
-    const entreprise =jwt.verify(token,process.env.JWT_SRCRET);
-     
-    req.entreprise=entreprise ;
-   
-    }else {
-    return res.status(400).json({
-        message :'authorization require' })
-    }
-    next();
-
-}
+const bcrypt =require('bcrypt')
 ///authentification
-exports.authEntreprise=(req,res,next)=>{
-    try{
-        const token =req.header("Authorization")
-        if(!token)return res.status(400).json({msg:"authorization require "})
-        jwt.verify(token,process.env.JWT_SRCRET,(err,entreprise)=>{
-            if(err)return res.status(400).json({msg:"invaled token"})
-             req.entreprise=entreprise
-             console.log(entreprise)
-             next()
-        })
-    }catch (err){
-        return res.status(500).json({msg :err.message})
-    }
-}
-//moddleware
+
 
 exports.EntrepriseMiddleware=(req,res,next)=>{
-    if(req.entreprise.role !== 'entreprise'){
+    if(req.user.role !== 'entreprise'){
         return res.status(400).json({message :'Acces denied'})
     }
     next();
@@ -50,15 +19,16 @@ exports.UpdateEntreprise=async(req,res)=>{
             lastName,
             email,
             password,
-            adress,
+            address,
             numberphone,
             wibsite,
             avatar,
             description
             
         } =req.body;
-         await Entreprise.findByIdAndUpdate({_id:req.entreprise._id},{
-            firstName,lastName,avatar,email,password,adress,numberphone,wibsite,avatar,description
+        const passwordHash =await bcrypt.hash (password,12)
+         await Entreprise.findByIdAndUpdate({_id:req.user._id},{
+            firstName,lastName,avatar,email,address,numberphone,password : passwordHash ,wibsite,avatar,description
         })
         
         res.json({msg :"update"})
@@ -93,7 +63,7 @@ exports.DeleteOffre=async(req,res)=>{
  }
  exports.getAllOffreEntreprise=async(req,res)=>{
     try{
-        const offre = await Offre.find({createBy:req.entreprise._id})
+        const offre = await Offre.find({createBy:req.user._id})
         console.log(offre)
        
         res.json(offre)

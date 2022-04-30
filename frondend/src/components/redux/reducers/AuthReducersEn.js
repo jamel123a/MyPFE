@@ -3,7 +3,7 @@ import isEmpty from './isEmpty'
 const initialState={
     user :{},
     isConnected :false,
-    
+    token :''
 }
 const authReducer = (state =initialState,action)=>{
     switch(action.type){
@@ -12,8 +12,7 @@ const authReducer = (state =initialState,action)=>{
             return{
                 ...state,
                 isConnected :true,   
-                user:action.payload
-               
+                user:action.payload,
             }
             default :
             return state

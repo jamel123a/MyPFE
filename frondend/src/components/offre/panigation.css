@@ -2,7 +2,8 @@
     padding-left: 1rem;
     margin-top: 1rem;
     margin-bottom: 2rem;
-    
+    align-items: center;
+    justify-content: center;
   }
   
   .pagination button {
@@ -13,7 +14,7 @@
   }
   
   .pagination button:disabled {
-    background-color: red;
+    background-color: blue;
     color: #fff;
     cursor: not-allowed;
   }

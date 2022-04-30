@@ -1,4 +1,5 @@
 const jwt=require('jsonwebtoken');
+const bcrypt =require('bcrypt');
 const { merge, result } = require('lodash');
 const User =require('../models/user');
 const _ =require('lodash')
@@ -16,7 +17,6 @@ exports.requireSignin = (req,res,next)=>{
     if (req.headers.authorization){
     
         const token =req.headers.authorization.split(" ")[1];
-        console.log(token)
         const user =jwt.verify(token,process.env.JWT_SRCRET);
 
         req.user=user ;
@@ -39,7 +39,6 @@ exports.auth=(req,res,next)=>{
         jwt.verify(token,process.env.JWT_SRCRET,(err,user)=>{
             if(err)return res.status(400).json({msg:"invaled token"})
              req.user=user
-             console.log(user)
              next()
         })
     }catch (err){
@@ -59,79 +58,54 @@ exports.userMiddleware=(req,res,next)=>{
 // lzem w9et t3ml signup thot attr role admin 
 exports.adminMiddleware=(req,res,next)=>{
     if(req.user.role !== 'admin'){
-        return res.status(400).json({message :'Acces denied'})
+        return res.status(400).json({msg :'Acces denied'})
     }
     next();
 }
 exports.forgetpassword=async(req,res)=>{
-   try{
-    const {email}=req.body;
-    User.findOne({email},(error,user)=>{
-        if(error || !user) {
-            return res.status(400).json({error :'user with this email not exist'})
-        }
-        const token =jwt.sign(
-            {
-            _id :user._id
-            },
-            process.env.JWT_SRCRET,
-            {
-                expiresIn :'15m'
-            }
-         )
-       const url =`${process.env.API}/resetpassword/${token}`
-       sendEmail(email,url,"reset your password") 
-       res.json({msg :`resent password send to ${email}`})
-    })
-     
+       try {
+        const {email}=req.body;
+        const user = await  User.findOne({email})
 
-   }catch (err){
-        return res.status(500).json({msg :err.message})
+        if(!user) return res.status(400).json({msg :"l'utilisateur avec cet email nexiste pas"})
+        
+        const token =jwt.sign({_id :user._id},process.env.JWT_SRCRET,{ expiresIn :'15m'})
+       const url =`${process.env.API}/resetpassword/${token}`
+       sendEmail(email,url,"réinitialisez votre mot de passe") 
+       return  await res.status(200).json({msg :`réinitialiser le mot de passe envoyer à ${email}`})
+   
+    
+     
+    
+
+    }catch(erorr) {
+        return res.json(erorr)
     }
 
 }
-   
-//resetpassword
-exports.resetPassword=(req,res)=>{
-    //resetpassword bch ttaked li howa lien ou nn
-   const {resetLink,newPass} =req.body;
-   if (resetLink){
-       jwt.verify(resetLink,process.env.JWT_RESET_PASSWORD,function(error,decodeDate){
-           if(error){
-               return res.status(400).json({error :'incorret token or it is expired'})
-           }
-           //user moch mawjoud
-           User.findOne({resetLink},(error,user)=>{
-            if(error || !user) {
-                return res.status(400).json({error :'user with this email not exist'})
-            }
-            const obj ={
-                password :newPass,
-                resetLink :''
-            }
 
-            user =_.extend(user,obj);
-            user.save((error,result)=>{
-               if(error){
-                   return res.status(400).json({error :'reset password error'})
-               }
-               else{
-                   return res.status(200).json({message :'your password has been change '});
-               }
-            })
-           })
-       })
-   }else{
-       return res.status(400).json({message :'something wrong'})
-   }
-
+exports.resetPassword =async(req,res)=>{
+    try{
+        const {password}=req.body;
+       
+        const passwordHash =await bcrypt.hash(password,12)
+        await User.findByIdAndUpdate({_id:req.user._id},{
+            password :passwordHash
+        })
+        res.status(200).json({msg :"Mot de passe changé"})
+      
+    }catch (err){
+        return res.status(500).json({message :err.message})
+    }
 }
+
 //get user
+
 exports.getUserInfo=async(req,res)=>{
     try{
-        const user= await User.findById(req.condidat._id).select('-hash_password')
-        res.json(user)
-        console.log(user);
+    
+        const user= await User.findById(req.user._id).select('-password')
+        res.status(200).json(user)
     }catch(err){
        return res.status(500).json({err :"erorr"})
     }
@@ -139,37 +113,28 @@ exports.getUserInfo=async(req,res)=>{
 
 //update user  
 exports.UpdateUser=async(req,res)=>{
+  
+  
     try{
         const {
+            avatar,
             firstName,
             lastName,
-            avatar,
             email,
             password
-
+            
         } =req.body;
-         await User.findByIdAndUpdate({_id:req.condidat._id},{
-            firstName,lastName,avatar,email,password,
+           
+      //  const passwordHash =await bcrypt.hash(password,12)
+        
+       
+         await User.findByIdAndUpdate({_id:req.user._id},{
+            avatar,firstName,lastName,email//password :passwordHash
         })
         
-        res.json({msg :"update"})
-    }catch(err){
-       return res.status(500).json({err :"erorr"})
+       await res.json({msg :"update"})
+
+    }catch{
+       return res.status(400).json({err :"erorr"})
     }
 }
-/*exports.UpdateEntrepeise=async(req,res)=>{
-    try{
-        const {
-            firstName,
-            lastName,
-            avatar
-        } =req.body;
-         await User.findByIdAndUpdate({_id:req.entreprise._id},{
-            firstName,lastName,avatar
-        })
-        
-        res.json({msg :"update"})
-    }catch(err){
-       return res.status(500).json({err :"erorr"})
-    }
-}*/

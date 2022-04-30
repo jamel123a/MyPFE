@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import InputGroup from './InputGroup'
-import {
-    CalendarToday,
-    LocationSearching,
-    MailOutline,
-    PermIdentity,
-    PhoneAndroid,
-    Publish,
-  } from "@material-ui/icons";
+
   import "./user.css";
   import Card from '@mui/material/Card';
   import CardActions from '@mui/material/CardActions';
@@ -33,7 +26,7 @@ const onChangeHandler=(e)=>{
     ...form,
     [e.target.name]:e.target.value
   })
-}
+ }
 const onSubmitHandler =(e)=>{
   e.preventDefault()
   axios.put(`http://localhost:6600/api/dashbord/updateCondidat/${id}`,form)
@@ -63,7 +56,7 @@ const onSubmitHandler =(e)=>{
     </div>
     <div class="col-sm border col-12 ">
     <form onSubmit={onSubmitHandler}>
-    <InputGroup label="avatar :" type="file" name="file" onChangeHandler={onChangeHandler} />
+           <InputGroup label="avatar :" type="file" name="file" onChangeHandler={onChangeHandler} />
            <InputGroup label="Prenom :" type="text" name="firstName" onChangeHandler={onChangeHandler} placeholder=" Enter Prenom" />
            <InputGroup label="Nom :" type="text" name="lastName" onChangeHandler={onChangeHandler} placeholder="Entrer nom"  />
            <InputGroup label="Adresse e-mail :" type="email" name="email" onChangeHandler={onChangeHandler} placeholder="Entrer Adresse e-mail"  />

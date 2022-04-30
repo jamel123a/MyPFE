@@ -1,5 +1,5 @@
 const CV=require('../../models/cv');
-exports.updatecv=(req,res)=>{
+exports.Updatecv=(req,res)=>{
    // res.status(200).json({file:req.file,body :req.body})
    
     

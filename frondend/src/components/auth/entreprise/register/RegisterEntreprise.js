@@ -3,7 +3,7 @@ import '../../style.css'
 import {Link,useNavigate} from 'react-router-dom'
 import Input from '../../Input'
 import { useDispatch, useSelector } from 'react-redux'
-import { RegistrationEntreprise } from '../../../redux/action/AuthEntreprise'
+import { RegistrationEntreprise } from '../../../redux/action/Auth'
 import { showSuccesMsg } from '../../../util/notification/Notification'
 
 /*const intialState ={

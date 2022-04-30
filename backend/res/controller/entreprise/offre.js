@@ -1,6 +1,5 @@
 const Offre =require('../../models/offre');
 
-
 exports.createOffre =(req,res)=>{
     
   const {
@@ -19,7 +18,7 @@ exports.createOffre =(req,res)=>{
        avantage,
        require,
        mois,
-       createBy :req.entreprise._id
+       createBy :req.user._id
    })
    offre.save((error,offre)=>{
     if(error){
@@ -72,8 +71,8 @@ exports.getOffres=async(req,res)=>{
 } 
 exports.getOffre=async(req,res)=>{
     try{
-        const offre= await Offre.findById(req.params.id).populate(/*nom attrubue mt3 objectbyID */'createBy',
-           /* attrubue  li hjtek behom mn model l5er  */  ["nomEntreprise","adresss","description","website"] )
+        const offre= await Offre.findById(req.params.id).populate('createBy',
+           ["nomEntreprise","adresss","description","website"] )
         
         res.json(offre)
     }catch(err){

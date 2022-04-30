@@ -1,0 +1,70 @@
+
+.padding{
+    padding: 10px 0;
+}
+.button_en{
+    padding: 10px 0;
+}
+.en{
+    padding-left: 5px;
+    font-size: 12px;
+}
+.image_en{
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+.image_entreprise{
+    width: 100%;
+    height :100%;
+    
+}
+.transparent{
+    background-color: rgba(69, 69, 69, 0.12);
+    padding: 10px;
+
+}
+h5{
+    font-size: 14px;
+}
+.transparent h5{
+    font-size: 14px;
+
+}
+.mt-2 h5{
+    font-size: 14px;
+}
+.transparent .color_more{
+    color: blue;
+    padding-right: 5px;
+}
+.color_more{
+    color: blue;
+}
+.title_offre{
+    font-size: 16px;
+    color: blue;
+    font-weight: bold;
+    text-transform: capitalize; 
+}
+.Nom_de_entreprise{
+    font-size: 14px;
+    text-transform: capitalize;
+}
+.aaaa{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: aliceblue;  
+}
+
+.size{
+    display: flex;
+    margin: 10px 0;
+    font-size: 12px;
+    padding-left:5px ;
+    color: black;
+ 
+}
+.dres_offre{
+    font-size: 11px;
+}

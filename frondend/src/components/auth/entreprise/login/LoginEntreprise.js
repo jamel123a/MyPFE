@@ -3,10 +3,10 @@ import {Link ,useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import '../../style.css'
 import { showErrMsg, showSuccesMsg } from '../../../util/notification/Notification'
-import {dispatchLoginEntreprise} from '../../../redux/action/AuthEntreprise'
+import {dispatchLoginEntreprise} from '../../../redux/action/Auth'
  import { useDispatch, useSelector } from 'react-redux'
 import Input from '../../Input'
-import { LoginEntreprise1 } from '../../../redux/action/AuthEntreprise'
+import { LoginEntreprise1 } from '../../../redux/action/Auth'
 
 /*const intialState ={
   email :'',
@@ -90,7 +90,7 @@ function LoginEntreprise() {
           
         </div>
         <div className="col-md-6 p-5">
-          <h1 className="display-6 fw-bolder mb-5">connexion</h1>
+          <h1 className="display-6 fw-bolder mb-5">Connexion</h1>
          
           <form onSubmit={onSubmit}>
           <Input name="email" label="Adresse e-mail *" type="email" onChangeHanlder={onChangeHanlder} errors={errors.email} />
@@ -105,7 +105,7 @@ function LoginEntreprise() {
                </Link>
              </div>
             <button type="submit" className="btn btn-primary w-100 mt-4 rounded-pill">
-              Login
+              Connexion
             </button>
           </form>
         </div>

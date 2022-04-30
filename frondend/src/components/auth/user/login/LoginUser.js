@@ -6,7 +6,7 @@ import '../../style.css'
 //import {dispatchLoginCondidat} from '../../../redux/action/AuthEntreprise'
  import { useDispatch,useSelector } from 'react-redux'
 import Input from '../../Input'
-import { Login } from '../../../redux/action/AuthEntreprise'
+import { Login } from '../../../redux/action/Auth'
 
 
 
@@ -56,7 +56,7 @@ function LoginUser() {
           
         </div>
         <div className="col-md-6 p-5">
-          <h1 className="display-6 fw-bolder mb-5">connexion</h1>
+          <h1 className="display-6 fw-bolder mb-5">Connexion</h1>
          
        
           <form onSubmit={onSubmit}>
@@ -72,7 +72,7 @@ function LoginUser() {
                </Link>
              </div>
             <button type="submit" className="btn btn-primary w-100 mt-4 rounded-pill">
-              Login
+            Connexion
             </button>
           </form>
         </div>

@@ -1,14 +1,15 @@
-import React,{useState} from 'react';
+import React,{ useState} from 'react';
 import { useDispatch } from 'react-redux';
 import {Link} from 'react-router-dom'
 import logo from '../../assest/logo.png'
-import { Logout } from '../redux/action/AuthEntreprise';
+import { Logout } from '../redux/action/Auth';
 import './Navbar.css'
 function Navbar1(user) {
   const dispatch =useDispatch()
   const LougoutHanlder =()=>{
-     dispatch(Logout())
-  }
+    dispatch(Logout())
+ }
+ 
  
   const [isOpen,setIsOpen]=useState(false)
    return (
@@ -17,19 +18,21 @@ function Navbar1(user) {
      <nav className='Navbar'>
       <span className='nav-logo'><img src={logo} alt='logo'></img></span>
       <div className={`nav-items ${isOpen && "open"}` }>
-                <Link to='/'  >Page d'accueil</Link>
-                <Link to='/offre' >Offres</Link>
+                
                {
                  !user.user.isConnected ?(
                  <>
+                     <Link to='/'  >Page d'accueil</Link>
+                     <Link to='/offre' >Offres</Link>
                      <Link to='/condidat/signin' >Espace condidat</Link>
                     <Link  to='/entreprise/signin'  >Espace entreprise</Link>
                  </>
                  ):(
-                 
-               
-                 <Link  to='/' onClick={LougoutHanlder} >Déconection</Link>
-                
+                   <>
+                      <Link to='/'  >Page d'accueil</Link>
+                      <Link to='/offre' >Offres</Link>
+                      <Link  to='/' onClick={LougoutHanlder} >Déconection</Link>
+                 </>
                  )
                }
               

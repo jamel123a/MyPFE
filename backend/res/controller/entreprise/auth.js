@@ -2,18 +2,15 @@ const Entreprise =require('../../models/user');
 const exprssjwt =require('express-jwt')
 const jwt =require ('jsonwebtoken');
 const { validationResult } = require('express-validator');
+const bcrypt =require('bcrypt')
 const _ =require('lodash')
 const ValidateRegister =require('../../validation/registerEntreprise')
 const ValidateLogin =require ('../../validation/login')
 const sendEmail =require('../../common/sendemail')
 
-  // signin    */
+  
 
-  function validateEmail(email) {
-     
-      const re=  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      return re.test(email)
-    };
+ 
   // signin 
 
   exports.signin=async(req,res)=>{
@@ -23,25 +20,20 @@ const sendEmail =require('../../common/sendemail')
     if (!isValid){
         res.status(404).json(errors)
     }else{
+      
+    
+    
         const {email, password } = req.body;
-    
-      /*  if (!email || !password ) 
-        return res.status(400).json({message :"merci de remplir tous les champs"})
-        
-        if (!validateEmail(email)) 
-        return res.status(400).json({message :"email valide"})
-        if (password.length <6) 
-        return res.status(400).json({message :"Le mot de passe doit être au moins de 6 caractères"})
-    
-    */
-
         const entreprise =await  Entreprise.findOne({email :req.body.email})
         errors.email = 'cette adresse e-mail existe pas'
         if (!entreprise) return  res.status(404).json(errors)
     
             if (entreprise) {
+                  
+                const isMatch =await bcrypt.compare(password,entreprise.password)   
+
                          // password
-                    if (entreprise.authentificate(req.body.password )&& entreprise.role ==='entreprise'){
+                    if (isMatch && entreprise.role ==='entreprise'){
                         // token with jsonwebtoken
                         //GENERATE TOKEN
                         const token =jwt.sign({_id :entreprise._id ,role :entreprise.role},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
@@ -57,18 +49,20 @@ const sendEmail =require('../../common/sendemail')
                             token,
                              user :{
                                 _id, firstName,lastName,fullName,email,role,username,address,website,nomEntreprise,description,numberPhone
-                            }
+                           }
     
                         });
-    } 
+                    
+
    
-                }else{
+                }else {
                     errors.password = 'Mot de passe incorrect'
                     return  res.status(404).json(errors)
                 }
-
-        }
-    
+                
+            }
+        
+            }
    }  
    catch (err){
     return res.status(500).json({message :err.message})  
@@ -96,8 +90,10 @@ exports.signup = async(req,res)=>{
       const user =await Entreprise.findOne({email})
       errors.email = 'cette adresse e-mail existe déjà.'
        if (user) return  res.status(404).json(errors)
+       const passwordHash =await  bcrypt.hash(password,12)  
+
       const newuser ={
-          firstName,lastName,email,password,fullName,website,numberPhone,nomEntreprise,description,address,role: "entreprise"
+          firstName,lastName,email,password : passwordHash,fullName,website,numberPhone,nomEntreprise,description,address,role: "entreprise"
       }
        const activation_token =creacteActivationToken(newuser)
        const url = `${process.env.API}/user/activate/${activation_token}`

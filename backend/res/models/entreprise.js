@@ -65,10 +65,7 @@ const entrepriseShema =new mongoose.Schema({
 {timestamps :true});
 
 /// dycrypt le  password
-entrepriseShema.virtual('password')
-.set(function(password){
-   this.hash_password =bcrypt.hashSync(password,10);
-});
+
 // fullname
 entrepriseShema.virtual('fullName')
     .get(function(){
@@ -77,11 +74,7 @@ entrepriseShema.virtual('fullName')
 
 
 //authtificate 
-entrepriseShema.methods ={
-    authentificate: async function(password){
-        return await bcrypt.compareSync(password,this.hash_password);
-    }
-}
+
 
 
 
