@@ -1,9 +1,12 @@
+
 import React from 'react'
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 function OneOffre() {
   return (
 <div className="container mt-5 ">
   <div className="row">
-    <div className="col-8 d-flex flex-column border  mb-3">
+    <div className="col-sm d-flex flex-column  border  col-24 mb-4  mb-3">
       <div className="d-flex mt-3">
         <div className="flex-shrink-0">
           <img src="..." alt="..." />
@@ -47,12 +50,30 @@ function OneOffre() {
       </div>    
       
     </div>
-    <div className="col-4 border mb-3">
-    <div class="icon_offre d-flex flex-column mt-3">
+    <div className="col-sm  col-12 mb-4">
+
+    <Card sx={{ minWidth: 275 }}>
+        <CardContent>
+        <div className='col-lg-6 col-md-6 col-3'>
+         
+        
+         
+        <div class="icon_offre d-flex flex-column mt-3">
         <i class="fa-solid fa-phone size"><h5 className='en'>jamel</h5></i>
         <i class="fa-solid fa-map-location-dot size"><h5 className='en'>jamel</h5></i>
       </div>
       <p> jdqsd  hjdfsdj jdhqsjd skqskjqshd sdhjsqhdj dhqsdhjqs sdhgjhsd </p>
+
+      
+
+
+
+          
+        </div>
+        </CardContent>
+       
+      </Card>
+   
      
     </div>
   </div>

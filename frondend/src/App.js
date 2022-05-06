@@ -34,6 +34,9 @@ import { setAuth } from './components/util/setAuth';
 import ResetPassword from './components/auth/forgetPassword/ResetPassword';
 import Sidebar from './components/sidebar/Sidebar';
 import DashbordHome from './page/DashbordHome';
+import Entreprise from './components/admin_entreprise/Entreprise';
+import AddEntreprise from './components/admin_entreprise/AddEntreprise';
+import UpdateEntreprise from './components/admin_entreprise/UpdateEntreprise';
 
 
 
@@ -80,6 +83,7 @@ const user ={
        <Profile/>
        </CondidatRouter>
        }></Route>
+       {/* admin router*/ }
       <Route path='/admin/addCondidat' element={
       <AdminRouter user ={user}>
               <AddCondidat/>
@@ -94,7 +98,22 @@ const user ={
          <AdminRouter user={user}>
            <Users/>
          </AdminRouter>
+       }></Route>  
+        <Route path='/admin/entreprises' exact element={
+         <AdminRouter user={user}>
+           <Entreprise/>
+         </AdminRouter>
        }></Route>   
+        <Route path='/admin/addEntreprise' exact element={
+         <AdminRouter user={user}>
+           <AddEntreprise/>
+         </AdminRouter>
+       }></Route> 
+        <Route path='/admin/DetailsEntreprise/:id' element={
+      <AdminRouter user ={user}>
+              <UpdateEntreprise/>
+          </AdminRouter>
+      } ></Route>    
 
        <Route path='/entreprise/signin'exact element={<LoginEntreprise/>}></Route>
        <Route path='/entreprise/signup' exact element={<RegisterEntreprise/>}></Route>

@@ -1,18 +1,19 @@
 import classNames from 'classnames'
 import React from 'react'
 
-function InputGroup({label,type,name,onChangeHandler,placeholder,errors}) {
+function TextErea({label,name,onChangeHandler,placeholder,errors ,rows}) {
   return (
     <div className='form-group'>
         <label htmlFor="Email" className='form-label'>
            {label}
         </label>
-        <input type={type}
+        <textarea 
+        rows={rows}
         className={classNames("form-control", {"is-invalid" :errors})}
          name={name} 
         onChange={onChangeHandler}
         placeholder={placeholder}
-        ></input>
+        ></textarea>
         {
         errors && (<div class="invalid-feedback">
         {errors}
@@ -22,4 +23,4 @@ function InputGroup({label,type,name,onChangeHandler,placeholder,errors}) {
   )
 }
 
-export default InputGroup
+export default TextErea

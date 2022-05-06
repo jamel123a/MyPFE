@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import InputGroup from './InputGroup'
+import InputGroup from '../admin_condidat/InputGroup'
 
-  import "./user.css";
+import "../admin_condidat/user.css";
   import Card from '@mui/material/Card';
-  import CardActions from '@mui/material/CardActions';
   import CardContent from '@mui/material/CardContent';
 import axios from 'axios';
 import { useParams } from 'react-router';
-import Alert from './Alert';
+import Alert from '../admin_condidat/Alert';
 import { showErrMsg, showSuccesMsg } from '../util/notification/Notification';
+import TextErea from './TextErea';
 
-function UpdateCondidat() {
+function UpdateEntreprise() {
 
    const {id} =useParams("");
    const [errors,setErrors]=useState({});
@@ -22,8 +22,7 @@ function UpdateCondidat() {
   const [loading,setLoading]=useState(false)
   const [message,setMessage]=useState("")
   const [show,setShow]=useState(false)
-  const {err,success,email,firstName,lastName ,role} =data
-
+  const {err,success,email,firstName,lastName ,role,description,nomEntreprise,address,numberPhone,website} =data
 
 
    useEffect(async()=>{
@@ -31,7 +30,7 @@ function UpdateCondidat() {
     .then(res=>{
         setUser(res.data)
     })
-})
+},[])
 const onChangeHandler=e=>{
   const {name,value}=e.target
   setData({...data,[name]:value,err:'',success:''})
@@ -66,8 +65,8 @@ const onChangeHandler=e=>{
 const onSubmitHandler =async()=>{
   console.log(avatar)
   try{
-   await  axios.put(`http://localhost:6600/api/dashbord/updateCondidat/${id}`,{
-     firstName,lastName,email,role
+   await  axios.put(`http://localhost:6600/api/dashbord/updateEntreprise/${id}`,{
+     firstName,lastName,email,role,nomEntreprise,address,website,description,numberPhone
    })
 
    setData({...data,err:'',success :"Updated Success"})
@@ -91,7 +90,7 @@ const onSubmitHandlerAvatar =async()=>{
 }  
 }
 const handleUpdate =()=>{
-  if(firstName || lastName   || email || role) onSubmitHandler()
+  if(firstName || lastName   || email || role || website || numberPhone || address || description || numberPhone || nomEntreprise) onSubmitHandler()
   if (avatar) onSubmitHandlerAvatar()
 }
   
@@ -108,23 +107,38 @@ const handleUpdate =()=>{
           <h4 className='d-flex justify-content-center mt-3'>Suite</h4>
           <h5>avatar  : <img   src={users.avatar} style={{width:70,borderRadius :'50%'}} alt="profile"/></h5>
         
-          <p className='mt-3'>Prenom : <span>{users.firstName} </span></p>
+          <p className='mt-3 '>Prenom : <span>{users.firstName} </span></p>
           <p className='mt-3'>Nom : <span> {users.lastName} </span></p>
           <p className='mt-3'>Adresse e-mail : <span> {users.email}</span></p>
+          <p className='mt-3'>Nom de entreprise : <span> {users.nomEntreprise}</span></p>
+          <p className='mt-3'>Address : <span> {users.address}</span></p>
+          <p className='mt-3'>website : <span> {users.website}</span></p>
+          <p className='mt-3'>Description : <span> {users.description}</span></p>
+          <p className='mt-3'>Telephone : <span> {users.numberPhone}</span></p>
+
           <p className='mt-3'>Role : <span> {users.role}</span></p>
+
+
+
+          
         </div>
         </CardContent>
        
       </Card>
     </div>
-    <div className="col-sm border col-12 ">
-    <h5 className='mt-3 d-flex justify-content-center'>change les information</h5>
+    <div className="col-sm border col-12 mb-4 ">
+    <h5 className='mt-3 d-flex justify-content-center '>change les information</h5>
 
     
            <InputGroup type="file" label="avatar :" name="file" id='file_up' onChangeHandler={changeAvatar}/>
            <InputGroup label="Prenom :" type="text" name="firstName" onChangeHandler={onChangeHandler} placeholder=" Enter Prenom" />
            <InputGroup label="Nom :" type="text" name="lastName" onChangeHandler={onChangeHandler} placeholder="Entrer nom"  />
            <InputGroup label="Adresse e-mail :" type="email" name="email" onChangeHandler={onChangeHandler} placeholder="Entrer Adresse e-mail"  />
+           <InputGroup label="Nom de entreprise *" type="text" name="nomEntreprise" onChangeHandler={onChangeHandler} placeholder=" Entrer nom de entreise" errors={errors.nomEntreprise}/>
+           <InputGroup label="Address *" type="text" name="address" onChangeHandler={onChangeHandler} placeholder=" Entrer  addresss" />
+           <InputGroup label="Telephone :" type="number" name="numberPhone" onChangeHandler={onChangeHandler} placeholder=" Entrer numero de telephone"/>
+           <InputGroup label="Website : " type="text" name="website" onChangeHandler={onChangeHandler} placeholder=" Entrer Website" />
+           <TextErea label="Description :" rows="4" name="description" onChangeHandler={onChangeHandler} placeholder="Enter description"></TextErea>
            <label >role :</label>
            <select className="form-select"  name='role' onChange={onChangeHandler}>
               <option>Open this select menu</option>
@@ -143,4 +157,4 @@ const handleUpdate =()=>{
   )
 }
 
-export default UpdateCondidat;
+export default UpdateEntreprise;

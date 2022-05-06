@@ -2,17 +2,18 @@ import axios from 'axios'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-function RowDetails({firstName,lastName,email,avatar,Id,OnDelete ,role}) {
+function RowDetails({firstName,lastName,email,nomEntreprise,avatar,Id,OnDelete}) {
    
   return (
           <tr>
-                     <th scope="row">{role}</th>
+                     <th scope="row">{nomEntreprise}</th>
+
                     <td><img className='avatar' src={avatar}/></td>
                     <td>{firstName}</td>
                     <td>{lastName}</td>
                     <td>{email}</td>
                     <td className='d-flex justify-content-between'>
-                        <Link to={`/admin/DetailsCondidat/${Id}`}>
+                        <Link to={`/admin/DetailsEntreprise/${Id}`}>
                             <button className='btn btn-primary'>
                                 <i class='fas fa-edit'></i></button>
                        </Link>

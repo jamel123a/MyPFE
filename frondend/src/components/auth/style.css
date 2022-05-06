@@ -1,6 +1,6 @@
 .form{
-    background: rgb(0, 101, 219);
-    background: linear-gradient(90deg, rgb(0,101,219) 30%, rgba(0, 212, 255, 1) 100%);
+    background: #202b3c;
+    background: linear-gradient(90deg, #202b3c 30%, rgb(4 43 51) 100%);
 }
 .footer{
     background: rgb(0, 101, 219);
