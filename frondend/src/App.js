@@ -17,7 +17,7 @@ import Navbar1 from './components/navbar/Navbar1';
 import LoginUser from './components/auth/user/login/LoginUser';
 import RegisterUser from './components/auth/user/register/RegisterUser';
 import Footer from './components/footer/Footer';
-import DashbordEntreprise from './components/auth/entreprise/dashbord/DashbordEntre';
+import ProfileEntre from './components/auth/entreprise/Profile/ProfileEntre';
 import store from './components/redux/store';
 import { setUser } from './components/redux/action/Auth';
 import jwt_decode from 'jwt-decode'
@@ -25,14 +25,15 @@ import { useSelector } from 'react-redux';
 import Activation from './components/auth/entreprise/Activation';
 import EntrepriseRouter from './components/router/entrepriseRouter';
 import AdminRouter from './components/router/adminRouter';
-import List from './page/list/List';
-import Users from './components/users/Users';
-import UppdateCondidat from './components/users/UpdateCondidat';
-import AddCondidat from './components/users/AddCondidat';
+import Users from './components/admin_condidat/Users';
+import UppdateCondidat from './components/admin_condidat/UpdateCondidat';
+import AddCondidat from './components/admin_condidat/AddCondidat';
 import OneOffre from './components/offre/OneOffre';
 import Profile from './components/auth/user/Profile/Profile';
 import { setAuth } from './components/util/setAuth';
 import ResetPassword from './components/auth/forgetPassword/ResetPassword';
+import Sidebar from './components/sidebar/Sidebar';
+import DashbordHome from './page/DashbordHome';
 
 
 
@@ -52,15 +53,20 @@ const user ={
   }
   return (
      <div className='App'>  
-      <Navbar1 user={user}></Navbar1>
+
+     <Navbar1 user={user}></Navbar1>
      <Routes>
      
+
       <Route  path='*' exact element={<NotFound/>}></Route>
       <Route  path='/noaccsss' exact element={<Noaccess/>}></Route>
        <Route  path='/' exact element={<Home/>}></Route>
 
+
        <Route  path='/forgetpassword' exact element={<ForgetPassword/>}></Route>
        <Route path='/resetpassword/:token' exact element={<ResetPassword/>}></Route>
+       <Route path= '/user/activate/:token' exact element={<Activation/>}> </Route>
+
 
        <Route  path="/offre/page/:pageNumber" element={<Offre/>}></Route>
        <Route  path="/offre"   element={<Offre/>}></Route>
@@ -68,20 +74,25 @@ const user ={
     
        <Route path='/condidat/signin'exact element={<LoginUser/>}></Route>
        <Route path='/condidat/signup'exact element={<RegisterUser/>}></Route>
-       <Route path='/condidat/dashbord' exact element={
-         <CondidatRouter user={user}>
-           <DashbordUser/>
-         </CondidatRouter>
-       }/>
-       <Route path='/condidat/Profile' element={<Profile/>}></Route>
-      
-    
-      <Route path='/admin/DetailsCondidat/:id' element={<UppdateCondidat/>}></Route> 
-      <Route path='/admin/addCondidat' element={<AddCondidat/>}></Route> 
-      
+       
+       <Route path='/condidat/Profile' element={
+       <CondidatRouter user={user}>
+       <Profile/>
+       </CondidatRouter>
+       }></Route>
+      <Route path='/admin/addCondidat' element={
+      <AdminRouter user ={user}>
+              <AddCondidat/>
+          </AdminRouter>
+      } ></Route> 
+        <Route path='/admin/DetailsCondidat/:id' element={
+      <AdminRouter user ={user}>
+              <UppdateCondidat/>
+          </AdminRouter>
+      } ></Route>  
     <Route path='/admin/condidats' exact element={
          <AdminRouter user={user}>
-           
+           <Users/>
          </AdminRouter>
        }></Route>   
 
@@ -89,16 +100,10 @@ const user ={
        <Route path='/entreprise/signup' exact element={<RegisterEntreprise/>}></Route>
        <Route path='/entreprise/dashbord'exact element={
          <EntrepriseRouter user={user}>
-           <DashbordEntreprise/>
+           <ProfileEntre/>
          </EntrepriseRouter>
        }></Route>
-       <Route path= '/user/activate/:token' exact element={<Activation/>}> </Route>
-  
-       
-       
-   
-
-   
+    
      </Routes>
      </div>
    

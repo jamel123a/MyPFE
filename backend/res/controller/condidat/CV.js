@@ -1,17 +1,13 @@
 const CV=require('../../models/cv');
 exports.Updatecv=(req,res)=>{
-   // res.status(200).json({file:req.file,body :req.body})
    
     
+     const  updateBy =req.user._id
+    const file=process.env.API1+'/upload/'+req.files.file.name;
   
-  const  updateBy =req.condidat._id
-   const file=process.env.API+'/public/'+req.files.file.name;
-console.log(file)
-  //  console.log(cvfile)
-  
- /*  if (req.files.file){
+
        
-   } */
+  
    const cv = new CV({
     file,
     updateBy

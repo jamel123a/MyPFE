@@ -24,13 +24,13 @@ function RegisterEntreprise() {
   }
   const onSubmit=(e)=>{
     e.preventDefault()
-    dispatch(RegistrationEntreprise(form,success))
+    dispatch(RegistrationEntreprise(form))
    
   }
 
   return (
    <>
-   
+     
    <div className="container shadow my-5">
         <div className="row justify-content-end">
           <div className="col-md-5 d-flex flex-column align-items-center text-white justify-content-center form order-2">

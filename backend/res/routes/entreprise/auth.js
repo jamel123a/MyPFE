@@ -17,9 +17,9 @@ router.post('/entreprise/activate',activation);
 
 
 // update information
-router.patch('/entreprise/update',requireSignin,EntrepriseMiddleware,UpdateEntreprise)
+router.put('/entreprise/update',requireSignin,EntrepriseMiddleware,UpdateEntreprise)
 //update avatar
-router.post('/entreprise/upload_avatar',requireSignin,uploadImage,uploadCrl.uploadAvatar)
+router.post('/entreprise/upload_avatar',requireSignin,EntrepriseMiddleware,uploadImage,uploadCrl.uploadAvatar)
 
 // get all offree
 router.get('/entreprise/getalloffre',requireSignin,EntrepriseMiddleware,getAllOffreEntreprise)

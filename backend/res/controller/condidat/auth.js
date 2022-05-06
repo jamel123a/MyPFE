@@ -6,13 +6,7 @@ const { validationResult } = require('express-validator');
 const bcrypt =require('bcrypt')
 //const bcrypt =require('bcrypt');
 
-        /*  if (!firstName || !lastName || !email || !password ) 
-          return res.status(400).json({message :"merci de remplir tous les champs"})
-          
-          if (!validateEmail(email)) 
-          return res.status(400).json({message :"email valide"})
-          if (!password.length >6) 
-          return res.status(400).json({message :"Le mot de passe doit être au moins de 6 caractères"})*/
+      
 exports.signup=async(req,res)=>{
     const {errors,isValid} =ValidateRegister(req.body);
   try{
@@ -84,7 +78,7 @@ exports.signin=async(req,res)=>{
                      // password
                        
                  const isMatch =await bcrypt.compare(password,condidat.password)   
-                if (isMatch/*&& condidat.role==='condidat'*/){
+                if (isMatch){
                     // token with jsonwebtoken
                     const token =jwt.sign({_id :condidat._id,role:condidat.role,fullName:condidat.fullName},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
                     const  { _id,firstName ,lastName ,email , role , fullName ,username,password,avatar} =condidat;

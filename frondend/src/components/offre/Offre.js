@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import Card from './Card';
 import Pagination from './Pagination';
 
+
 const Offre = ()=> {
   const params =useParams()
   const pageNumber =params.pageNumber || 1;
@@ -43,7 +44,7 @@ useEffect(()=>{
        }
      </div>
     <Pagination page={page} pages={pages} changePage={setPage}/>
-
+     
    </div>
   )
 }

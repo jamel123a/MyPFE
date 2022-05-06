@@ -14,7 +14,7 @@ router.post('/condidat/signup',signup);
 router.post('/condidat/signin',signin);
 //update self
 //update user him self
-router.patch('/condidat/profile/update',requireSignin,UpdateUser)
+router.put('/condidat/profile/update',requireSignin,UpdateUser)
 router.post('/condidat/profile/upload_avatar',requireSignin,userMiddleware,uploadImage,uploadCrl.uploadAvatar)
 //router.post('/condidat/profile/logout',logout)
 module.exports=router;

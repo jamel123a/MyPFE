@@ -16,7 +16,8 @@ function LoginUser() {
   const dispatch =useDispatch()
   const navigate =useNavigate()
   const errors =useSelector(state=>state.errors)
-  const onChangeHanlder  =(e)=>{
+  
+const onChangeHanlder  =(e)=>{
     setForm({
       ...form,
       [e.target.name]:e.target.value

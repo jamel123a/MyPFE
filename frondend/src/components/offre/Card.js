@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './Card.css'
 function Card({post}) {
-  console.log(post)
   return (
     <div className='border mt-3 border-info offres' >
      <div class="row mt-3">

@@ -8,7 +8,6 @@ import { isEmail, isLength } from '../../../util/Validation'
 const intialState={
     err :'',
     success :'',
-    avatar :'',
     firstName:'',
     lastName:'',
     email:'',
@@ -23,20 +22,20 @@ function Profile() {
     const [loading,setLoading]=useState(false)
     const {err,success,password,email,firstName,lastName} =data
   
-    useEffect(async()=>{
-       await dispatch(GetProfile())
-     //setData(profile)
-    },[])
+   
     const onChangeHandler=e=>{
         const {name,value}=e.target
         setData({...data,[name]:value,err:'',success:''})
     }
- 
+    useEffect(async()=>{
+        await dispatch(GetProfile())
+      //setData(profile)
+     },[])
    const changeAvatar=async(e)=>{
       e.preventDefault()
       try{
       const file =e.target.files[0]
-      if(!file) return setData({...data,err:"no files were uploed",success:''})
+      if(!file) return setData({...data,err:"no filesaaaaaaaa were uploed",success:''})
       
       if(file.size >1024 *1024) 
       return  setData({...data,err:"Size so large",success:''})
@@ -47,7 +46,7 @@ function Profile() {
       let formData =new FormData()
       formData.append('file',file)
       setLoading(true)
-      const res =await axios.post('http://localhost:6600/api/condidat/profile/upload_avatar',{
+      const res =await axios.post('http://localhost:6600/api/condidat/profile/upload_avatar',formData,{
           headers:{'content-type' :'multipart/form-data'}
       })
       setLoading(false)
@@ -59,28 +58,30 @@ function Profile() {
    }
    const updateInfor =async()=>{
        try{
-      await axios.patch('http://localhost:6600/api/condidat/profile/update',{
+      await axios.put('http://localhost:6600/api/condidat/profile/update',{
               
               avatar :avatar ?avatar : profile.avatar,
-              firstName :firstName ? firstName :profile.firstName,
+             firstName :firstName ? firstName :profile.firstName,
               lastName :lastName ? lastName :profile.lastName,
               email :email? email: profile.email
            
            })
            setData({...data,err:'',success :"Updated Success"})
        }catch(err){
-        setData({...data,err:err.response.data.msg,success:''})   
+
+        setData({...data,err:'something wrong',success:''})   
 
      }
    }
    const updatePassword =()=>{
-    
-    if(isLength(password))
+   console.log(password)
+      if (isLength(password))
      return setData({...data,err :"Le mot de passe doit être au moins de 6 caractères",success :''})
+
      
      try{
           axios.post('http://localhost:6600/api/resetpassword',{password})
-    
+        console.log(password)
          setData({...data,err:'',success :"Updated Success"})
 
         }catch(err){
@@ -106,10 +107,10 @@ function Profile() {
             <span>
                 <i className="fas fa-camera"></i>
                 <p>change</p>
-                <input type='file' name='file' id='file_up' onChange={changeAvatar}/>
+                <input type="file" name="file" id='file_up' onChange={changeAvatar}/>
             </span>
         </div>
-        <form>
+        
         <div className="form-group">
             <label htmlFor="exampleInputEmail1">Prenom :</label>
             <input type="text" className="form-control"   name='firstName'  onChange={onChangeHandler}/>
@@ -124,11 +125,13 @@ function Profile() {
         </div>
         <div className="form-group">
             <label htmlFor="exampleInputPassword1">Mode de Passe :</label>
-            <input type="password" className="form-control" name="password" onChange={updatePassword} />
+            <input type="password" className="form-control" name="password" onChange={onChangeHandler} />
         </div>
-        </form>
+        
+        <button disabled={loading} onClick={handleUpdate} className="btn btn-primary mt-3">Change</button>
+      
 
-    <button type='submit' onClick={handleUpdate} className="btn btn-primary mt-3">Change</button>
+
      </div>
 
     </div>

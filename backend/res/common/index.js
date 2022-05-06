@@ -121,11 +121,11 @@ exports.UpdateUser=async(req,res)=>{
             firstName,
             lastName,
             email,
-            password
+         //  password
             
         } =req.body;
            
-      //  const passwordHash =await bcrypt.hash(password,12)
+      // const passwordHash = bcrypt.hash(password,12)
         
        
          await User.findByIdAndUpdate({_id:req.user._id},{

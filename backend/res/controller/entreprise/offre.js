@@ -3,7 +3,7 @@ const Offre =require('../../models/offre');
 exports.createOffre =(req,res)=>{
     
   const {
-       name,motclé,lieu,description,createBy,category,salaire,niveauEtude,avantage,require,mois
+       name,motclé,lieu,description,category,salaire,niveauEtude,avantage,require,mois,contPostuler
    }=req.body;
   
    
@@ -18,7 +18,9 @@ exports.createOffre =(req,res)=>{
        avantage,
        require,
        mois,
-       createBy :req.user._id
+       createBy :req.user._id,
+       contPostuler
+       
    })
    offre.save((error,offre)=>{
     if(error){
@@ -42,7 +44,7 @@ exports.createOffre =(req,res)=>{
 */
 exports.getOffres=async(req,res)=>{
     const page =req.query.page || 1; 
-    const pageSize =req.query.limit || 7;
+    const pageSize =req.query.limit || 3;
     try{
       
         const total =await Offre.countDocuments();

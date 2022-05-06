@@ -18,17 +18,18 @@ exports.UpdateEntreprise=async(req,res)=>{
             firstName,
             lastName,
             email,
-            password,
             address,
-            numberphone,
-            wibsite,
+            numberPhone,
+            website,
             avatar,
-            description
+            description,
+            nomEntreprise
             
         } =req.body;
-        const passwordHash =await bcrypt.hash (password,12)
+        
+        //const passwordHash =await bcrypt.hash (password,12)
          await Entreprise.findByIdAndUpdate({_id:req.user._id},{
-            firstName,lastName,avatar,email,address,numberphone,password : passwordHash ,wibsite,avatar,description
+            firstName,lastName,avatar,email,address,numberPhone,website,description,nomEntreprise
         })
         
         res.json({msg :"update"})
@@ -42,7 +43,7 @@ exports.UpdateOffre=async(req,res)=>{
            name,motclé,description,salaire,dateFinOffre,lieu,niveauEtude,require, mois
         } =req.body;
          await Offre.findByIdAndUpdate(req.params.id,{
-            name,motclé,description,salaire,dateFinOffre,lieu,niveauEtude,require, mois
+            name,motclé,description,salaire,dateFinOffre,lieu,niveauEtude,require,mois
         })
         
         res.json({msg :"update"})
@@ -62,9 +63,11 @@ exports.DeleteOffre=async(req,res)=>{
   }
  }
  exports.getAllOffreEntreprise=async(req,res)=>{
+   //  const name =req.body.name
+    // console.log(name)
     try{
         const offre = await Offre.find({createBy:req.user._id})
-        console.log(offre)
+      
        
         res.json(offre)
     }catch(err){

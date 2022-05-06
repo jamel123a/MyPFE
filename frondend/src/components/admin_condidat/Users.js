@@ -9,12 +9,17 @@ function Users() {
     const [users,setUser]=useState([])
     const [message,setMessage]=useState("")
     const [show,setShow]=useState(false)
+
     useEffect(async()=>{
           await axios.get('http://localhost:6600/api/dashbord/allcondidat')
           .then(res=>{
               setUser(res.data)
+              console.log(res.data)
           })
-    })
+    },[])
+  
+
+  
     //delete Condidat
     const OnDelete=(id__)=>{
           axios.delete(`http://localhost:6600/api/user/delete/${id__}`)
@@ -32,14 +37,16 @@ function Users() {
             <div className='container'>
             <Alert message={message} show={show}/>
                     <div class="row">
+                    <input className='form-control' type="searsh"   placeholder='Search' name="searchTeam" ></input>   
                         <div class="col">
+                    
                         <div className=' mt-3'>
-                           <p className='btn btn-primary'>liste des utilisateurs</p>
+                           <p className='btn btn-primary'>liste des condidats</p>
                         </div>
                         </div>
                         <div class="col">
                           <div className='add_btn mt-3'>
-                            <button className='btn '><Link style={{ textDecoration: 'none' }} to='/admin/addCondidat'>Ajouter un utilisateur</Link></button>
+                            <button className='btn '><Link style={{ textDecoration: 'none' }} to='/admin/addCondidat'>Ajouter un condidat</Link></button>
                            </div>
                         </div>
                     </div>

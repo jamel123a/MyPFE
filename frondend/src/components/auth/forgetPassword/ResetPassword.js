@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { showErrMsg, showSuccesMsg } from '../../util/notification/Notification'
 import {useParams}from 'react-router-dom'
 import { isLength, isMatch } from '../../util/Validation'
+import password1 from '../../../assest/Password1.png'
 import axios from 'axios'
 const initailState ={
     password :'',
@@ -43,23 +44,24 @@ function ResetPassword() {
   
   <div className="container shadow my-5">
     <div className="row">
-      <div className="col-md-5 d-flex flex-column align-items-center text-white justify-content-center form"> 
+      <div className="col-md-5 d-flex flex-column align-items-center text-white justify-content-center"> 
+       <img src={password1} style={{width :'100%'}}></img>  
       </div>
       <div className="col-md-6 p-5">
-        <h1 className="display-6 fw-bolder mb-5">reset de password</h1>
+        <h1 className="display-6 fw-bolder mb-5">Reset  Password</h1>
          {err && showErrMsg(err)}
          {success && showSuccesMsg (success)}
         <form>
           <div className="mb-3">
             <label htmlFor="exampleInputEmail1" className="form-label">
-            password 
+           New Password :
             </label>
             <input  type="password"  className="form-control"  name="password" 
                onChange={handleChandeInput} value={password} />
           </div>
           <div className="mb-3">
             <label htmlFor="exampleInputEmail1" className="form-label">
-            Confirm Password
+            Confirm Password :
             </label>
             <input  type="password"  className="form-control"  name="cf_password" 
               onChange={handleChandeInput} value={cf_password}

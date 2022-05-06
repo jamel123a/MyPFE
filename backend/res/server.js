@@ -20,8 +20,8 @@ const entrepriseRoutes =require('./routes/entreprise/auth');
 const offreRoutes =require('./routes/offre');
 //commun 
 const forgetpassword =require('./routes/forgetpassword');
-const AccessToken =require('./routes/acccestoken')
-const loginOut =require('./routes/loginOut')
+//const AccessToken =require('./routes/acccestoken')
+//const loginOut =require('./routes/loginOut')
 
 
 ///mongodb connection 
@@ -40,7 +40,7 @@ app.use(cookieParser())
 app.use(fileUploed({
     useTempFiles:true
 }))
-app.use('/public',express.static(path.join(__dirname,'temp')));
+//app.use('/public',express.static(path.join(__dirname,'tmp')));
 
 //admin
 app.use('/api',adminRoutes);
@@ -53,9 +53,9 @@ app.use('/api',entrepriseRoutes);
 app.use('/api',offreRoutes);
 //commun
 app.use('/api',forgetpassword);
-app.use('/api',AccessToken)
+//app.use('/api',AccessToken)
 app.use('/api',userImage)
-app.use('/api',loginOut)
+//app.use('/api',loginOut)
 
 
 

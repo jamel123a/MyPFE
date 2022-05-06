@@ -46,7 +46,7 @@ const sendEmail =require('../../common/sendemail')
                         
     
                         res.status(200).json({
-                            token,
+                            token :"Bearer "+token,
                              user :{
                                 _id, firstName,lastName,fullName,email,role,username,address,website,nomEntreprise,description,numberPhone
                            }

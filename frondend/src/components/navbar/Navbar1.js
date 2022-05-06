@@ -1,10 +1,11 @@
-import React,{ useState} from 'react';
+import React,{ useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
 import {Link} from 'react-router-dom'
 import logo from '../../assest/logo.png'
 import { Logout } from '../redux/action/Auth';
 import './Navbar.css'
 function Navbar1(user) {
+  
   const dispatch =useDispatch()
   const LougoutHanlder =()=>{
     dispatch(Logout())

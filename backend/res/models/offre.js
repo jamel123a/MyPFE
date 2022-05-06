@@ -37,8 +37,9 @@ const offreSchema = new mongoose.Schema({
     contPostuler :[
          {
              // extends mn numbre de condidat
-          CondidatId:{type :mongoose.Schema.Types.ObjectId, ref :'Condidat' },
-          numbers :Number
+          CondidatId:{type :mongoose.Schema.Types.ObjectId, ref :'User',required:true },
+          numbers :Number,
+         
          }
      ],
     

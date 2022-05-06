@@ -24,9 +24,10 @@ exports.getAllEntrepreiseInfo=async(req,res)=>{
 /// update role user
 exports.updateCondidat=async(req,res)=>{
    try{
-     const {firstName,lastName,email,role}=req.body
+     const {firstName,lastName,email,role,}=req.body
+    
       await User.findByIdAndUpdate(req.params.id,{
-         firstName,lastName,email,role,
+         firstName,lastName,email,role
     })
     
     res.json({message :"update Succes"})
@@ -34,6 +35,18 @@ exports.updateCondidat=async(req,res)=>{
     return res.status(500).json({err :"error"})
  }
 }
+exports.updateCondidatAvatar=async(req,res)=>{
+    try{
+      const {avatar}=req.body
+       await User.findByIdAndUpdate(req.params.id,{
+          avatar
+     })
+     
+     res.json({message :"update Succes"})
+    }catch(err){
+     return res.status(500).json({err :"error"})
+  }
+ }
 exports.getCondidatInfo=async(req,res)=>{
     try{
         const user= await User.findById(req.params.id).select('-hash_password')

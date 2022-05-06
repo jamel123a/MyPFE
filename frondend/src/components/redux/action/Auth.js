@@ -1,4 +1,4 @@
-import {USER_LOGIN,ERRORS ,ACTIONS,GET_TOKEN, GET_PIC}from "./Index";
+import {USER_LOGIN,ERRORS ,ACTIONS}from "./Index";
 
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
@@ -17,8 +17,18 @@ export const Login =(form,navigate)=>dispatch=>{
     const decode =jwt_decode(token)
     dispatch(setUser(decode))
     setAuth(token)
-   
-  navigate('/condidat/Profile')
+    
+   if(decode.role=="condidat"){
+    navigate('/condidat/Profile')
+   }
+   else if(decode.role=="entreprise"){
+    navigate('/entreprise/dashbord')
+   }
+   else if(decode.role=="admin"){
+    navigate('/admin/condidats')
+   }
+
+  
   })
   .catch(err=>{
     
@@ -45,17 +55,15 @@ export const Registration =(form,navigate)=>dispatch=>{
     }) 
 }
 
-export const RegistrationEntreprise =(form,success)=>dispatch=>{
+export const RegistrationEntreprise =(form)=>dispatch=>{
    axios.post('http://localhost:6600/api/entreprise/signup',form)
 
   .then(res=>{
-    
      dispatch({
        type:ERRORS,
-       payload :{}
+       payload :{},
      })
-     success =res.data.message
-     console.log(success)
+     
      
   })
   .catch(err=>{
@@ -73,7 +81,20 @@ export const LoginEntreprise1 =(form,navigate)=>dispatch=>{
     localStorage.setItem('jwt',token)
     const decode =jwt_decode(token)
     dispatch(setUser(decode))
- navigate('/entreprise/dashbord')
+    setAuth(token)
+    
+    if(decode.role=="condidat"){
+     navigate('/condidat/Profile')
+    }
+    else if(decode.role=="entreprise"){
+     navigate('/entreprise/dashbord')
+    }
+    else if(decode.role=="admin"){
+      navigate('/admin/condidats')
+     }
+  
+   
+ 
   })
   .catch(err=>{
     

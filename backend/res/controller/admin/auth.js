@@ -26,7 +26,7 @@ exports.signup=async(req,res)=>{
                password :passwordHash,
                username: Math.random().toString(),
                role: "admin",
-               avatar
+               
            });
            _condidat.save((error, data) => {
                if (error) {
@@ -46,7 +46,7 @@ exports.signup=async(req,res)=>{
   }
 // signin 
 exports.signin=async(req,res)=>{
-    // email moujoud ou nn
+   
     const {errors,isValid} =ValidateLogin(req.body);
    try{
     if (!isValid){
@@ -55,14 +55,16 @@ exports.signin=async(req,res)=>{
    else{
 
     const {email, password } = req.body;
+    //email ixext ou non 
     const condidat=  await   User.findOne({email :req.body.email})
-    errors.email = 'cette adresse e-mail ne existe  pas.'
-    if (!condidat) return  res.status(404).json(errors)
+    
+    if (!condidat) return  res.status(404)
+    .json(errors.email = 'cette adresse e-mail ne existe  pas.')
         if (condidat) {
                      // password
                        
                  const isMatch =await bcrypt.compare(password,condidat.password)   
-                if (isMatch/*&& condidat.role==='condidat'*/){
+                if (isMatch){
                     // token with jsonwebtoken
                     const token =jwt.sign({_id :condidat._id,role:condidat.role,fullName:condidat.fullName},process.env.JWT_SRCRET,{expiresIn :'12h'})// tetneha b3ed se3a
                     const  { _id,firstName ,lastName ,email , role , fullName ,username,password,avatar} =condidat;
