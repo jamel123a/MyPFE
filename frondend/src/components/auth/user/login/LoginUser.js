@@ -38,7 +38,7 @@ const onChangeHanlder  =(e)=>{
     <div className="container shadow my-5">
       <div className="row">
         <div className="col-md-5 d-flex flex-column align-items-center text-white justify-content-center form">
-          <h1 className="display-4 fw-bolder ">Content de te revoir</h1>
+          <h1 className="display-4 fw-bolder text-center ">Content de te revoir</h1>
           <p className="lead text-center">Entrez vos identifiants pour vous connecter</p>
           <h5 className="mb-4">ou</h5>
           <Link

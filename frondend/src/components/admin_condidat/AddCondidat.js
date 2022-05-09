@@ -33,13 +33,13 @@ function AddCondidat() {
         
         <h1 style={{fontWeigth :400}}> ajouter un condidat</h1>
 
-        <form onSubmit={onSubmitHandler}>
+        <form  onSubmit={onSubmitHandler}>
            <InputGroup label="Prenom *" type="text" name="firstName" onChangeHandler={onChangeHandler} placeholder=" Enter Prenom" errors={errors.firstName}/>
            <InputGroup label="Nom *" type="text" name="lastName" onChangeHandler={onChangeHandler} placeholder="Entrer nom"  errors={errors.lastName}/>
            <InputGroup label="Adresse e-mail *" type="email" name="email" onChangeHandler={onChangeHandler} placeholder="Entrer Adresse e-mail"  errors={errors.email}/>
            <InputGroup label="Mot de Passe *" type="password" name="password" onChangeHandler={onChangeHandler} placeholder=" Entrer mode de pass" errors={errors.password}/>
           
-            <button type="submit" className="btn btn-primary mt-3">Ajouter</button>
+            <button type="submit" className="btn btn-primary mt-3 mb-5">Ajouter</button>
     </form>
    
     </div>

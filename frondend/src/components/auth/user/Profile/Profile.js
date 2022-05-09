@@ -100,8 +100,8 @@ function Profile() {
     {success && showSuccesMsg(success)}
     
     <div className='container profile  m-5'>
-     <div className='col-left'>
-         <h2 className='nom_profile'>User Profile</h2>
+     <div className='col-left border'>
+         <h2 className='nom_profile'>Condidat  Profile  change</h2>
          <div className='avatar1'>
             <img src={avatar ? avatar :profile.avatar} alt="" name="avatar"></img>
             <span>
@@ -128,7 +128,7 @@ function Profile() {
             <input type="password" className="form-control" name="password" onChange={onChangeHandler} />
         </div>
         
-        <button disabled={loading} onClick={handleUpdate} className="btn btn-primary mt-3">Change</button>
+        <button disabled={loading} onClick={handleUpdate} className="btn btn-primary mt-3 mb-3">Change</button>
       
 
 

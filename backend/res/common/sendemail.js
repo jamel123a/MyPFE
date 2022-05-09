@@ -37,7 +37,7 @@ const sendEmail =(email,url,txt)=>{
         to :email ,
         subject :"stageny",
         html:`
-        <div style="max-width: 700px; margin:auto; border: 10px solid #d475; padding :50px 20px; font-size :110%">
+        <div style="max-width: 700px; margin:auto; border: 10px solid #202b3c; padding :50px 20px; font-size :110%">
         <h2 style="text-align;center; text-transform:uppercase; color:teal"> bienvenue à stageny </h2>
 
         <p> Félicitation ! vous êtes presque prêt à commencer

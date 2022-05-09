@@ -16,7 +16,6 @@ import CondidatRouter from './components/router/condidatRouter';
 import Navbar1 from './components/navbar/Navbar1';
 import LoginUser from './components/auth/user/login/LoginUser';
 import RegisterUser from './components/auth/user/register/RegisterUser';
-import Footer from './components/footer/Footer';
 import ProfileEntre from './components/auth/entreprise/Profile/ProfileEntre';
 import store from './components/redux/store';
 import { setUser } from './components/redux/action/Auth';
@@ -37,6 +36,7 @@ import DashbordHome from './page/DashbordHome';
 import Entreprise from './components/admin_entreprise/Entreprise';
 import AddEntreprise from './components/admin_entreprise/AddEntreprise';
 import UpdateEntreprise from './components/admin_entreprise/UpdateEntreprise';
+import Footer from './components/Footer/Footer';
 
 
 
@@ -124,6 +124,7 @@ const user ={
        }></Route>
     
      </Routes>
+     <Footer/>
      </div>
    
 

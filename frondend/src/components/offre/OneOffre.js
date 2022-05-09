@@ -34,7 +34,7 @@ function OneOffre() {
          </div>
         
        </div>
-       <p className='mt-3'>Pour renforcer nos équipes et intervenir sur différents projets d'assistance à maîtrise d'ouvrage nous cherchons un consultant ayant
+       <p className='mt-3'> Pour renforcer nos équipes et intervenir sur différents projets d'assistance à maîtrise d'ouvrage nous cherchons un consultant ayant
           nécessairement une première expérience (minimum 2 ans), idéalement en banque ou en assurance.
           Cette opportunité offre l'avantage de rejoindre un cabinet de conseil IT, filiale d'un grand groupe dont la maison mère est l'assurance CARTE.
            Nos clients sont issus des secteurs financiers (assurances, banques, intermédiaires), de l'industrie ou des startups, ce qui assure à nos consultants
@@ -58,11 +58,11 @@ function OneOffre() {
          
         
          
-        <div class="icon_offre d-flex flex-column mt-3">
-        <i class="fa-solid fa-phone size"><h5 className='en'>jamel</h5></i>
-        <i class="fa-solid fa-map-location-dot size"><h5 className='en'>jamel</h5></i>
+        <div className="icon_offre d-flex flex-column mt-3">
+        <i className="fa-solid fa-phone size"><h5 className='en'>jamel</h5></i>
+        <i className="fa-solid fa-map-location-dot size"><h5 className='en'>jamel</h5></i>
       </div>
-      <p> jdqsd  hjdfsdj jdhqsjd skqskjqshd sdhjsqhdj dhqsdhjqs sdhgjhsd </p>
+      <p> description  jdqsd  hjdfsdj jdhqsjd skqskjqshd sdhjsqhdj dhqsdhjqs sdhgjhsd </p>
 
       
 

@@ -30,7 +30,7 @@ function UpdateEntreprise() {
     .then(res=>{
         setUser(res.data)
     })
-},[])
+})
 const onChangeHandler=e=>{
   const {name,value}=e.target
   setData({...data,[name]:value,err:'',success:''})
